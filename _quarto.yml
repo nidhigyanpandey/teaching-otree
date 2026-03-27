@@ -1,0 +1,45 @@
+project:
+  type: book
+  output-dir: docs
+book:
+  title: "Using oTree: A Practical Guide"
+  author: "Nidhi Gyan Pandey"
+  date: today
+  repo-url: https://github.com/nidhigyanpandey/teaching-otree
+  repo-actions: [issue]
+  chapters:
+    - index.qmd
+    - part: chapters/setup/index.qmd
+      chapters:
+        - chapters/setup/setup-vscode.qmd
+        - chapters/setup/setup-otree.qmd
+    - chapters/session-01/session-01.qmd
+    - chapters/session-02/session-02.qmd
+    - chapters/session-03/session-03.qmd
+    - chapters/session-04/session-04.qmd
+    - references.qmd
+
+bibliography: references.bib
+
+
+format:
+  html:
+    theme: 
+      light: lumen
+      dark: darkly
+    css: www/styles.css
+    toc: true
+    toc-depth: 3
+    number-sections: false
+    code-copy: true
+    code-overflow: wrap
+    highlight-style: github
+  pdf:
+    documentclass: scrreprt
+    toc: true
+    number-sections: false
+    
+execute:
+  freeze: auto
+
+

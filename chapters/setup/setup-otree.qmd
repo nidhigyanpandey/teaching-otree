@@ -1,0 +1,132 @@
+# Installing Python and oTree
+
+oTree is built on Python, so we need to install Python first before
+installing oTree. Follow the steps below for your operating system.
+
+---
+
+## Step 1: Check if Python is Already Installed
+
+Before downloading anything, check if Python is already on your 
+system. Open your Terminal (macOS) or Command Prompt (Windows) and run:
+
+**macOS** — run in Terminal:
+
+```bash
+python3 --version
+```
+
+**Windows** — run in Command Prompt:
+
+```bash
+python --version
+```
+
+If you see something like `Python 3.10.x` or higher, you already 
+have Python and can **skip to Step 2**.
+
+::: {.callout-note}
+If your terminal prompt starts with `(base)`, you have Anaconda or 
+Miniconda installed. This is perfectly fine — Python is already 
+included and you can skip directly to Step 2.
+:::
+
+
+
+## Step 2: Install Python (Only if Needed)
+
+### macOS
+
+1. Go to [https://www.python.org/downloads/](https://www.python.org/downloads/).
+2. Click **Download Python** — it will suggest the latest version.
+3. Open the downloaded `.pkg` file and follow the installer.
+4. Once installed, verify by running:
+
+```bash
+python3 --version
+```
+
+You should see something like `Python 3.12.x`. If you do, Python is 
+successfully installed.
+
+### Windows
+
+1. Go to [https://www.python.org/downloads/](https://www.python.org/downloads/).
+2. Click **Download Python** — it will suggest the latest version.
+3. Run the downloaded `.exe` installer.
+4. **Important:** On the first screen, check the box that says 
+**Add Python to PATH** before clicking Install Now.
+
+::: {.callout-warning}
+If you skip checking **Add Python to PATH**, Python will not be 
+recognized in the terminal and the next steps will not work. If you 
+already installed Python without this box checked, uninstall it and 
+reinstall with the box checked.
+:::
+
+5. Once installed, verify by running:
+
+```bash
+python --version
+```
+
+You should see something like `Python 3.12.x`. If you do, Python is 
+successfully installed.
+
+
+
+## Step 3: Install oTree
+
+Once Python is confirmed, install oTree using `pip`, Python's 
+built-in package installer.
+
+**macOS** — run in Terminal:
+
+```bash
+pip3 install otree --upgrade
+```
+
+**Windows** — run in Command Prompt:
+
+```bash
+pip install otree --upgrade
+```
+
+This may take a minute or two as pip downloads and installs oTree 
+and its dependencies. The `--upgrade` flag ensures you get the 
+latest version even if oTree was previously installed on your system.
+
+
+
+## Step 4: Verify oTree Installation
+
+Once the installation is complete, verify it by running the following 
+in your Terminal or Command Prompt:
+
+```bash
+oTree --version
+```
+
+You should see `6.0.13` or similar. If you do, you are all set!
+
+
+
+## Troubleshooting
+
+| Problem | Fix |
+|---|---|
+| `python3: command not found` (macOS) | Install Python from python.org |
+| `python: command not found` (Windows) | Reinstall Python and check **Add Python to PATH** |
+| `pip3: command not found` (macOS) | Run `python3 -m ensurepip` in Terminal |
+| `oTree: command not found` | Run `pip3 install otree --upgrade` again and restart Terminal |
+
+::: {.callout-tip}
+If you are stuck before the first session, you can use 
+[ZotGPT](https://zotgpt.uci.edu) — UCI's free AI platform — to 
+troubleshoot. Select the latest Claude model available and describe 
+your error message. It is particularly good at solving software installation 
+issues.
+
+You can also bring your laptop to the first lab session on April 1st 
+and we will troubleshoot together.
+:::

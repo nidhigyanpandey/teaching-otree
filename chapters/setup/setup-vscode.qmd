@@ -1,0 +1,70 @@
+# Setting Up Visual Studio Code
+
+Visual Studio Code (VS Code) is a free, lightweight code editor we 
+will use throughout this course to write and run oTree code. Follow 
+the instructions below for your operating system.
+
+## macOS
+
+### Installation
+
+1. Go to [https://code.visualstudio.com/](https://code.visualstudio.com/).
+2. Click **Download for Mac**.
+3. Once downloaded, open the `.zip` file — this extracts **Visual Studio Code.app**.
+4. Drag **Visual Studio Code.app** into your **Applications** folder.
+5. Open VS Code from your Applications folder or Spotlight Search 
+(`Cmd + Space`, type "VS Code").
+
+::: {.callout-tip}
+To keep VS Code easily accessible, right-click its icon in the Dock 
+and select **Options → Keep in Dock**.
+:::
+
+
+
+## Windows
+
+### Installation
+
+1. Go to [https://code.visualstudio.com/](https://code.visualstudio.com/).
+2. Click **Download for Windows**.
+3. Run the downloaded `.exe` installer.
+4. Follow the setup wizard and click **Install**, then **Finish**.
+5. Launch VS Code from the Start Menu or Desktop shortcut.
+
+
+
+## Installing Extensions
+
+Extensions add functionality to VS Code. For this course, you will 
+need the following:
+
+### How to Install an Extension
+
+1. Open VS Code.
+2. Click the **Extensions** icon in the left sidebar (or press 
+`Ctrl+Shift+X` on Windows / `Cmd+Shift+X` on Mac).
+3. Type the extension name in the search bar.
+4. Click **Install**.
+
+### Required Extensions
+
+| Extension | Publisher | Purpose |
+|---|---|---|
+| Python | Microsoft | Core Python language support |
+| Pylance | Microsoft | Improved Python code suggestions and error detection |
+| Python Debugger | Microsoft | Step-through debugging for your oTree code |
+
+### Recommended Extensions
+
+| Extension | Publisher | Purpose |
+|---|---|---|
+| Django | Baptiste Darthenay | Syntax highlighting for oTree HTML templates, which are Django-based |
+| Python Environments | Microsoft | Manage Python virtual environments for your oTree projects |
+| vscode-icons | VSCode Icons Team | Adds file and folder icons for easier project navigation |
+
+::: {.callout-note}
+If you already have VS Code installed, open the Extensions panel and 
+check which of these you already have. You only need to install the 
+missing ones.
+:::

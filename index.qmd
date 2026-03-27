@@ -1,0 +1,38 @@
+# Welcome {#sec-welcome}
+
+This book serves as an A to Z resource for beginners learning to use oTree to 
+conduct online behavioral experiments and surveys involving human 
+subjects. No prior programming experience is 
+assumed. It is designed to accompany ECON 227B Experimental 
+Economics II lectures and course materials. The detailed syllabus 
+and other course materials are available on the Canvas page for 
+this course.
+
+In this book, you will be introduced to coding simple experiments 
+in the form of "applications" using oTree and deploying them on 
+the Heroku server using oTree Hub. We will begin by installing 
+oTree and Visual Studio Code on your personal laptops and 
+familiarizing ourselves with the VS Code environment. Topics 
+covered include creating an oTree application, executing common 
+oTree tasks, testing code on a local server, running a session 
+with human subjects, coding best practices, and using AI 
+effectively to build your code. This book will also provide a 
+curated list of resources by oTree creators and other users that 
+you can draw on for your individual projects. The point is not to 
+reinvent the wheel, but to stand on the shoulders of giants!
+
+## Prerequisites
+
+Familiarity with Python is helpful but not required — we will 
+build everything from scratch together. If you have never written 
+a line of code before, do not worry. By the end of this course 
+you will be comfortable navigating a coding environment and 
+building your own experiments.
+
+## A Note on This Book
+
+This book will grow alongside the course. Links to reference code and 
+additional materials will be added as we progress through each 
+session. If you are browsing ahead and find session pages that 
+appear empty or incomplete, that is expected — content will be 
+added as we reach those sessions in class.

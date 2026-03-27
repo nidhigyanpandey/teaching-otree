@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Nidhi Gyan Pandey">
-<meta name="dcterms.date" content="2026-03-27">
 
-<title>Using oTree: A Practical Guide</title>
+<title>Setting Up Visual Studio Code – Using oTree: A Practical Guide</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -25,29 +23,30 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./chapters/setup/index.html" rel="next">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-065a5179aebd64318d7ea99d77b64a9e.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-969ddfa49e00a70eb3423444dbc81f6c.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-065a5179aebd64318d7ea99d77b64a9e.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-8da718032fe10746300a5aa92d152ce0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-913b17780ec437ee198ef3e682b8cc2c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-8da718032fe10746300a5aa92d152ce0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../chapters/setup/setup-otree.html" rel="next">
+<link href="../../chapters/setup/index.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-065a5179aebd64318d7ea99d77b64a9e.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-969ddfa49e00a70eb3423444dbc81f6c.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-065a5179aebd64318d7ea99d77b64a9e.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-8da718032fe10746300a5aa92d152ce0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-913b17780ec437ee198ef3e682b8cc2c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-8da718032fe10746300a5aa92d152ce0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -77,7 +76,7 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<link rel="stylesheet" href="www/styles.css">
+<link rel="stylesheet" href="../../www/styles.css">
 </head>
 
 <body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
@@ -251,7 +250,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html"><span class="chapter-title">Welcome</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/setup/index.html">Let’s Get Started!</a></li><li class="breadcrumb-item"><a href="../../chapters/setup/setup-vscode.html"><span class="chapter-title">Setting Up Visual Studio Code</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -265,10 +264,10 @@ ul.task-list li input[type="checkbox"] {
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
-      <a href="./index.html" class="sidebar-logo-link">
+      <a href="../../index.html" class="sidebar-logo-link">
       </a>
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">Using oTree: A Practical Guide</a> 
+      <a href="../../">Using oTree: A Practical Guide</a> 
         <div class="sidebar-tools-main">
     <a href="https://github.com/nidhigyanpandey/teaching-otree" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
@@ -284,12 +283,12 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Welcome</span></a>
+  <a href="../../index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Welcome</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./chapters/setup/index.html" class="sidebar-item-text sidebar-link">
+            <a href="../../chapters/setup/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Let's Get Started!</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -298,39 +297,39 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/setup/setup-vscode.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Setting Up Visual Studio Code</span></a>
+  <a href="../../chapters/setup/setup-vscode.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Setting Up Visual Studio Code</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/setup/setup-otree.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Installing Python and oTree</span></a>
+  <a href="../../chapters/setup/setup-otree.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Installing Python and oTree</span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/session-01/session-01.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Session 1</span></a>
+  <a href="../../chapters/session-01/session-01.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Session 1</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/session-02/session-02.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Session 2</span></a>
+  <a href="../../chapters/session-02/session-02.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Session 2</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/session-03/session-03.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Session 3</span></a>
+  <a href="../../chapters/session-03/session-03.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Session 3</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapters/session-04/session-04.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Session 4</span></a>
+  <a href="../../chapters/session-04/session-04.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Session 4</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link">
+  <a href="../../references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">References</span></a>
   </div>
 </li>
@@ -344,10 +343,19 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#sec-welcome" id="toc-sec-welcome" class="nav-link active" data-scroll-target="#sec-welcome">Welcome</a>
+  <li><a href="#macos" id="toc-macos" class="nav-link active" data-scroll-target="#macos">macOS</a>
   <ul class="collapse">
-  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link" data-scroll-target="#prerequisites">Prerequisites</a></li>
-  <li><a href="#a-note-on-this-book" id="toc-a-note-on-this-book" class="nav-link" data-scroll-target="#a-note-on-this-book">A Note on This Book</a></li>
+  <li><a href="#installation" id="toc-installation" class="nav-link" data-scroll-target="#installation">Installation</a></li>
+  </ul></li>
+  <li><a href="#windows" id="toc-windows" class="nav-link" data-scroll-target="#windows">Windows</a>
+  <ul class="collapse">
+  <li><a href="#installation-1" id="toc-installation-1" class="nav-link" data-scroll-target="#installation-1">Installation</a></li>
+  </ul></li>
+  <li><a href="#installing-extensions" id="toc-installing-extensions" class="nav-link" data-scroll-target="#installing-extensions">Installing Extensions</a>
+  <ul class="collapse">
+  <li><a href="#how-to-install-an-extension" id="toc-how-to-install-an-extension" class="nav-link" data-scroll-target="#how-to-install-an-extension">How to Install an Extension</a></li>
+  <li><a href="#required-extensions" id="toc-required-extensions" class="nav-link" data-scroll-target="#required-extensions">Required Extensions</a></li>
+  <li><a href="#recommended-extensions" id="toc-recommended-extensions" class="nav-link" data-scroll-target="#recommended-extensions">Recommended Extensions</a></li>
   </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/nidhigyanpandey/teaching-otree/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
@@ -356,28 +364,16 @@ ul.task-list li input[type="checkbox"] {
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/setup/index.html">Let’s Get Started!</a></li><li class="breadcrumb-item"><a href="../../chapters/setup/setup-vscode.html"><span class="chapter-title">Setting Up Visual Studio Code</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Using oTree: A Practical Guide</h1>
+<h1 class="title"><span class="chapter-title">Setting Up Visual Studio Code</span></h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Nidhi Gyan Pandey </p>
-          </div>
-  </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">March 27, 2026</p>
-    </div>
-  </div>
   
     
   </div>
@@ -387,17 +383,138 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="sec-welcome" class="level1">
-<h1>Welcome</h1>
-<p>This book serves as an A to Z resource for beginners learning to use oTree to conduct online behavioral experiments and surveys involving human subjects. No prior programming experience is assumed. It is designed to accompany ECON 227B Experimental Economics II lectures and course materials. The detailed syllabus and other course materials are available on the Canvas page for this course.</p>
-<p>In this book, you will be introduced to coding simple experiments in the form of “applications” using oTree and deploying them on the Heroku server using oTree Hub. We will begin by installing oTree and Visual Studio Code on your personal laptops and familiarizing ourselves with the VS Code environment. Topics covered include creating an oTree application, executing common oTree tasks, testing code on a local server, running a session with human subjects, coding best practices, and using AI effectively to build your code. This book will also provide a curated list of resources by oTree creators and other users that you can draw on for your individual projects. The point is not to reinvent the wheel, but to stand on the shoulders of giants!</p>
-<section id="prerequisites" class="level2">
-<h2 class="anchored" data-anchor-id="prerequisites">Prerequisites</h2>
-<p>Familiarity with Python is helpful but not required — we will build everything from scratch together. If you have never written a line of code before, do not worry. By the end of this course you will be comfortable navigating a coding environment and building your own experiments.</p>
+<p>Visual Studio Code (VS Code) is a free, lightweight code editor we will use throughout this course to write and run oTree code. Follow the instructions below for your operating system.</p>
+<section id="macos" class="level2">
+<h2 class="anchored" data-anchor-id="macos">macOS</h2>
+<section id="installation" class="level3">
+<h3 class="anchored" data-anchor-id="installation">Installation</h3>
+<ol type="1">
+<li>Go to <a href="https://code.visualstudio.com/">https://code.visualstudio.com/</a>.</li>
+<li>Click <strong>Download for Mac</strong>.</li>
+<li>Once downloaded, open the <code>.zip</code> file — this extracts <strong>Visual Studio Code.app</strong>.</li>
+<li>Drag <strong>Visual Studio Code.app</strong> into your <strong>Applications</strong> folder.</li>
+<li>Open VS Code from your Applications folder or Spotlight Search (<code>Cmd + Space</code>, type “VS Code”).</li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>To keep VS Code easily accessible, right-click its icon in the Dock and select <strong>Options → Keep in Dock</strong>.</p>
+</div>
+</div>
 </section>
-<section id="a-note-on-this-book" class="level2">
-<h2 class="anchored" data-anchor-id="a-note-on-this-book">A Note on This Book</h2>
-<p>This book will grow alongside the course. Links to reference code and additional materials will be added as we progress through each session. If you are browsing ahead and find session pages that appear empty or incomplete, that is expected — content will be added as we reach those sessions in class.</p>
+</section>
+<section id="windows" class="level2">
+<h2 class="anchored" data-anchor-id="windows">Windows</h2>
+<section id="installation-1" class="level3">
+<h3 class="anchored" data-anchor-id="installation-1">Installation</h3>
+<ol type="1">
+<li>Go to <a href="https://code.visualstudio.com/">https://code.visualstudio.com/</a>.</li>
+<li>Click <strong>Download for Windows</strong>.</li>
+<li>Run the downloaded <code>.exe</code> installer.</li>
+<li>Follow the setup wizard and click <strong>Install</strong>, then <strong>Finish</strong>.</li>
+<li>Launch VS Code from the Start Menu or Desktop shortcut.</li>
+</ol>
+</section>
+</section>
+<section id="installing-extensions" class="level2">
+<h2 class="anchored" data-anchor-id="installing-extensions">Installing Extensions</h2>
+<p>Extensions add functionality to VS Code. For this course, you will need the following:</p>
+<section id="how-to-install-an-extension" class="level3">
+<h3 class="anchored" data-anchor-id="how-to-install-an-extension">How to Install an Extension</h3>
+<ol type="1">
+<li>Open VS Code.</li>
+<li>Click the <strong>Extensions</strong> icon in the left sidebar (or press <code>Ctrl+Shift+X</code> on Windows / <code>Cmd+Shift+X</code> on Mac).</li>
+<li>Type the extension name in the search bar.</li>
+<li>Click <strong>Install</strong>.</li>
+</ol>
+</section>
+<section id="required-extensions" class="level3">
+<h3 class="anchored" data-anchor-id="required-extensions">Required Extensions</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Extension</th>
+<th>Publisher</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Python</td>
+<td>Microsoft</td>
+<td>Core Python language support</td>
+</tr>
+<tr class="even">
+<td>Pylance</td>
+<td>Microsoft</td>
+<td>Improved Python code suggestions and error detection</td>
+</tr>
+<tr class="odd">
+<td>Python Debugger</td>
+<td>Microsoft</td>
+<td>Step-through debugging for your oTree code</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="recommended-extensions" class="level3">
+<h3 class="anchored" data-anchor-id="recommended-extensions">Recommended Extensions</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Extension</th>
+<th>Publisher</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Django</td>
+<td>Baptiste Darthenay</td>
+<td>Syntax highlighting for oTree HTML templates, which are Django-based</td>
+</tr>
+<tr class="even">
+<td>Python Environments</td>
+<td>Microsoft</td>
+<td>Manage Python virtual environments for your oTree projects</td>
+</tr>
+<tr class="odd">
+<td>vscode-icons</td>
+<td>VSCode Icons Team</td>
+<td>Adds file and folder icons for easier project navigation</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you already have VS Code installed, open the Extensions panel and check which of these you already have. You only need to install the missing ones.</p>
+</div>
+</div>
 
 
 </section>
@@ -819,10 +936,13 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="../../chapters/setup/index.html" class="pagination-link" aria-label="Let's Get Started!">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Let’s Get Started!</span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./chapters/setup/index.html" class="pagination-link" aria-label="Let's Get Started!">
-        <span class="nav-page-text">Let’s Get Started!</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../chapters/setup/setup-otree.html" class="pagination-link" aria-label="Installing Python and oTree">
+        <span class="nav-page-text"><span class="chapter-title">Installing Python and oTree</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

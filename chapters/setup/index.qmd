@@ -1,0 +1,11 @@
+# Let's Get Started!
+
+This section walks you through setting up your development environment before using oTree. Before we meet on April 1st for our first lab session, we request you to download and install the relevant software requirements.
+
+**Please ensure you have the following installed on your personal device:**
+
+1. [Python](https://www.python.org/) — A general-purpose programming language.
+2. [oTree](https://www.otree.org/) — An open-source Python-based framework used to build online interactive experiments.
+3. [Visual Studio Code](https://code.visualstudio.com/) — The Integrated Development Environment (IDE) we will be using for oTree.
+
+Step-by-step instructions for each are provided in the sections below.

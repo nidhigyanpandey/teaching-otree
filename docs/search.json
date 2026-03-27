@@ -2,41 +2,151 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "teaching-otree",
+    "title": "Using oTree: A Practical Guide",
     "section": "",
-    "text": "Preface\nThis is a Quarto book.\nTo learn more about Quarto books visit https://quarto.org/docs/books.\n\n1 + 1\n\n[1] 2",
+    "text": "Welcome\nThis book serves as an A to Z resource for beginners learning to use oTree to conduct online behavioral experiments and surveys involving human subjects. No prior programming experience is assumed. It is designed to accompany ECON 227B Experimental Economics II lectures and course materials. The detailed syllabus and other course materials are available on the Canvas page for this course.\nIn this book, you will be introduced to coding simple experiments in the form of “applications” using oTree and deploying them on the Heroku server using oTree Hub. We will begin by installing oTree and Visual Studio Code on your personal laptops and familiarizing ourselves with the VS Code environment. Topics covered include creating an oTree application, executing common oTree tasks, testing code on a local server, running a session with human subjects, coding best practices, and using AI effectively to build your code. This book will also provide a curated list of resources by oTree creators and other users that you can draw on for your individual projects. The point is not to reinvent the wheel, but to stand on the shoulders of giants!",
     "crumbs": [
-      "Preface"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Welcome</span>"
     ]
   },
   {
-    "objectID": "intro.html",
-    "href": "intro.html",
-    "title": "1  Introduction",
-    "section": "",
-    "text": "This is a book created from markdown and executable code.\nSee Knuth (1984) for additional discussion of literate programming.\n\n1 + 1\n\n[1] 2\n\n\n\n\n\n\nKnuth, Donald E. 1984. “Literate Programming.” Comput. J. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97.",
+    "objectID": "index.html#prerequisites",
+    "href": "index.html#prerequisites",
+    "title": "Using oTree: A Practical Guide",
+    "section": "Prerequisites",
+    "text": "Prerequisites\nFamiliarity with Python is helpful but not required — we will build everything from scratch together. If you have never written a line of code before, do not worry. By the end of this course you will be comfortable navigating a coding environment and building your own experiments.",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Welcome</span>"
     ]
   },
   {
-    "objectID": "summary.html",
-    "href": "summary.html",
-    "title": "2  Summary",
-    "section": "",
-    "text": "In summary, this book has no content whatsoever.\n\n1 + 1\n\n[1] 2",
+    "objectID": "index.html#a-note-on-this-book",
+    "href": "index.html#a-note-on-this-book",
+    "title": "Using oTree: A Practical Guide",
+    "section": "A Note on This Book",
+    "text": "A Note on This Book\nThis book will grow alongside the course. Links to reference code and additional materials will be added as we progress through each session. If you are browsing ahead and find session pages that appear empty or incomplete, that is expected — content will be added as we reach those sessions in class.",
     "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Summary</span>"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Welcome</span>"
     ]
   },
   {
-    "objectID": "references.html",
-    "href": "references.html",
-    "title": "References",
+    "objectID": "chapters/setup/index.html",
+    "href": "chapters/setup/index.html",
+    "title": "Let’s Get Started!",
     "section": "",
-    "text": "Knuth, Donald E. 1984. “Literate Programming.” Comput.\nJ. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97.",
+    "text": "This section walks you through setting up your development environment before using oTree. Before we meet on April 1st for our first lab session, we request you to download and install the relevant software requirements.\nPlease ensure you have the following installed on your personal device:\n\nPython — A general-purpose programming language.\noTree — An open-source Python-based framework used to build online interactive experiments.\nVisual Studio Code — The Integrated Development Environment (IDE) we will be using for oTree.\n\nStep-by-step instructions for each are provided in the sections below.",
     "crumbs": [
-      "References"
+      "Let's Get Started!"
+    ]
+  },
+  {
+    "objectID": "chapters/setup/setup-vscode.html",
+    "href": "chapters/setup/setup-vscode.html",
+    "title": "Setting Up Visual Studio Code",
+    "section": "",
+    "text": "macOS\nVisual Studio Code (VS Code) is a free, lightweight code editor we will use throughout this course to write and run oTree code. Follow the instructions below for your operating system.",
+    "crumbs": [
+      "Let's Get Started!",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Setting Up Visual Studio Code</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/setup/setup-vscode.html#macos",
+    "href": "chapters/setup/setup-vscode.html#macos",
+    "title": "Setting Up Visual Studio Code",
+    "section": "",
+    "text": "Installation\n\nGo to https://code.visualstudio.com/.\nClick Download for Mac.\nOnce downloaded, open the .zip file — this extracts Visual Studio Code.app.\nDrag Visual Studio Code.app into your Applications folder.\nOpen VS Code from your Applications folder or Spotlight Search (Cmd + Space, type “VS Code”).\n\n\n\n\n\n\n\nTip\n\n\n\nTo keep VS Code easily accessible, right-click its icon in the Dock and select Options → Keep in Dock.",
+    "crumbs": [
+      "Let's Get Started!",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Setting Up Visual Studio Code</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/setup/setup-vscode.html#windows",
+    "href": "chapters/setup/setup-vscode.html#windows",
+    "title": "Setting Up Visual Studio Code",
+    "section": "Windows",
+    "text": "Windows\n\nInstallation\n\nGo to https://code.visualstudio.com/.\nClick Download for Windows.\nRun the downloaded .exe installer.\nFollow the setup wizard and click Install, then Finish.\nLaunch VS Code from the Start Menu or Desktop shortcut.",
+    "crumbs": [
+      "Let's Get Started!",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Setting Up Visual Studio Code</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/setup/setup-vscode.html#installing-extensions",
+    "href": "chapters/setup/setup-vscode.html#installing-extensions",
+    "title": "Setting Up Visual Studio Code",
+    "section": "Installing Extensions",
+    "text": "Installing Extensions\nExtensions add functionality to VS Code. For this course, you will need the following:\n\nHow to Install an Extension\n\nOpen VS Code.\nClick the Extensions icon in the left sidebar (or press Ctrl+Shift+X on Windows / Cmd+Shift+X on Mac).\nType the extension name in the search bar.\nClick Install.\n\n\n\nRequired Extensions\n\n\n\n\n\n\n\n\nExtension\nPublisher\nPurpose\n\n\n\n\nPython\nMicrosoft\nCore Python language support\n\n\nPylance\nMicrosoft\nImproved Python code suggestions and error detection\n\n\nPython Debugger\nMicrosoft\nStep-through debugging for your oTree code\n\n\n\n\n\nRecommended Extensions\n\n\n\n\n\n\n\n\nExtension\nPublisher\nPurpose\n\n\n\n\nDjango\nBaptiste Darthenay\nSyntax highlighting for oTree HTML templates, which are Django-based\n\n\nPython Environments\nMicrosoft\nManage Python virtual environments for your oTree projects\n\n\nvscode-icons\nVSCode Icons Team\nAdds file and folder icons for easier project navigation\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nIf you already have VS Code installed, open the Extensions panel and check which of these you already have. You only need to install the missing ones.",
+    "crumbs": [
+      "Let's Get Started!",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Setting Up Visual Studio Code</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/setup/setup-otree.html",
+    "href": "chapters/setup/setup-otree.html",
+    "title": "Installing Python and oTree",
+    "section": "",
+    "text": "Step 1: Check if Python is Already Installed\noTree is built on Python, so we need to install Python first before installing oTree. Follow the steps below for your operating system.\nBefore downloading anything, check if Python is already on your system. Open your Terminal (macOS) or Command Prompt (Windows) and run:\nmacOS — run in Terminal:\nWindows — run in Command Prompt:\nIf you see something like Python 3.10.x or higher, you already have Python and can skip to Step 2.",
+    "crumbs": [
+      "Let's Get Started!",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Installing Python and oTree</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/setup/setup-otree.html#step-1-check-if-python-is-already-installed",
+    "href": "chapters/setup/setup-otree.html#step-1-check-if-python-is-already-installed",
+    "title": "Installing Python and oTree",
+    "section": "",
+    "text": "python3 --version\n\npython --version\n\n\n\n\n\n\n\nNote\n\n\n\nIf your terminal prompt starts with (base), you have Anaconda or Miniconda installed. This is perfectly fine — Python is already included and you can skip directly to Step 2.",
+    "crumbs": [
+      "Let's Get Started!",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Installing Python and oTree</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/setup/setup-otree.html#step-2-install-python-only-if-needed",
+    "href": "chapters/setup/setup-otree.html#step-2-install-python-only-if-needed",
+    "title": "Installing Python and oTree",
+    "section": "Step 2: Install Python (Only if Needed)",
+    "text": "Step 2: Install Python (Only if Needed)\n\nmacOS\n\nGo to https://www.python.org/downloads/.\nClick Download Python — it will suggest the latest version.\nOpen the downloaded .pkg file and follow the installer.\nOnce installed, verify by running:\n\npython3 --version\nYou should see something like Python 3.12.x. If you do, Python is successfully installed.\n\n\nWindows\n\nGo to https://www.python.org/downloads/.\nClick Download Python — it will suggest the latest version.\nRun the downloaded .exe installer.\nImportant: On the first screen, check the box that says Add Python to PATH before clicking Install Now.\n\n\n\n\n\n\n\nWarning\n\n\n\nIf you skip checking Add Python to PATH, Python will not be recognized in the terminal and the next steps will not work. If you already installed Python without this box checked, uninstall it and reinstall with the box checked.\n\n\n\nOnce installed, verify by running:\n\npython --version\nYou should see something like Python 3.12.x. If you do, Python is successfully installed.",
+    "crumbs": [
+      "Let's Get Started!",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Installing Python and oTree</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/setup/setup-otree.html#step-3-install-otree",
+    "href": "chapters/setup/setup-otree.html#step-3-install-otree",
+    "title": "Installing Python and oTree",
+    "section": "Step 3: Install oTree",
+    "text": "Step 3: Install oTree\nOnce Python is confirmed, install oTree using pip, Python’s built-in package installer.\nmacOS — run in Terminal:\npip3 install otree --upgrade\nWindows — run in Command Prompt:\npip install otree --upgrade\nThis may take a minute or two as pip downloads and installs oTree and its dependencies. The --upgrade flag ensures you get the latest version even if oTree was previously installed on your system.",
+    "crumbs": [
+      "Let's Get Started!",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Installing Python and oTree</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/setup/setup-otree.html#step-4-verify-otree-installation",
+    "href": "chapters/setup/setup-otree.html#step-4-verify-otree-installation",
+    "title": "Installing Python and oTree",
+    "section": "Step 4: Verify oTree Installation",
+    "text": "Step 4: Verify oTree Installation\nOnce the installation is complete, verify it by running the following in your Terminal or Command Prompt:\noTree --version\nYou should see 6.0.13 or similar. If you do, you are all set!",
+    "crumbs": [
+      "Let's Get Started!",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Installing Python and oTree</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/setup/setup-otree.html#troubleshooting",
+    "href": "chapters/setup/setup-otree.html#troubleshooting",
+    "title": "Installing Python and oTree",
+    "section": "Troubleshooting",
+    "text": "Troubleshooting\n\n\n\n\n\n\n\nProblem\nFix\n\n\n\n\npython3: command not found (macOS)\nInstall Python from python.org\n\n\npython: command not found (Windows)\nReinstall Python and check Add Python to PATH\n\n\npip3: command not found (macOS)\nRun python3 -m ensurepip in Terminal\n\n\noTree: command not found\nRun pip3 install otree --upgrade again and restart Terminal\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nIf you are stuck before the first session, you can use ZotGPT — UCI’s free AI platform — to troubleshoot. Select the latest Claude model available and describe your error message. It is particularly good at solving software installation issues.\nYou can also bring your laptop to the first lab session on April 1st and we will troubleshoot together.",
+    "crumbs": [
+      "Let's Get Started!",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Installing Python and oTree</span>"
     ]
   }
 ]
