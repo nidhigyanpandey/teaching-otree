@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Session 1 – Using oTree: A Practical Guide</title>
+<title>Useful Resources – Using oTree: A Practical Guide</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../chapters/session-02/session-02.html" rel="next">
-<link href="../../chapters/setup/setup-otree.html" rel="prev">
+<link href="../../references.html" rel="next">
+<link href="../../chapters/session-04/session-04.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -250,7 +250,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/session-01/session-01.html"><span class="chapter-title">Session 1</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/resources/resources.html"><span class="chapter-title">Useful Resources</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -307,11 +307,32 @@ ul.task-list li input[type="checkbox"] {
 </li>
       </ul>
   </li>
-        <li class="sidebar-item">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../chapters/session-01/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Session 1</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/session-01/session-01.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Session 1</span></a>
+  <a href="../../chapters/session-01/session-01a.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Getting Started: VS Code, Projects, and Apps</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/session-01/session-01b.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Inside an oTree Project: Folder Structure and <code>settings.py</code></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/session-01/session-01c.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Your First App: Adding, Registering, and Understanding <code>__init__.py</code></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/session-02/session-02.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Session 2</span></a>
@@ -329,6 +350,11 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../chapters/resources/resources.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Useful Resources</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">References</span></a>
   </div>
@@ -338,8 +364,15 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#otree" id="toc-otree" class="nav-link active" data-scroll-target="#otree">oTree</a></li>
+  <li><a href="#python" id="toc-python" class="nav-link" data-scroll-target="#python">Python</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/nidhigyanpandey/teaching-otree/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -347,7 +380,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="sec-session-01" class="quarto-section-identifier"><span class="chapter-title">Session 1</span></span></h1>
+<h1 class="title"><span id="sec-resources" class="quarto-section-identifier"><span class="chapter-title">Useful Resources</span></span></h1>
 </div>
 
 
@@ -364,8 +397,55 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>This is a curated list of resources to support your learning throughout this course. You do not need to master all of these — bookmark what is useful and return to it as needed.</p>
+<section id="otree" class="level2">
+<h2 class="anchored" data-anchor-id="otree">oTree</h2>
+<p>The official oTree documentation is the most reliable resource for all questions about oTree. It is well-written, actively maintained, and covers fundamental concepts of what you will need.</p>
+<p>Always check oTree’s demo apps and common task recipes <em>before</em> you start writing code from scratch — sample code has likely already been written for what you are trying to do. The <strong>Featured Projects</strong> section on oTree Hub is a great place to start:</p>
+<ul>
+<li><p><strong><a href="https://www.otreehub.com/projects/?featured=1">Game Theory Sample Games</a></strong> — Classic games from economics and game theory (Prisoner’s Dilemma, etc.). Useful for understanding how standard experiments are structured in oTree. Includes a <a href="https://samples.demo.otreehub.com/demo">live demo</a> and <a href="https://github.com/oTree-org/otree">source code</a>.</p></li>
+<li><p><strong><a href="https://www.otreehub.com/projects/?featured=1">More Demos</a></strong> — A wide range of demo apps from different disciplines. A good starting point for finding code that is close to what you want to build. Includes a <a href="https://more-demos.demo.otreehub.com/demo">live demo</a> and <a href="https://github.com/oTree-org/more-demos">source code</a>.</p></li>
+<li><p><strong><a href="https://www.otreehub.com/projects/?featured=1">Snippets</a></strong> — A collection of small recipes for common tasks in oTree. If you need to do something specific, check here first. Includes a <a href="https://snippets.demo.otreehub.com/demo">live demo</a> and source code(https://github.com/oTree-org/otree-snippets).</p></li>
+</ul>
+<p>Both the old and the new oTree forums are useful sources of solutions to common problems. Note that the old forum contains solutions written in oTree’s older <code>self</code> format, so some details may need to be adapted to the newer <code>no-self</code> format used in this course. See <a href="https://otree.readthedocs.io/en/latest/misc/noself.html">here</a> for more details on how the new format differs from the old one.</p>
+<p>Finally, the <strong>Public projects</strong> section on oTree Hub hosts code from other oTree users that is shared publicly.</p>
+<p><strong>Here is the complete list of oTree resources:</strong></p>
+<ul>
+<li><a href="https://otree.readthedocs.io/en/latest/">Official oTree documentation</a></li>
+<li><a href="https://www.otreehub.com/projects/?featured=1">Featured Projects on oTree Hub</a></li>
+<li><a href="https://www.otree.org/blog/where-to-put-code.html">oTree’s “Where do I put this code?” breakdown</a></li>
+<li><a href="https://www.otreehub.com/forum/">New oTree forum</a></li>
+<li><a href="https://groups.google.com/g/otree-dev">Old oTree forum</a></li>
+<li><a href="https://www.otreehub.com/projects/">Public projects</a></li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Searching for oTree help
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>When you run into a problem and are not sure where to start, try Googling your task or error message together with the word <strong>“otree”</strong> — for example, <em>“otree timer page”</em> or <em>“otree wait for all players”</em>. This will surface relevant results from the documentation, forums, and other oTree users.</p>
+<p>If you find a result on <strong><a href="https://stackoverflow.com/">Stack Overflow</a></strong>, read the full discussion before implementing any solution — do not just copy the first answer you see. The comments often reveal important nuance, and your use-case may require a slightly different approach.</p>
+</div>
+</div>
+</section>
+<section id="python" class="level2">
+<h2 class="anchored" data-anchor-id="python">Python</h2>
+<p>Python is the backbone of your oTree app — it handles the logic, stores data, and communicates between the server and the participant’s browser. A quick tip: use <code>print()</code> to see variable values and outputs in the terminal while you are debugging your code.</p>
+<p><strong>Web-based editors (for testing small bits of code)</strong></p>
+<p>The following editors are useful when you want to quickly test a small piece of Python code without running it through oTree. This list is adapted from resources originally compiled by Faith Bague-Sampson.</p>
+<ul>
+<li><a href="http://pythonfiddle.com/">Python Fiddle</a></li>
+<li><a href="https://www.mycompiler.io/new/python">myCompiler: Python</a></li>
+<li><a href="https://pynative.com/online-python-code-editor-to-execute-python-code/">PYnative Online Python Editor</a></li>
+</ul>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -783,13 +863,13 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../chapters/setup/setup-otree.html" class="pagination-link" aria-label="Installing Python and oTree">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Installing Python and oTree</span></span>
+      <a href="../../chapters/session-04/session-04.html" class="pagination-link" aria-label="Session 4">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Session 4</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../chapters/session-02/session-02.html" class="pagination-link" aria-label="Session 2">
-        <span class="nav-page-text"><span class="chapter-title">Session 2</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../references.html" class="pagination-link" aria-label="References">
+        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -798,4 +878,4 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/nidhigyanpandey/teaching-otree/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/nidhigyanpandey/teaching-otree/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>

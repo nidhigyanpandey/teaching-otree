@@ -13,13 +13,21 @@ book:
       chapters:
         - chapters/setup/setup-vscode.qmd
         - chapters/setup/setup-otree.qmd
-    - chapters/session-01/session-01.qmd
+    - part: chapters/session-01/index.qmd
+      chapters:
+        - chapters/session-01/session-01a.qmd
+        - chapters/session-01/session-01b.qmd
+        - chapters/session-01/session-01c.qmd
     - chapters/session-02/session-02.qmd
     - chapters/session-03/session-03.qmd
     - chapters/session-04/session-04.qmd
+    - chapters/resources/resources.qmd
     - references.qmd
 
 bibliography: references.bib
+
+crossref:
+  chapters: false
 
 
 format:

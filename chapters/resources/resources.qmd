@@ -1,0 +1,87 @@
+# Useful Resources {#sec-resources}
+
+This is a curated list of resources to support your learning 
+throughout this course. You do not need to master all of these 
+— bookmark what is useful and return to it as needed.
+
+## oTree
+
+The official oTree documentation is the most reliable resource
+for all questions about oTree. It is well-written, 
+actively maintained, and covers fundamental concepts of what 
+you will need.
+
+Always check oTree's demo apps and common task recipes *before* 
+you start writing code from scratch — sample code has likely 
+already been written for what you are trying to do. The 
+**Featured Projects** section on oTree Hub is a great place 
+to start:
+
+- **[Game Theory Sample Games](https://www.otreehub.com/projects/?featured=1)** 
+— Classic games from economics and game theory (Prisoner's 
+Dilemma, etc.). Useful for understanding how standard 
+experiments are structured in oTree. Includes a 
+[live demo](https://samples.demo.otreehub.com/demo) 
+and [source code](https://github.com/oTree-org/otree).
+
+- **[More Demos](https://www.otreehub.com/projects/?featured=1)** 
+— A wide range of demo apps from different disciplines. A 
+good starting point for finding code that is close to what 
+you want to build. Includes a [live demo](https://more-demos.demo.otreehub.com/demo) and [source code](https://github.com/oTree-org/more-demos).
+
+- **[Snippets](https://www.otreehub.com/projects/?featured=1)** 
+— A collection of small recipes for common tasks in oTree. 
+If you need to do something specific, check here first. 
+Includes a [live demo](https://snippets.demo.otreehub.com/demo) and source code(https://github.com/oTree-org/otree-snippets).
+
+Both the old and the new oTree forums are useful sources of 
+solutions to common problems. Note that the old forum contains 
+solutions written in oTree's older `self` format, so some 
+details may need to be adapted to the newer `no-self` format 
+used in this course. See 
+[here](https://otree.readthedocs.io/en/latest/misc/noself.html) 
+for more details on how the new format differs from the old one.
+
+Finally, the **Public projects** section on oTree Hub hosts code from other oTree users that is shared publicly.
+
+**Here is the complete list of oTree resources:**
+
+- [Official oTree documentation](https://otree.readthedocs.io/en/latest/)
+- [Featured Projects on oTree Hub](https://www.otreehub.com/projects/?featured=1)
+- [oTree's "Where do I put this code?" breakdown](https://www.otree.org/blog/where-to-put-code.html)
+- [New oTree forum](https://www.otreehub.com/forum/)
+- [Old oTree forum](https://groups.google.com/g/otree-dev)
+- [Public projects](https://www.otreehub.com/projects/)
+
+::: {.callout-tip}
+## Searching for oTree help
+
+When you run into a problem and are not sure where to start, 
+try Googling your task or error message together with the word 
+**"otree"** — for example, *"otree timer page"* or *"otree 
+wait for all players"*. This will surface relevant results 
+from the documentation, forums, and other oTree users.
+
+If you find a result on **[Stack Overflow](https://stackoverflow.com/)**, 
+read the full discussion before implementing any solution — 
+do not just copy the first answer you see. The comments often 
+reveal important nuance, and your use-case may require a 
+slightly different approach.
+:::
+
+## Python
+
+Python is the backbone of your oTree app — it handles the logic, stores data, and communicates between the server and the participant's browser. 
+A quick tip: use `print()` to see variable values and 
+outputs in the terminal while you are debugging your code.
+
+**Web-based editors (for testing small bits of code)**
+
+The following editors are useful when you want to quickly 
+test a small piece of Python code without running it through 
+oTree. This list is adapted from resources originally 
+compiled by Faith Bague-Sampson.
+
+- [Python Fiddle](http://pythonfiddle.com/)
+- [myCompiler: Python](https://www.mycompiler.io/new/python)
+- [PYnative Online Python Editor](https://pynative.com/online-python-code-editor-to-execute-python-code/)

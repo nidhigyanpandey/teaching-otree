@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Session 2 – Using oTree: A Practical Guide</title>
+<title>Inside an oTree Project: Folder Structure and settings.py – Using oTree: A Practical Guide</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -30,8 +65,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../chapters/session-03/session-03.html" rel="next">
-<link href="../../chapters/session-01/session-01c.html" rel="prev">
+<link href="../../chapters/session-01/session-01c.html" rel="next">
+<link href="../../chapters/session-01/session-01a.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -47,6 +82,9 @@ ul.task-list li input[type="checkbox"] {
 <link href="../../site_libs/bootstrap/bootstrap-8da718032fe10746300a5aa92d152ce0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
 <link href="../../site_libs/bootstrap/bootstrap-dark-913b17780ec437ee198ef3e682b8cc2c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="../../site_libs/bootstrap/bootstrap-8da718032fe10746300a5aa92d152ce0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -250,7 +288,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/session-02/session-02.html"><span class="chapter-title">Session 2</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/session-01/index.html">Session 1</a></li><li class="breadcrumb-item"><a href="../../chapters/session-01/session-01b.html"><span class="chapter-title">Inside an oTree Project: Folder Structure and <code>settings.py</code></span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -323,7 +361,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/session-01/session-01b.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Inside an oTree Project: Folder Structure and <code>settings.py</code></span></a>
+  <a href="../../chapters/session-01/session-01b.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Inside an oTree Project: Folder Structure and <code>settings.py</code></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -335,7 +373,7 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/session-02/session-02.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Session 2</span></a>
+  <a href="../../chapters/session-02/session-02.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Session 2</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -364,16 +402,31 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#the-otree-project-folder" id="toc-the-otree-project-folder" class="nav-link active" data-scroll-target="#the-otree-project-folder">The oTree project folder</a></li>
+  <li><a href="#the-settings.py-file" id="toc-the-settings.py-file" class="nav-link" data-scroll-target="#the-settings.py-file">The <code>settings.py</code> file</a>
+  <ul class="collapse">
+  <li><a href="#session_configs-your-session-list" id="toc-session_configs-your-session-list" class="nav-link" data-scroll-target="#session_configs-your-session-list"><code>SESSION_CONFIGS</code>: Your session list</a></li>
+  <li><a href="#session_config_defaults-project-wide-defaults" id="toc-session_config_defaults-project-wide-defaults" class="nav-link" data-scroll-target="#session_config_defaults-project-wide-defaults"><code>SESSION_CONFIG_DEFAULTS</code>: Project-wide defaults</a></li>
+  <li><a href="#participant_fields-and-session_fields" id="toc-participant_fields-and-session_fields" class="nav-link" data-scroll-target="#participant_fields-and-session_fields"><code>PARTICIPANT_FIELDS</code> and <code>SESSION_FIELDS</code></a></li>
+  <li><a href="#debug" id="toc-debug" class="nav-link" data-scroll-target="#debug"><code>DEBUG</code></a></li>
+  <li><a href="#what-you-should-never-touch" id="toc-what-you-should-never-touch" class="nav-link" data-scroll-target="#what-you-should-never-touch">What you should never touch</a></li>
+  </ul></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/nidhigyanpandey/teaching-otree/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/session-01/index.html">Session 1</a></li><li class="breadcrumb-item"><a href="../../chapters/session-01/session-01b.html"><span class="chapter-title">Inside an oTree Project: Folder Structure and <code>settings.py</code></span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="sec-session-02" class="quarto-section-identifier"><span class="chapter-title">Session 2</span></span></h1>
+<h1 class="title"><span class="chapter-title">Inside an oTree Project: Folder Structure and <code>settings.py</code></span></h1>
 </div>
 
 
@@ -390,8 +443,422 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>Now that you have created your first oTree project, it is time to understand what is actually inside it. Every decision about how your experiment runs — which apps are included, how many participants can demo it, what the payment structure looks like — flows through one file: <code>settings.py</code>. This part explains the project folder layout and walks through the key components of <code>settings.py</code> so you know what to edit, what to leave alone, and why.</p>
+<section id="the-otree-project-folder" class="level2">
+<h2 class="anchored" data-anchor-id="the-otree-project-folder">The oTree project folder</h2>
+<p>When you run <code>otree startproject</code> and include sample games, oTree generates a ready-to-use project folder. Click on the image below to see what that looks like in VS Code.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-project-folder" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-project-folder-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/project-folder.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: The oTree project folder oTree_lab open in VS Code. The Explorer panel shows the full contents of the project: the special system folders (_rooms, _static, _templates), the pre-installed sample app folders (such as bargaining, prisoner, survey, and others), and the settings.py file at the bottom of the list. The terminal confirms that the project was created and the working directory is now inside oTree_lab."><img src="images/project-folder.png" class="img-fluid figure-img" width="958"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-project-folder-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: The oTree project folder <code>oTree_lab</code> open in VS Code. The Explorer panel shows the full contents of the project: the special system folders (<code>_rooms</code>, <code>_static</code>, <code>_templates</code>), the pre-installed sample app folders (such as <code>bargaining</code>, <code>prisoner</code>, <code>survey</code>, and others), and the <code>settings.py</code> file at the bottom of the list. The terminal confirms that the project was created and the working directory is now inside <code>oTree_lab</code>.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Here is a breakdown of every item you will see in a new oTree project:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 33%">
+<col style="width: 48%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>What it is</th>
+<th>Do you edit it?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>settings.py</code></td>
+<td>The control center for the entire project</td>
+<td>Yes — regularly</td>
+</tr>
+<tr class="even">
+<td><code>_rooms/</code></td>
+<td>Stores room configuration files for live sessions</td>
+<td>Only when instructed</td>
+</tr>
+<tr class="odd">
+<td><code>_static/</code></td>
+<td>Shared static files (images, CSS, JS) used across apps</td>
+<td>As needed</td>
+</tr>
+<tr class="even">
+<td><code>_templates/</code></td>
+<td>Shared HTML templates used across apps</td>
+<td>As needed</td>
+</tr>
+<tr class="odd">
+<td>App folders (e.g., <code>survey/</code>)</td>
+<td>Each folder is one oTree app</td>
+<td>Yes — this is where you build</td>
+</tr>
+<tr class="even">
+<td><code>requirements.txt</code></td>
+<td>Lists Python packages the project depends on</td>
+<td>Rarely</td>
+</tr>
+<tr class="odd">
+<td><code>Procfile</code></td>
+<td>Server configuration file</td>
+<td>Do not touch</td>
+</tr>
+<tr class="even">
+<td><code>LICENSE</code></td>
+<td>License file</td>
+<td>Do not touch</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Special folders vs.&nbsp;app folders
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The three folders that begin with an underscore — <code>_rooms/</code>, <code>_static/</code>, and <code>_templates/</code> — are system folders, not apps. Do not confuse them with your app folders. Never delete or rename them unless instructed by your lab administrator.</p>
+</div>
+</div>
+</section>
+<section id="the-settings.py-file" class="level2">
+<h2 class="anchored" data-anchor-id="the-settings.py-file">The <code>settings.py</code> file</h2>
+<p>The <code>settings.py</code> file is the control center for your entire oTree project. Every app you want to run, every payment parameter, and every session configuration lives here. You will edit this file regularly throughout the course.</p>
+<p>Click on the image below to see what a typical <code>settings.py</code> file looks like.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-settings-py-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-settings-py-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/settings-py-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;2: The settings.py file for an oTree project open in VS Code. The file contains several distinct sections: SESSION_CONFIGS (edited regularly), SESSION_CONFIG_DEFAULTS (edit with intention as needed), PARTICIPANT_FIELDS and SESSION_FIELDS (edited with intention as needed), and system-level settings such as SECRET_KEY and INSTALLED_APPS (never touch these). Each section serves a different purpose in controlling how your experiment runs."><img src="images/settings-py-1.png" class="img-fluid figure-img" width="958"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-settings-py-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: The <code>settings.py</code> file for an oTree project open in VS Code. The file contains several distinct sections: <code>SESSION_CONFIGS</code> (edited regularly), <code>SESSION_CONFIG_DEFAULTS</code> (edit with intention as needed), <code>PARTICIPANT_FIELDS</code> and <code>SESSION_FIELDS</code> (edited with intention as needed), and system-level settings such as <code>SECRET_KEY</code> and <code>INSTALLED_APPS</code> (never touch these). Each section serves a different purpose in controlling how your experiment runs.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<section id="session_configs-your-session-list" class="level3">
+<h3 class="anchored" data-anchor-id="session_configs-your-session-list"><code>SESSION_CONFIGS</code>: Your session list</h3>
+<p><code>SESSION_CONFIGS</code> is a Python list of dictionaries. Each dictionary defines one session — one experiment you can run or demo from the admin interface. Think of it as the menu of sessions available in your project.</p>
+<p>Here is what a <code>SESSION_CONFIGS</code> list looks like:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>SESSION_CONFIGS <span class="op">=</span> [</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">dict</span>(</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>        name<span class="op">=</span><span class="st">'guess_two_thirds'</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>        display_name<span class="op">=</span><span class="st">"Guess 2/3 of the Average"</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        app_sequence<span class="op">=</span>[<span class="st">'guess_two_thirds'</span>, <span class="st">'payment_info'</span>],</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        num_demo_participants<span class="op">=</span><span class="dv">3</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">dict</span>(</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>        name<span class="op">=</span><span class="st">'survey'</span>,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>        app_sequence<span class="op">=</span>[<span class="st">'survey'</span>, <span class="st">'payment_info'</span>],</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        num_demo_participants<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Every session dictionary requires three key-value pairs:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 27%">
+<col style="width: 72%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Key</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>name</code></td>
+<td>A unique internal identifier for the session. No spaces or special characters.</td>
+</tr>
+<tr class="even">
+<td><code>app_sequence</code></td>
+<td>A Python list of app names in the order participants will complete them.</td>
+</tr>
+<tr class="odd">
+<td><code>num_demo_participants</code></td>
+<td>How many participants are created when you run a demo of this session.</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Choosing <code>num_demo_participants</code>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Set this number based on your experimental design. If an app groups participants in pairs, use a multiple of 2. If it groups them in threes, use a multiple of 3. For individual decision-making tasks, 1 is enough to test the app.</p>
+</div>
+</div>
+<p>You can also include optional keys in any session dictionary:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Optional key</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>display_name</code></td>
+<td>The name shown in the admin interface. If omitted, <code>name</code> is used.</td>
+</tr>
+<tr class="even">
+<td><code>real_world_currency_per_point</code></td>
+<td>Overrides the default exchange rate for this session only.</td>
+</tr>
+<tr class="odd">
+<td><code>participation_fee</code></td>
+<td>Overrides the default participation fee for this session only.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="session_config_defaults-project-wide-defaults" class="level3">
+<h3 class="anchored" data-anchor-id="session_config_defaults-project-wide-defaults"><code>SESSION_CONFIG_DEFAULTS</code>: Project-wide defaults</h3>
+<p><code>SESSION_CONFIG_DEFAULTS</code> is a single dictionary that sets default values inherited by all sessions unless a session dictionary explicitly overrides them. The two most commonly used defaults are <code>real_world_currency_per_point</code> and <code>participation_fee</code>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>SESSION_CONFIG_DEFAULTS <span class="op">=</span> <span class="bu">dict</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    real_world_currency_per_point<span class="op">=</span><span class="fl">1.00</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    participation_fee<span class="op">=</span><span class="fl">10.00</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    doc<span class="op">=</span><span class="st">""</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>If you want one specific session to use a different exchange rate or participation fee, simply add that key to that session’s dictionary in <code>SESSION_CONFIGS</code> and it will override the default for that session only.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Lab participation fees
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you run sessions through the ESSL lab, you are bound by the lab’s participation fee policy. Make sure the <code>participation_fee</code> in your settings reflects the approved rate before running any real sessions.</p>
+</div>
+</div>
+</section>
+<section id="participant_fields-and-session_fields" class="level3">
+<h3 class="anchored" data-anchor-id="participant_fields-and-session_fields"><code>PARTICIPANT_FIELDS</code> and <code>SESSION_FIELDS</code></h3>
+<p>These two settings are lists that become relevant in more advanced experiments where you need to carry data from one app to the next — for example, storing a participant’s treatment assignment in the first app and reading it back in the payment screen.</p>
+<ul>
+<li>Use <code>PARTICIPANT_FIELDS</code> for data that is specific to an individual participant (e.g., their assigned treatment condition).</li>
+<li>Use <code>SESSION_FIELDS</code> for data that applies equally to everyone in the session.</li>
+</ul>
+<p>For now, you can leave these as empty lists:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>PARTICIPANT_FIELDS <span class="op">=</span> []</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>SESSION_FIELDS <span class="op">=</span> []</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>You will learn how to use them properly in later sessions when your experiments involve multiple apps.</p>
+</section>
+<section id="debug" class="level3">
+<h3 class="anchored" data-anchor-id="debug"><code>DEBUG</code></h3>
+<p>You do not currently have this in your settings.py file. Add DEBUG = 0 to your file settings.py under <code>SESSION_FIELDS</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>PARTICIPANT_FIELDS <span class="op">=</span> []</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>SESSION_FIELDS <span class="op">=</span> []</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>DEBUG <span class="op">=</span> <span class="dv">0</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>What <code>DEBUG</code> does</strong></p>
+<p><code>DEBUG</code> controls whether oTree runs in development mode or production mode.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 21%">
+<col style="width: 53%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Value</th>
+<th>Mode</th>
+<th>What it means</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>DEBUG = 1</code></td>
+<td>Development mode</td>
+<td>Extra tools and error information are turned on</td>
+</tr>
+<tr class="even">
+<td><code>DEBUG = 0</code></td>
+<td>Production mode</td>
+<td>Clean participant-facing interface, no extra tools</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Why <code>DEBUG = 1</code> is useful when building your app</strong></p>
+<p>When you are writing and testing your code, setting <code>DEBUG = 1</code> gives you two very useful advantages:</p>
+<ol type="1">
+<li><p><strong>Auto-advance buttons</strong> — On every page, oTree adds a small button that lets you skip past that page without manually filling in any form fields — pages are submitted with empty or default values instead. This lets you click through the entire experiment in seconds to check that the page flow works correctly, without having to fill in every input every time.</p></li>
+<li><p><strong>Detailed error messages</strong> — If your Python code crashes, oTree shows you a full error traceback directly in the browser instead of just a blank page. This makes it much faster to find and fix problems in your code.</p></li>
+</ol>
+<p>These two features make the development cycle dramatically faster. Instead of filling in every form field on every page just to check one thing at the end of the experiment, you can click through the whole app in a few seconds.</p>
+<p><strong>Why you must switch to <code>DEBUG = 0</code> before running real sessions</strong></p>
+<p>When <code>DEBUG = 1</code>, participants can also see the auto-advance buttons and skip past pages without submitting their answers. This means your data will be incomplete or entirely missing. Always confirm that <code>DEBUG = 0</code> before inviting any real participants.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Do not run real sessions with <code>DEBUG = 1</code>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If <code>DEBUG = 1</code> is on during a live session, participants will see a skip button on every page that lets them bypass your forms — if they use it, their answers will not be recorded. Always confirm <code>DEBUG = 0</code> before starting any real data collection.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>A useful development habit
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>While building and testing your app: set <code>DEBUG = 1</code>. Before running any real session: set <code>DEBUG = 0</code>. This single switch is one of the most common sources of data collection errors for new oTree users — do not forget it.</p>
+</div>
+</div>
+</section>
+<section id="what-you-should-never-touch" class="level3">
+<h3 class="anchored" data-anchor-id="what-you-should-never-touch">What you should never touch</h3>
+<p>Some parts of <code>settings.py</code> must not be modified under any circumstances:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 29%">
+<col style="width: 70%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Setting</th>
+<th>Why you leave it alone</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>from os import environ</code></td>
+<td>System import required by oTree — removing it breaks the project</td>
+</tr>
+<tr class="even">
+<td><code>SECRET_KEY</code></td>
+<td>Security key for the project — changing it will break everything</td>
+</tr>
+<tr class="odd">
+<td><code>INSTALLED_APPS</code></td>
+<td>Registers oTree with Django — do not modify</td>
+</tr>
+<tr class="even">
+<td><code>ADMIN_PASSWORD</code></td>
+<td>Managed via environment variables by your administrator</td>
+</tr>
+</tbody>
+</table>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-settings-py-2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-settings-py-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/settings-py-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;3: The end of the settings.py file for an oTree project open in VS Code. Do not change system-level settings such as SECRET_KEY and INSTALLED_APPS. Each section serves a different purpose in controlling how your experiment runs."><img src="images/settings-py-2.png" class="img-fluid figure-img" width="931"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-settings-py-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: The end of the <code>settings.py</code> file for an oTree project open in VS Code. Do not change system-level settings such as <code>SECRET_KEY</code> and <code>INSTALLED_APPS</code>. Each section serves a different purpose in controlling how your experiment runs.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>When in doubt, do not touch it
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If a line in <code>settings.py</code> is not covered in this guide, leave it exactly as it is. Only edit the parts you understand. When in doubt, ask before making any changes.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 35%">
+<col style="width: 45%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Section</th>
+<th>What it controls</th>
+<th>How often you edit it</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>SESSION_CONFIGS</code></td>
+<td>Which sessions and apps are available</td>
+<td>Regularly</td>
+</tr>
+<tr class="even">
+<td><code>SESSION_CONFIG_DEFAULTS</code></td>
+<td>Default payment and session parameters</td>
+<td>Occasionally</td>
+</tr>
+<tr class="odd">
+<td><code>PARTICIPANT_FIELDS</code></td>
+<td>Cross-app participant-level data</td>
+<td>When needed</td>
+</tr>
+<tr class="even">
+<td><code>SESSION_FIELDS</code></td>
+<td>Cross-app session-level data</td>
+<td>When needed</td>
+</tr>
+<tr class="odd">
+<td><code>USE_POINTS</code></td>
+<td>If <code>True</code>, earnings are shown in points and converted using the exchange rate. If <code>False</code>, real currency is used directly</td>
+<td>When needed — based on your design</td>
+</tr>
+<tr class="even">
+<td><code>DEBUG</code></td>
+<td><code>0</code> = production mode (normal). <code>1</code> = debug mode (shows extra info on participant pages)</td>
+<td>Leave at <code>0</code> unless developing app or troubleshooting</td>
+</tr>
+<tr class="odd">
+<td>System settings</td>
+<td>Security, server configuration</td>
+<td>Never</td>
+</tr>
+</tbody>
+</table>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -809,19 +1276,51 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../chapters/session-01/session-01c.html" class="pagination-link" aria-label="Your First App: Adding, Registering, and Understanding `__init__.py`">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Your First App: Adding, Registering, and Understanding <code>__init__.py</code></span></span>
+      <a href="../../chapters/session-01/session-01a.html" class="pagination-link" aria-label="Getting Started: VS Code, Projects, and Apps">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Getting Started: VS Code, Projects, and Apps</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../chapters/session-03/session-03.html" class="pagination-link" aria-label="Session 3">
-        <span class="nav-page-text"><span class="chapter-title">Session 3</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../chapters/session-01/session-01c.html" class="pagination-link" aria-label="Your First App: Adding, Registering, and Understanding `__init__.py`">
+        <span class="nav-page-text"><span class="chapter-title">Your First App: Adding, Registering, and Understanding <code>__init__.py</code></span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/nidhigyanpandey/teaching-otree/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div></div></footer><script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
 
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/nidhigyanpandey/teaching-otree/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+</body></html>

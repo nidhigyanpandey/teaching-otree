@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Session 2 – Using oTree: A Practical Guide</title>
+<title>Session 1 – Using oTree: A Practical Guide</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../chapters/session-03/session-03.html" rel="next">
-<link href="../../chapters/session-01/session-01c.html" rel="prev">
+<link href="../../chapters/session-01/session-01a.html" rel="next">
+<link href="../../chapters/setup/setup-otree.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -250,7 +250,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/session-02/session-02.html"><span class="chapter-title">Session 2</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/session-01/index.html">Session 1</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -309,7 +309,7 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../../chapters/session-01/index.html" class="sidebar-item-text sidebar-link">
+            <a href="../../chapters/session-01/index.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Session 1</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -335,7 +335,7 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/session-02/session-02.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Session 2</span></a>
+  <a href="../../chapters/session-02/session-02.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Session 2</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -373,7 +373,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="sec-session-02" class="quarto-section-identifier"><span class="chapter-title">Session 2</span></span></h1>
+<h1 class="title">Session 1</h1>
 </div>
 
 
@@ -390,6 +390,45 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>In this session, we build the foundation for everything that follows in this course. We start by getting comfortable with VS Code and the terminal, then move into creating and understanding the structure of an oTree project, and finish with a hands-on exercise where you will download, configure, and run a real oTree app.</p>
+<p><strong>By the end of this session, you will be able to:</strong></p>
+<ul>
+<li>Navigate your file system using the terminal and create a new oTree project and app from scratch.</li>
+<li>Read and make sense of what is inside an oTree project folder, and understand the key components of the <code>settings.py</code> file.</li>
+<li>Download an app shared by someone else, add it to your project, update <code>settings.py</code> to include it, and run a working demo in your browser.</li>
+</ul>
+<p><strong>This session has three parts:</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 23%">
+<col style="width: 56%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Part</th>
+<th>Title</th>
+<th>What you will do</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Getting Started</td>
+<td>Getting Started: VS Code, Projects, and Apps</td>
+<td>Learn the core terminal commands for working with oTree</td>
+</tr>
+<tr class="even">
+<td>Inside an oTree Project</td>
+<td>Inside an oTree Project: Folder Structure and <code>settings.py</code></td>
+<td>Understand what oTree creates and how to configure it</td>
+</tr>
+<tr class="odd">
+<td>Hands-On</td>
+<td>Hands-On: Adding and Running Your First App</td>
+<td>Download, configure, and demo a shared oTree app</td>
+</tr>
+</tbody>
+</table>
 
 
 
@@ -809,13 +848,13 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../chapters/session-01/session-01c.html" class="pagination-link" aria-label="Your First App: Adding, Registering, and Understanding `__init__.py`">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Your First App: Adding, Registering, and Understanding <code>__init__.py</code></span></span>
+      <a href="../../chapters/setup/setup-otree.html" class="pagination-link" aria-label="Installing Python and oTree">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Installing Python and oTree</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../chapters/session-03/session-03.html" class="pagination-link" aria-label="Session 3">
-        <span class="nav-page-text"><span class="chapter-title">Session 3</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../chapters/session-01/session-01a.html" class="pagination-link" aria-label="Getting Started: VS Code, Projects, and Apps">
+        <span class="nav-page-text"><span class="chapter-title">Getting Started: VS Code, Projects, and Apps</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

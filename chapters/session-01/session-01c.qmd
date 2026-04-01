@@ -1,0 +1,541 @@
+---
+lightbox: true
+---
+
+# Your First App: Adding, Registering, and Understanding `__init__.py`
+
+In this session you will add a pre-built app to your oTree project,
+register it in `settings.py`, demo it in the browser, and then open
+the code to understand how an oTree app is structured from the inside.
+By the end of this part you will be able to read and navigate any
+`__init__.py` file and understand what each component does.
+
+## Step 1: Download and add the `demographic_survey` app
+
+The example code for this course is stored in a shared Google Drive
+folder. Navigate to the link below and download the file called
+`demographic_survey.zip`:
+
+[Example Code — Google Drive](https://drive.google.com/drive/u/0/folders/1BvU8I4FX5KS2RZga_O4Pi-s1PAhVAz-C)
+
+Once downloaded:
+
+1. Locate `demographic_survey.zip` in your Downloads folder
+2. Double-click the file to unzip it — this will produce a folder
+called `demographic_survey`
+3. Move the `demographic_survey` folder into your oTree project
+folder — for example, into `oTree_lab`
+
+After moving it, open VS Code and check the Explorer panel. You
+should now see `demographic_survey` listed alongside the other app
+folders inside your project.
+
+::: {.callout-warning}
+## The folder must be inside the project folder
+The `demographic_survey` folder must sit directly inside your oTree
+project folder — at the same level as `settings.py` and the other
+app folders. If it is placed anywhere else, oTree will not be able
+to find it.
+:::
+
+## Step 2: Register the app in `SESSION_CONFIGS`
+
+Adding the folder to your project is not enough on its own. oTree
+only runs apps that are listed in `SESSION_CONFIGS` inside
+`settings.py`. Open `settings.py` and add the following dictionary
+to your `SESSION_CONFIGS` list:
+
+```python
+SESSION_CONFIGS = [
+    # ... your existing session dictionaries ...
+
+    dict(
+        name='survey_leveled_up',
+        display_name="End of experiment questionnaires",
+        app_sequence=['demographic_survey'],
+        num_demo_participants=1,
+        doc="Standard end of experiment questionnaires."
+    ),
+]
+```
+
+Notice the five key-value pairs in this dictionary:
+
+| Key | Value | What it does |
+|-----|-------|-------------|
+| `name` | `'survey_leveled_up'` | Internal identifier used by the server |
+| `display_name` | `"End of experiment questionnaires"` | The name shown in the admin interface |
+| `app_sequence` | `['demographic_survey']` | The list of apps in this session — just one here |
+| `num_demo_participants` | `1` | One participant is enough to demo a survey |
+| `doc` | `"Standard end of experiment questionnaires."` | A short note describing the session — optional but good practice |
+
+Save `settings.py` after making the change.
+
+::: {.callout-important}
+## Reset the database after editing `settings.py`
+Any time you edit `settings.py` — including adding a new session —
+you must reset the database before running the server. In the
+terminal, make sure you are inside your project folder, then run:
+
+```bash
+otree resetdb
+```
+
+Confirm with `y` when prompted.
+:::
+
+## Step 3: Demo the app
+
+With the database reset, start the development server:
+
+```bash
+otree devserver
+```
+
+Open your browser and go to `http://localhost:8000/demo`. You should
+now see `End of experiment questionnaires` listed on the Demo page.
+Click on it to launch a demo session and work through the app as a
+participant would. When you are done, press **Ctrl + C** in the
+terminal to stop the server.
+
+## Step 4: Open `__init__.py` and understand the structure
+
+Every oTree app has exactly one `__init__.py` file. This single
+Python file contains everything the app needs to run: the constants,
+the data models, the page logic, and the page sequence. Open
+`demographic_survey/__init__.py` in VS Code. Here is the full file:
+
+```python
+from otree.api import *
+
+doc = """
+Standard, end-of-session survey.
+Includes Cognitive Reflection Task and demographic survey.
+"""
+
+class C(BaseConstants):
+    NAME_IN_URL = 'survey_experiment'
+    PLAYERS_PER_GROUP = None
+    NUM_ROUNDS = 1
+
+
+class Subsession(BaseSubsession):
+    pass
+
+
+class Group(BaseGroup):
+    pass
+
+
+class Player(BasePlayer):
+    age = models.IntegerField(
+        label='What is your age?',
+        min=18,
+        max=99,
+    )
+    gender = models.StringField(
+        choices=[['Male', 'Male'], ['Female', 'Female'],
+                 ['Non-Binary', 'Non-Binary'],
+                 ['NoState', 'Prefer not to state']],
+        label='What is your gender?',
+        widget=widgets.RadioSelect,
+    )
+    race = models.StringField(
+        choices=[
+            ['Black', 'African descent, Black, African-American'],
+            ['Asian', 'Asian descent, Asian-American'],
+            ['Indigenous', 'Indigenous, First Nations, Native American'],
+            ['MiddleEastern', 'Middle Eastern or North African'],
+            ['Hawaiian', 'Native Hawaiian or Pacific Islander'],
+            ['White', 'White'],
+            ['Other', 'Other'],
+            ['Declined', 'Decline to state']
+        ],
+        label='What is your race?',
+        widget=widgets.RadioSelect,
+    )
+    ethnicity = models.BooleanField(
+        choices=[[True, 'Yes'], [False, 'No']],
+        label='Are you of Latinx/o/a or Hispanic origin?',
+        widget=widgets.RadioSelect,
+    )
+    school = models.StringField(
+        choices=[
+            ['Social', 'School of Social Sciences'],
+            ['Ecology', 'School of Social Ecology'],
+            ['Law', 'School of Law'],
+            ['Humanities', 'School of Humanities'],
+            ['Education', 'School of Education'],
+            ['Arts', 'Claire Trevor School of the Arts'],
+            ['Business', 'The Paul Merage School of Business'],
+            ['Biological', 'School of Biological Sciences'],
+            ['Engineering', 'The Henry Samueli School of Engineering'],
+            ['Computers', 'Donald Bren School of Information and Computer Sciences'],
+            ['Interdisciplinary', 'Interdisciplinary Studies'],
+            ['Physical', 'School of Physical Sciences'],
+            ['Medicine', 'School of Medicine'],
+            ['Nursing', 'Sue and Bill Gross School of Nursing'],
+            ['Pharmaceutical', 'School of Pharmacy and Pharmaceutical Sciences'],
+            ['Health', 'Program in Public Health']
+        ],
+        label='Choose the most appropriate option for your school below.',
+        widget=widgets.RadioSelect,
+    )
+    field_of_study = models.StringField(
+        label='What is your major or field of study?',
+    )
+    major_STEM = models.BooleanField(
+        choices=[[True, 'Yes'], [False, 'No']],
+        label='Are you majoring in a STEM field?',
+        widget=widgets.RadioSelect,
+    )
+    math_courses = models.IntegerField(
+        label='How many Mathematics/Statistics courses have you taken since High School?',
+        min=0,
+        max=99,
+    )
+    english_is_first_language = models.BooleanField(
+        choices=[[True, 'Yes'], [False, 'No']],
+        label='Is English your first language?',
+        widget=widgets.RadioSelect,
+    )
+    first_language = models.StringField(
+        label='Please state your first language.',
+        blank=True,
+    )
+
+    # ~~~ Cognitive Reflection Task
+
+    crt_q1 = models.StringField(
+        label="If John can drink one barrel of water in 6 days, and Mary can drink one barrel of water in 12 days, how many days would it take them to drink one barrel of water together?"
+    )
+    crt_q2 = models.StringField(
+        label="A man buys a pig for \$60, sells it for \$70, buys it back for \$80, and sells it finally for \$90. How much money has he made in dollars?"
+    )
+    crt_q3 = models.StringField(
+        label="Jerry received both the 15th highest and the 15th lowest mark in the class. How many students are in the class?"
+    )
+
+
+# ~~~~~~~~~~~~~~~~~ PAGES
+
+class Questionnaire_CRT(Page):
+    form_model = 'player'
+    form_fields = ['crt_q1', 'crt_q2', 'crt_q3']
+
+    @staticmethod
+    def is_displayed(player):
+        return player.round_number == C.NUM_ROUNDS
+
+
+class Demographics(Page):
+    form_model = 'player'
+    form_fields = ['age', 'gender', 'race', 'ethnicity', 'school',
+                   'field_of_study', 'major_STEM', 'math_courses',
+                   'english_is_first_language', 'first_language']
+
+
+page_sequence = [Questionnaire_CRT, Demographics]
+```
+
+Now let us go through every part of this file.
+
+---
+
+### The import statement
+
+```python
+from otree.api import *
+```
+
+This line is the same in every single oTree app. It imports all of
+oTree's built-in classes, field types, widgets, and functions. You
+will never change this line.
+
+---
+
+### The `doc` string
+
+```python
+doc = """
+Standard, end-of-session survey.
+Includes Cognitive Reflection Task and demographic survey.
+"""
+```
+
+The `doc` variable is an optional description of the app. It appears
+in the admin interface when you click on the app sequence for a
+session. It has no effect on how the app runs — it is purely
+informational. Write something useful here so that anyone looking at
+the admin interface understands what this app does without having to
+open the code.
+
+---
+
+### Class `C`: Constants
+
+```python
+class C(BaseConstants):
+    NAME_IN_URL = 'survey_experiment'
+    PLAYERS_PER_GROUP = None
+    NUM_ROUNDS = 1
+```
+
+The `C` class holds all the fixed parameters of your app — values
+that are set before the session starts and do not change while it
+runs.
+
+| Constant | Value | What it means |
+|----------|-------|--------------|
+| `NAME_IN_URL` | `'survey_experiment'` | The string that appears in the participant's browser URL during the experiment |
+| `PLAYERS_PER_GROUP` | `None` | Participants are not grouped — this is an individual task |
+| `NUM_ROUNDS` | `1` | Participants go through the page sequence once |
+
+::: {.callout-warning}
+## Participants can see `NAME_IN_URL`
+Whatever string you assign to `NAME_IN_URL` will be visible in the
+browser address bar during the experiment. Notice that this app uses
+`'survey_experiment'` rather than `'demographic_survey'` — this is
+deliberate. The name does not reveal what kind of survey is being
+administered. Do not use names that hint at the purpose or design
+of your study.
+:::
+
+::: {.callout-tip}
+## Python naming conventions
+Constant variables like `NAME_IN_URL` are written in
+`UPPERCASE_WITH_UNDERSCORES`. Non-constant variables and function
+names use `lowercase_with_underscores`. Class names use `PascalCase`
+(e.g., `BasePlayer`, `WaitPage`). VS Code's colour-coding works
+better when you follow these conventions.
+:::
+
+---
+
+### Data model classes: `Subsession`, `Group`, and `Player`
+
+Every `__init__.py` must define three data model classes. These
+represent the three levels of oTree's data structure and correspond
+directly to tables in the database.
+
+```python
+class Subsession(BaseSubsession):
+    pass
+
+class Group(BaseGroup):
+    pass
+```
+
+Both `Subsession` and `Group` contain only `pass` here because this
+app collects individual participant data only. No group-level or
+round-level variables are needed.
+
+::: {.callout-note}
+## What `pass` means
+In Python, `pass` is a placeholder that means "this class exists but
+has nothing extra defined in it." oTree requires all three model
+classes to be present in every `__init__.py`. If you are not adding
+any fields or methods to `Subsession` or `Group`, you must still
+include the class definition with `pass` underneath it. Removing
+either class entirely will crash the app.
+:::
+
+---
+
+### The `Player` class and model fields
+
+The `Player` class is where all the participant-level data lives.
+Every field you define here becomes a column in your exported data.
+
+#### Field types used in this app
+
+| Field type | Used for | Example in this app |
+|-----------|---------|-------------------|
+| `models.IntegerField()` | Whole numbers | `age`, `math_courses` |
+| `models.StringField()` | Text or multiple choice | `gender`, `race`, `school`, `field_of_study` |
+| `models.BooleanField()` | True/False answers | `ethnicity`, `major_STEM`, `english_is_first_language` |
+
+#### Field arguments used in this app
+
+| Argument | What it does |
+|----------|-------------|
+| `label` | The question or prompt shown to the participant on the page |
+| `min` / `max` | Sets the minimum and maximum values for numeric fields |
+| `choices` | A list of options for multiple choice questions |
+| `widget` | Controls how the input is displayed — `widgets.RadioSelect` shows radio buttons |
+| `blank` | If `True`, the field is optional and participants can skip it |
+
+#### How `choices` works
+
+This is one of the most important things to understand about oTree
+model fields. The `choices` argument takes a list of two-item lists,
+where each inner list follows this pattern:
+
+```python
+choices = [[recorded_in_database, shown_to_participant], ...]
+```
+
+Look at the `gender` field:
+
+```python
+gender = models.StringField(
+    choices=[['Male', 'Male'], ['Female', 'Female'],
+             ['Non-Binary', 'Non-Binary'],
+             ['NoState', 'Prefer not to state']],
+    label='What is your gender?',
+    widget=widgets.RadioSelect,
+)
+```
+
+The participant sees four options on screen: Male, Female, Non-Binary,
+and Prefer not to state. But notice that `'NoState'` is what gets
+recorded in the database — not `'Prefer not to state'`. The first
+value in each pair is what oTree saves; the second is what the
+participant reads.
+
+Now look at the `ethnicity` field:
+
+```python
+ethnicity = models.BooleanField(
+    choices=[[True, 'Yes'], [False, 'No']],
+    label='Are you of Latinx/o/a or Hispanic origin?',
+    widget=widgets.RadioSelect,
+)
+```
+
+The participant sees Yes or No. The database records `True` or
+`False`. This is a clean and efficient way to store binary responses
+— it makes analysis much easier than storing the strings "Yes" and
+"No" directly.
+
+::: {.callout-important}
+## The `choices` format is always `[recorded, displayed]`
+The first value in each pair is stored in the database. The second
+value is what the participant sees. Never mix these up. If you do,
+your data will contain the wrong values and you will not catch the
+error until analysis.
+:::
+
+#### The `blank=True` argument
+
+```python
+first_language = models.StringField(
+    label='Please state your first language.',
+    blank=True,
+)
+```
+
+By default, all form fields in oTree are required — participants
+cannot proceed to the next page without filling them in. Setting
+`blank=True` makes a field optional. Here `first_language` is
+optional because only participants who answered No to
+`english_is_first_language` need to complete it.
+
+#### Section comments
+
+```python
+# ~~~ Cognitive Reflection Task
+```
+
+This is just a Python comment — a line beginning with `#` that oTree
+ignores entirely. It is there purely for readability, separating the
+demographic fields from the CRT fields. Use comments freely in your
+own code to mark where one section ends and another begins.
+
+---
+
+### Page classes
+
+Each page in your app is defined as a class that inherits from
+`Page`. This app has two pages.
+
+#### `Questionnaire_CRT`
+
+```python
+class Questionnaire_CRT(Page):
+    form_model = 'player'
+    form_fields = ['crt_q1', 'crt_q2', 'crt_q3']
+
+    @staticmethod
+    def is_displayed(player):
+        return player.round_number == C.NUM_ROUNDS
+```
+
+| Attribute or method | What it does |
+|--------------------|-------------|
+| `form_model = 'player'` | Tells oTree the form fields belong to the `Player` model |
+| `form_fields` | Lists the three CRT fields that will appear as inputs on this page |
+| `@staticmethod` | Required decorator before any Page-level method when working in VS Code or any IDE |
+| `is_displayed` | A built-in oTree method that controls whether this page is shown to a participant. It returns `True` or `False`. |
+
+The `is_displayed` method here returns:
+
+```python
+return player.round_number == C.NUM_ROUNDS
+```
+
+Since `C.NUM_ROUNDS = 1`, this evaluates to `player.round_number == 1`,
+which is always `True` for a single-round app. In a multi-round app,
+this would restrict the page to only the final round. For now it is
+effectively always displayed.
+
+::: {.callout-tip}
+## `@staticmethod` is required for Page methods in VS Code
+When you define any built-in oTree method inside a Page class —
+such as `is_displayed`, `vars_for_template`, or `before_next_page`
+— you must precede it with `@staticmethod`. This is because these
+methods are defined at the Page level rather than outside it. If
+you forget `@staticmethod`, the method will either not work or
+will produce an error.
+:::
+
+#### `Demographics`
+
+```python
+class Demographics(Page):
+    form_model = 'player'
+    form_fields = ['age', 'gender', 'race', 'ethnicity', 'school',
+                   'field_of_study', 'major_STEM', 'math_courses',
+                   'english_is_first_language', 'first_language']
+```
+
+This page has no special methods — just `form_model` and
+`form_fields`. All ten demographic fields will appear on this page
+in the order they are listed in `form_fields`. There is no
+`is_displayed` method, so this page is always shown.
+
+---
+
+### The `page_sequence` list
+
+```python
+page_sequence = [Questionnaire_CRT, Demographics]
+```
+
+This list controls the order in which participants see the pages.
+Participants will complete the CRT first, then the demographics
+questionnaire. If you swap the order here, they will see the
+demographics first.
+
+::: {.callout-warning}
+## Every page must be in `page_sequence`
+If you define a Page class but forget to add it to `page_sequence`,
+oTree will not show it to participants. Conversely, if you list a
+page in `page_sequence` that does not have a corresponding class
+definition, the app will crash when you try to run it.
+:::
+
+---
+
+## Summary: The anatomy of `__init__.py`
+
+| Section | What it contains | Required? |
+|---------|-----------------|-----------| 
+| `from otree.api import *` | The oTree import statement | Always |
+| `doc` | A short description of the app | Optional but recommended |
+| `class C(BaseConstants)` | `NAME_IN_URL`, `PLAYERS_PER_GROUP`, `NUM_ROUNDS` | Always |
+| `class Subsession` | Round-level logic and fields | Always — use `pass` if empty |
+| `class Group` | Group-level logic and fields | Always — use `pass` if empty |
+| `class Player` | Individual participant fields | Always — add your data fields here |
+| Page classes | One class per page, with `form_model`, `form_fields`, and any methods | Always — at least one |
+| `page_sequence` | The ordered list of page classes | Always |

@@ -1,0 +1,1498 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Your First App: Adding, Registering, and Understanding __init__.py – Using oTree: A Practical Guide</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../chapters/session-02/session-02.html" rel="next">
+<link href="../../chapters/session-01/session-01b.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-065a5179aebd64318d7ea99d77b64a9e.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-969ddfa49e00a70eb3423444dbc81f6c.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-065a5179aebd64318d7ea99d77b64a9e.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-8da718032fe10746300a5aa92d152ce0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-913b17780ec437ee198ef3e682b8cc2c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-8da718032fe10746300a5aa92d152ce0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../www/styles.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/session-01/index.html">Session 1</a></li><li class="breadcrumb-item"><a href="../../chapters/session-01/session-01c.html"><span class="chapter-title">Your First App: Adding, Registering, and Understanding <code>__init__.py</code></span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../../index.html" class="sidebar-logo-link">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../">Using oTree: A Practical Guide</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/nidhigyanpandey/teaching-otree" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../chapters/setup/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Let's Get Started!</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/setup/setup-vscode.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Setting Up Visual Studio Code</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/setup/setup-otree.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Installing Python and oTree</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../chapters/session-01/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Session 1</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/session-01/session-01a.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Getting Started: VS Code, Projects, and Apps</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/session-01/session-01b.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Inside an oTree Project: Folder Structure and <code>settings.py</code></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/session-01/session-01c.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Your First App: Adding, Registering, and Understanding <code>__init__.py</code></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/session-02/session-02.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Session 2</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/session-03/session-03.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Session 3</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/session-04/session-04.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Session 4</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/resources/resources.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Useful Resources</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#step-1-download-and-add-the-demographic_survey-app" id="toc-step-1-download-and-add-the-demographic_survey-app" class="nav-link active" data-scroll-target="#step-1-download-and-add-the-demographic_survey-app">Step 1: Download and add the <code>demographic_survey</code> app</a></li>
+  <li><a href="#step-2-register-the-app-in-session_configs" id="toc-step-2-register-the-app-in-session_configs" class="nav-link" data-scroll-target="#step-2-register-the-app-in-session_configs">Step 2: Register the app in <code>SESSION_CONFIGS</code></a></li>
+  <li><a href="#step-3-demo-the-app" id="toc-step-3-demo-the-app" class="nav-link" data-scroll-target="#step-3-demo-the-app">Step 3: Demo the app</a></li>
+  <li><a href="#step-4-open-__init__.py-and-understand-the-structure" id="toc-step-4-open-__init__.py-and-understand-the-structure" class="nav-link" data-scroll-target="#step-4-open-__init__.py-and-understand-the-structure">Step 4: Open <code>__init__.py</code> and understand the structure</a>
+  <ul class="collapse">
+  <li><a href="#the-import-statement" id="toc-the-import-statement" class="nav-link" data-scroll-target="#the-import-statement">The import statement</a></li>
+  <li><a href="#the-doc-string" id="toc-the-doc-string" class="nav-link" data-scroll-target="#the-doc-string">The <code>doc</code> string</a></li>
+  <li><a href="#class-c-constants" id="toc-class-c-constants" class="nav-link" data-scroll-target="#class-c-constants">Class <code>C</code>: Constants</a></li>
+  <li><a href="#data-model-classes-subsession-group-and-player" id="toc-data-model-classes-subsession-group-and-player" class="nav-link" data-scroll-target="#data-model-classes-subsession-group-and-player">Data model classes: <code>Subsession</code>, <code>Group</code>, and <code>Player</code></a></li>
+  <li><a href="#the-player-class-and-model-fields" id="toc-the-player-class-and-model-fields" class="nav-link" data-scroll-target="#the-player-class-and-model-fields">The <code>Player</code> class and model fields</a></li>
+  <li><a href="#page-classes" id="toc-page-classes" class="nav-link" data-scroll-target="#page-classes">Page classes</a></li>
+  <li><a href="#the-page_sequence-list" id="toc-the-page_sequence-list" class="nav-link" data-scroll-target="#the-page_sequence-list">The <code>page_sequence</code> list</a></li>
+  </ul></li>
+  <li><a href="#summary-the-anatomy-of-__init__.py" id="toc-summary-the-anatomy-of-__init__.py" class="nav-link" data-scroll-target="#summary-the-anatomy-of-__init__.py">Summary: The anatomy of <code>__init__.py</code></a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/nidhigyanpandey/teaching-otree/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/session-01/index.html">Session 1</a></li><li class="breadcrumb-item"><a href="../../chapters/session-01/session-01c.html"><span class="chapter-title">Your First App: Adding, Registering, and Understanding <code>__init__.py</code></span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-title">Your First App: Adding, Registering, and Understanding <code>__init__.py</code></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>In this session you will add a pre-built app to your oTree project, register it in <code>settings.py</code>, demo it in the browser, and then open the code to understand how an oTree app is structured from the inside. By the end of this part you will be able to read and navigate any <code>__init__.py</code> file and understand what each component does.</p>
+<section id="step-1-download-and-add-the-demographic_survey-app" class="level2">
+<h2 class="anchored" data-anchor-id="step-1-download-and-add-the-demographic_survey-app">Step 1: Download and add the <code>demographic_survey</code> app</h2>
+<p>The example code for this course is stored in a shared Google Drive folder. Navigate to the link below and download the file called <code>demographic_survey.zip</code>:</p>
+<p><a href="https://drive.google.com/drive/u/0/folders/1BvU8I4FX5KS2RZga_O4Pi-s1PAhVAz-C">Example Code — Google Drive</a></p>
+<p>Once downloaded:</p>
+<ol type="1">
+<li>Locate <code>demographic_survey.zip</code> in your Downloads folder</li>
+<li>Double-click the file to unzip it — this will produce a folder called <code>demographic_survey</code></li>
+<li>Move the <code>demographic_survey</code> folder into your oTree project folder — for example, into <code>oTree_lab</code></li>
+</ol>
+<p>After moving it, open VS Code and check the Explorer panel. You should now see <code>demographic_survey</code> listed alongside the other app folders inside your project.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>The folder must be inside the project folder
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <code>demographic_survey</code> folder must sit directly inside your oTree project folder — at the same level as <code>settings.py</code> and the other app folders. If it is placed anywhere else, oTree will not be able to find it.</p>
+</div>
+</div>
+</section>
+<section id="step-2-register-the-app-in-session_configs" class="level2">
+<h2 class="anchored" data-anchor-id="step-2-register-the-app-in-session_configs">Step 2: Register the app in <code>SESSION_CONFIGS</code></h2>
+<p>Adding the folder to your project is not enough on its own. oTree only runs apps that are listed in <code>SESSION_CONFIGS</code> inside <code>settings.py</code>. Open <code>settings.py</code> and add the following dictionary to your <code>SESSION_CONFIGS</code> list:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>SESSION_CONFIGS <span class="op">=</span> [</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ... your existing session dictionaries ...</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">dict</span>(</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        name<span class="op">=</span><span class="st">'survey_leveled_up'</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        display_name<span class="op">=</span><span class="st">"End of experiment questionnaires"</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>        app_sequence<span class="op">=</span>[<span class="st">'demographic_survey'</span>],</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        num_demo_participants<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>        doc<span class="op">=</span><span class="st">"Standard end of experiment questionnaires."</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Notice the five key-value pairs in this dictionary:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 28%">
+<col style="width: 52%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Key</th>
+<th>Value</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>name</code></td>
+<td><code>'survey_leveled_up'</code></td>
+<td>Internal identifier used by the server</td>
+</tr>
+<tr class="even">
+<td><code>display_name</code></td>
+<td><code>"End of experiment questionnaires"</code></td>
+<td>The name shown in the admin interface</td>
+</tr>
+<tr class="odd">
+<td><code>app_sequence</code></td>
+<td><code>['demographic_survey']</code></td>
+<td>The list of apps in this session — just one here</td>
+</tr>
+<tr class="even">
+<td><code>num_demo_participants</code></td>
+<td><code>1</code></td>
+<td>One participant is enough to demo a survey</td>
+</tr>
+<tr class="odd">
+<td><code>doc</code></td>
+<td><code>"Standard end of experiment questionnaires."</code></td>
+<td>A short note describing the session — optional but good practice</td>
+</tr>
+</tbody>
+</table>
+<p>Save <code>settings.py</code> after making the change.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Reset the database after editing <code>settings.py</code>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Any time you edit <code>settings.py</code> — including adding a new session — you must reset the database before running the server. In the terminal, make sure you are inside your project folder, then run:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">otree</span> resetdb</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Confirm with <code>y</code> when prompted.</p>
+</div>
+</div>
+</section>
+<section id="step-3-demo-the-app" class="level2">
+<h2 class="anchored" data-anchor-id="step-3-demo-the-app">Step 3: Demo the app</h2>
+<p>With the database reset, start the development server:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">otree</span> devserver</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Open your browser and go to <code>http://localhost:8000/demo</code>. You should now see <code>End of experiment questionnaires</code> listed on the Demo page. Click on it to launch a demo session and work through the app as a participant would. When you are done, press <strong>Ctrl + C</strong> in the terminal to stop the server.</p>
+</section>
+<section id="step-4-open-__init__.py-and-understand-the-structure" class="level2">
+<h2 class="anchored" data-anchor-id="step-4-open-__init__.py-and-understand-the-structure">Step 4: Open <code>__init__.py</code> and understand the structure</h2>
+<p>Every oTree app has exactly one <code>__init__.py</code> file. This single Python file contains everything the app needs to run: the constants, the data models, the page logic, and the page sequence. Open <code>demographic_survey/__init__.py</code> in VS Code. Here is the full file:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> otree.api <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>doc <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="st">Standard, end-of-session survey.</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="st">Includes Cognitive Reflection Task and demographic survey.</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> C(BaseConstants):</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    NAME_IN_URL <span class="op">=</span> <span class="st">'survey_experiment'</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    PLAYERS_PER_GROUP <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    NUM_ROUNDS <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Subsession(BaseSubsession):</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Group(BaseGroup):</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Player(BasePlayer):</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    age <span class="op">=</span> models.IntegerField(</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>        label<span class="op">=</span><span class="st">'What is your age?'</span>,</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>        <span class="bu">min</span><span class="op">=</span><span class="dv">18</span>,</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>        <span class="bu">max</span><span class="op">=</span><span class="dv">99</span>,</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>    gender <span class="op">=</span> models.StringField(</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>        choices<span class="op">=</span>[[<span class="st">'Male'</span>, <span class="st">'Male'</span>], [<span class="st">'Female'</span>, <span class="st">'Female'</span>],</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>                 [<span class="st">'Non-Binary'</span>, <span class="st">'Non-Binary'</span>],</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>                 [<span class="st">'NoState'</span>, <span class="st">'Prefer not to state'</span>]],</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>        label<span class="op">=</span><span class="st">'What is your gender?'</span>,</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>        widget<span class="op">=</span>widgets.RadioSelect,</span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>    race <span class="op">=</span> models.StringField(</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>        choices<span class="op">=</span>[</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>            [<span class="st">'Black'</span>, <span class="st">'African descent, Black, African-American'</span>],</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>            [<span class="st">'Asian'</span>, <span class="st">'Asian descent, Asian-American'</span>],</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>            [<span class="st">'Indigenous'</span>, <span class="st">'Indigenous, First Nations, Native American'</span>],</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>            [<span class="st">'MiddleEastern'</span>, <span class="st">'Middle Eastern or North African'</span>],</span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>            [<span class="st">'Hawaiian'</span>, <span class="st">'Native Hawaiian or Pacific Islander'</span>],</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>            [<span class="st">'White'</span>, <span class="st">'White'</span>],</span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>            [<span class="st">'Other'</span>, <span class="st">'Other'</span>],</span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>            [<span class="st">'Declined'</span>, <span class="st">'Decline to state'</span>]</span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>        ],</span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>        label<span class="op">=</span><span class="st">'What is your race?'</span>,</span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>        widget<span class="op">=</span>widgets.RadioSelect,</span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>    ethnicity <span class="op">=</span> models.BooleanField(</span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>        choices<span class="op">=</span>[[<span class="va">True</span>, <span class="st">'Yes'</span>], [<span class="va">False</span>, <span class="st">'No'</span>]],</span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>        label<span class="op">=</span><span class="st">'Are you of Latinx/o/a or Hispanic origin?'</span>,</span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>        widget<span class="op">=</span>widgets.RadioSelect,</span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>    school <span class="op">=</span> models.StringField(</span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>        choices<span class="op">=</span>[</span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>            [<span class="st">'Social'</span>, <span class="st">'School of Social Sciences'</span>],</span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>            [<span class="st">'Ecology'</span>, <span class="st">'School of Social Ecology'</span>],</span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>            [<span class="st">'Law'</span>, <span class="st">'School of Law'</span>],</span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>            [<span class="st">'Humanities'</span>, <span class="st">'School of Humanities'</span>],</span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>            [<span class="st">'Education'</span>, <span class="st">'School of Education'</span>],</span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a>            [<span class="st">'Arts'</span>, <span class="st">'Claire Trevor School of the Arts'</span>],</span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a>            [<span class="st">'Business'</span>, <span class="st">'The Paul Merage School of Business'</span>],</span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a>            [<span class="st">'Biological'</span>, <span class="st">'School of Biological Sciences'</span>],</span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a>            [<span class="st">'Engineering'</span>, <span class="st">'The Henry Samueli School of Engineering'</span>],</span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a>            [<span class="st">'Computers'</span>, <span class="st">'Donald Bren School of Information and Computer Sciences'</span>],</span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a>            [<span class="st">'Interdisciplinary'</span>, <span class="st">'Interdisciplinary Studies'</span>],</span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a>            [<span class="st">'Physical'</span>, <span class="st">'School of Physical Sciences'</span>],</span>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a>            [<span class="st">'Medicine'</span>, <span class="st">'School of Medicine'</span>],</span>
+<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a>            [<span class="st">'Nursing'</span>, <span class="st">'Sue and Bill Gross School of Nursing'</span>],</span>
+<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a>            [<span class="st">'Pharmaceutical'</span>, <span class="st">'School of Pharmacy and Pharmaceutical Sciences'</span>],</span>
+<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a>            [<span class="st">'Health'</span>, <span class="st">'Program in Public Health'</span>]</span>
+<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a>        ],</span>
+<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a>        label<span class="op">=</span><span class="st">'Choose the most appropriate option for your school below.'</span>,</span>
+<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a>        widget<span class="op">=</span>widgets.RadioSelect,</span>
+<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a>    field_of_study <span class="op">=</span> models.StringField(</span>
+<span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a>        label<span class="op">=</span><span class="st">'What is your major or field of study?'</span>,</span>
+<span id="cb4-78"><a href="#cb4-78" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-79"><a href="#cb4-79" aria-hidden="true" tabindex="-1"></a>    major_STEM <span class="op">=</span> models.BooleanField(</span>
+<span id="cb4-80"><a href="#cb4-80" aria-hidden="true" tabindex="-1"></a>        choices<span class="op">=</span>[[<span class="va">True</span>, <span class="st">'Yes'</span>], [<span class="va">False</span>, <span class="st">'No'</span>]],</span>
+<span id="cb4-81"><a href="#cb4-81" aria-hidden="true" tabindex="-1"></a>        label<span class="op">=</span><span class="st">'Are you majoring in a STEM field?'</span>,</span>
+<span id="cb4-82"><a href="#cb4-82" aria-hidden="true" tabindex="-1"></a>        widget<span class="op">=</span>widgets.RadioSelect,</span>
+<span id="cb4-83"><a href="#cb4-83" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-84"><a href="#cb4-84" aria-hidden="true" tabindex="-1"></a>    math_courses <span class="op">=</span> models.IntegerField(</span>
+<span id="cb4-85"><a href="#cb4-85" aria-hidden="true" tabindex="-1"></a>        label<span class="op">=</span><span class="st">'How many Mathematics/Statistics courses have you taken since High School?'</span>,</span>
+<span id="cb4-86"><a href="#cb4-86" aria-hidden="true" tabindex="-1"></a>        <span class="bu">min</span><span class="op">=</span><span class="dv">0</span>,</span>
+<span id="cb4-87"><a href="#cb4-87" aria-hidden="true" tabindex="-1"></a>        <span class="bu">max</span><span class="op">=</span><span class="dv">99</span>,</span>
+<span id="cb4-88"><a href="#cb4-88" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-89"><a href="#cb4-89" aria-hidden="true" tabindex="-1"></a>    english_is_first_language <span class="op">=</span> models.BooleanField(</span>
+<span id="cb4-90"><a href="#cb4-90" aria-hidden="true" tabindex="-1"></a>        choices<span class="op">=</span>[[<span class="va">True</span>, <span class="st">'Yes'</span>], [<span class="va">False</span>, <span class="st">'No'</span>]],</span>
+<span id="cb4-91"><a href="#cb4-91" aria-hidden="true" tabindex="-1"></a>        label<span class="op">=</span><span class="st">'Is English your first language?'</span>,</span>
+<span id="cb4-92"><a href="#cb4-92" aria-hidden="true" tabindex="-1"></a>        widget<span class="op">=</span>widgets.RadioSelect,</span>
+<span id="cb4-93"><a href="#cb4-93" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-94"><a href="#cb4-94" aria-hidden="true" tabindex="-1"></a>    first_language <span class="op">=</span> models.StringField(</span>
+<span id="cb4-95"><a href="#cb4-95" aria-hidden="true" tabindex="-1"></a>        label<span class="op">=</span><span class="st">'Please state your first language.'</span>,</span>
+<span id="cb4-96"><a href="#cb4-96" aria-hidden="true" tabindex="-1"></a>        blank<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb4-97"><a href="#cb4-97" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-98"><a href="#cb4-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-99"><a href="#cb4-99" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ~~~ Cognitive Reflection Task</span></span>
+<span id="cb4-100"><a href="#cb4-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-101"><a href="#cb4-101" aria-hidden="true" tabindex="-1"></a>    crt_q1 <span class="op">=</span> models.StringField(</span>
+<span id="cb4-102"><a href="#cb4-102" aria-hidden="true" tabindex="-1"></a>        label<span class="op">=</span><span class="st">"If John can drink one barrel of water in 6 days, and Mary can drink one barrel of water in 12 days, how many days would it take them to drink one barrel of water together?"</span></span>
+<span id="cb4-103"><a href="#cb4-103" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-104"><a href="#cb4-104" aria-hidden="true" tabindex="-1"></a>    crt_q2 <span class="op">=</span> models.StringField(</span>
+<span id="cb4-105"><a href="#cb4-105" aria-hidden="true" tabindex="-1"></a>        label<span class="op">=</span><span class="st">"A man buys a pig for </span><span class="er">\</span><span class="st">$60, sells it for </span><span class="er">\</span><span class="st">$70, buys it back for </span><span class="er">\</span><span class="st">$80, and sells it finally for </span><span class="er">\</span><span class="st">$90. How much money has he made in dollars?"</span></span>
+<span id="cb4-106"><a href="#cb4-106" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-107"><a href="#cb4-107" aria-hidden="true" tabindex="-1"></a>    crt_q3 <span class="op">=</span> models.StringField(</span>
+<span id="cb4-108"><a href="#cb4-108" aria-hidden="true" tabindex="-1"></a>        label<span class="op">=</span><span class="st">"Jerry received both the 15th highest and the 15th lowest mark in the class. How many students are in the class?"</span></span>
+<span id="cb4-109"><a href="#cb4-109" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-110"><a href="#cb4-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-111"><a href="#cb4-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-112"><a href="#cb4-112" aria-hidden="true" tabindex="-1"></a><span class="co"># ~~~~~~~~~~~~~~~~~ PAGES</span></span>
+<span id="cb4-113"><a href="#cb4-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-114"><a href="#cb4-114" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Questionnaire_CRT(Page):</span>
+<span id="cb4-115"><a href="#cb4-115" aria-hidden="true" tabindex="-1"></a>    form_model <span class="op">=</span> <span class="st">'player'</span></span>
+<span id="cb4-116"><a href="#cb4-116" aria-hidden="true" tabindex="-1"></a>    form_fields <span class="op">=</span> [<span class="st">'crt_q1'</span>, <span class="st">'crt_q2'</span>, <span class="st">'crt_q3'</span>]</span>
+<span id="cb4-117"><a href="#cb4-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-118"><a href="#cb4-118" aria-hidden="true" tabindex="-1"></a>    <span class="at">@staticmethod</span></span>
+<span id="cb4-119"><a href="#cb4-119" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> is_displayed(player):</span>
+<span id="cb4-120"><a href="#cb4-120" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> player.round_number <span class="op">==</span> C.NUM_ROUNDS</span>
+<span id="cb4-121"><a href="#cb4-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-122"><a href="#cb4-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-123"><a href="#cb4-123" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Demographics(Page):</span>
+<span id="cb4-124"><a href="#cb4-124" aria-hidden="true" tabindex="-1"></a>    form_model <span class="op">=</span> <span class="st">'player'</span></span>
+<span id="cb4-125"><a href="#cb4-125" aria-hidden="true" tabindex="-1"></a>    form_fields <span class="op">=</span> [<span class="st">'age'</span>, <span class="st">'gender'</span>, <span class="st">'race'</span>, <span class="st">'ethnicity'</span>, <span class="st">'school'</span>,</span>
+<span id="cb4-126"><a href="#cb4-126" aria-hidden="true" tabindex="-1"></a>                   <span class="st">'field_of_study'</span>, <span class="st">'major_STEM'</span>, <span class="st">'math_courses'</span>,</span>
+<span id="cb4-127"><a href="#cb4-127" aria-hidden="true" tabindex="-1"></a>                   <span class="st">'english_is_first_language'</span>, <span class="st">'first_language'</span>]</span>
+<span id="cb4-128"><a href="#cb4-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-129"><a href="#cb4-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-130"><a href="#cb4-130" aria-hidden="true" tabindex="-1"></a>page_sequence <span class="op">=</span> [Questionnaire_CRT, Demographics]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Now let us go through every part of this file.</p>
+<hr>
+<section id="the-import-statement" class="level3">
+<h3 class="anchored" data-anchor-id="the-import-statement">The import statement</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> otree.api <span class="im">import</span> <span class="op">*</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This line is the same in every single oTree app. It imports all of oTree’s built-in classes, field types, widgets, and functions. You will never change this line.</p>
+<hr>
+</section>
+<section id="the-doc-string" class="level3">
+<h3 class="anchored" data-anchor-id="the-doc-string">The <code>doc</code> string</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>doc <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="st">Standard, end-of-session survey.</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="st">Includes Cognitive Reflection Task and demographic survey.</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The <code>doc</code> variable is an optional description of the app. It appears in the admin interface when you click on the app sequence for a session. It has no effect on how the app runs — it is purely informational. Write something useful here so that anyone looking at the admin interface understands what this app does without having to open the code.</p>
+<hr>
+</section>
+<section id="class-c-constants" class="level3">
+<h3 class="anchored" data-anchor-id="class-c-constants">Class <code>C</code>: Constants</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> C(BaseConstants):</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    NAME_IN_URL <span class="op">=</span> <span class="st">'survey_experiment'</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    PLAYERS_PER_GROUP <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    NUM_ROUNDS <span class="op">=</span> <span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The <code>C</code> class holds all the fixed parameters of your app — values that are set before the session starts and do not change while it runs.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 32%">
+<col style="width: 22%">
+<col style="width: 45%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Constant</th>
+<th>Value</th>
+<th>What it means</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>NAME_IN_URL</code></td>
+<td><code>'survey_experiment'</code></td>
+<td>The string that appears in the participant’s browser URL during the experiment</td>
+</tr>
+<tr class="even">
+<td><code>PLAYERS_PER_GROUP</code></td>
+<td><code>None</code></td>
+<td>Participants are not grouped — this is an individual task</td>
+</tr>
+<tr class="odd">
+<td><code>NUM_ROUNDS</code></td>
+<td><code>1</code></td>
+<td>Participants go through the page sequence once</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Participants can see <code>NAME_IN_URL</code>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Whatever string you assign to <code>NAME_IN_URL</code> will be visible in the browser address bar during the experiment. Notice that this app uses <code>'survey_experiment'</code> rather than <code>'demographic_survey'</code> — this is deliberate. The name does not reveal what kind of survey is being administered. Do not use names that hint at the purpose or design of your study.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Python naming conventions
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Constant variables like <code>NAME_IN_URL</code> are written in <code>UPPERCASE_WITH_UNDERSCORES</code>. Non-constant variables and function names use <code>lowercase_with_underscores</code>. Class names use <code>PascalCase</code> (e.g., <code>BasePlayer</code>, <code>WaitPage</code>). VS Code’s colour-coding works better when you follow these conventions.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="data-model-classes-subsession-group-and-player" class="level3">
+<h3 class="anchored" data-anchor-id="data-model-classes-subsession-group-and-player">Data model classes: <code>Subsession</code>, <code>Group</code>, and <code>Player</code></h3>
+<p>Every <code>__init__.py</code> must define three data model classes. These represent the three levels of oTree’s data structure and correspond directly to tables in the database.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Subsession(BaseSubsession):</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Group(BaseGroup):</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Both <code>Subsession</code> and <code>Group</code> contain only <code>pass</code> here because this app collects individual participant data only. No group-level or round-level variables are needed.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>What <code>pass</code> means
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In Python, <code>pass</code> is a placeholder that means “this class exists but has nothing extra defined in it.” oTree requires all three model classes to be present in every <code>__init__.py</code>. If you are not adding any fields or methods to <code>Subsession</code> or <code>Group</code>, you must still include the class definition with <code>pass</code> underneath it. Removing either class entirely will crash the app.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="the-player-class-and-model-fields" class="level3">
+<h3 class="anchored" data-anchor-id="the-player-class-and-model-fields">The <code>Player</code> class and model fields</h3>
+<p>The <code>Player</code> class is where all the participant-level data lives. Every field you define here becomes a column in your exported data.</p>
+<section id="field-types-used-in-this-app" class="level4">
+<h4 class="anchored" data-anchor-id="field-types-used-in-this-app">Field types used in this app</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 28%">
+<col style="width: 23%">
+<col style="width: 48%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Field type</th>
+<th>Used for</th>
+<th>Example in this app</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>models.IntegerField()</code></td>
+<td>Whole numbers</td>
+<td><code>age</code>, <code>math_courses</code></td>
+</tr>
+<tr class="even">
+<td><code>models.StringField()</code></td>
+<td>Text or multiple choice</td>
+<td><code>gender</code>, <code>race</code>, <code>school</code>, <code>field_of_study</code></td>
+</tr>
+<tr class="odd">
+<td><code>models.BooleanField()</code></td>
+<td>True/False answers</td>
+<td><code>ethnicity</code>, <code>major_STEM</code>, <code>english_is_first_language</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="field-arguments-used-in-this-app" class="level4">
+<h4 class="anchored" data-anchor-id="field-arguments-used-in-this-app">Field arguments used in this app</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 43%">
+<col style="width: 56%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Argument</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>label</code></td>
+<td>The question or prompt shown to the participant on the page</td>
+</tr>
+<tr class="even">
+<td><code>min</code> / <code>max</code></td>
+<td>Sets the minimum and maximum values for numeric fields</td>
+</tr>
+<tr class="odd">
+<td><code>choices</code></td>
+<td>A list of options for multiple choice questions</td>
+</tr>
+<tr class="even">
+<td><code>widget</code></td>
+<td>Controls how the input is displayed — <code>widgets.RadioSelect</code> shows radio buttons</td>
+</tr>
+<tr class="odd">
+<td><code>blank</code></td>
+<td>If <code>True</code>, the field is optional and participants can skip it</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="how-choices-works" class="level4">
+<h4 class="anchored" data-anchor-id="how-choices-works">How <code>choices</code> works</h4>
+<p>This is one of the most important things to understand about oTree model fields. The <code>choices</code> argument takes a list of two-item lists, where each inner list follows this pattern:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>choices <span class="op">=</span> [[recorded_in_database, shown_to_participant], ...]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Look at the <code>gender</code> field:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>gender <span class="op">=</span> models.StringField(</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    choices<span class="op">=</span>[[<span class="st">'Male'</span>, <span class="st">'Male'</span>], [<span class="st">'Female'</span>, <span class="st">'Female'</span>],</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>             [<span class="st">'Non-Binary'</span>, <span class="st">'Non-Binary'</span>],</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>             [<span class="st">'NoState'</span>, <span class="st">'Prefer not to state'</span>]],</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    label<span class="op">=</span><span class="st">'What is your gender?'</span>,</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    widget<span class="op">=</span>widgets.RadioSelect,</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The participant sees four options on screen: Male, Female, Non-Binary, and Prefer not to state. But notice that <code>'NoState'</code> is what gets recorded in the database — not <code>'Prefer not to state'</code>. The first value in each pair is what oTree saves; the second is what the participant reads.</p>
+<p>Now look at the <code>ethnicity</code> field:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>ethnicity <span class="op">=</span> models.BooleanField(</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    choices<span class="op">=</span>[[<span class="va">True</span>, <span class="st">'Yes'</span>], [<span class="va">False</span>, <span class="st">'No'</span>]],</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    label<span class="op">=</span><span class="st">'Are you of Latinx/o/a or Hispanic origin?'</span>,</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    widget<span class="op">=</span>widgets.RadioSelect,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The participant sees Yes or No.&nbsp;The database records <code>True</code> or <code>False</code>. This is a clean and efficient way to store binary responses — it makes analysis much easier than storing the strings “Yes” and “No” directly.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>The <code>choices</code> format is always <code>[recorded, displayed]</code>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The first value in each pair is stored in the database. The second value is what the participant sees. Never mix these up. If you do, your data will contain the wrong values and you will not catch the error until analysis.</p>
+</div>
+</div>
+</section>
+<section id="the-blanktrue-argument" class="level4">
+<h4 class="anchored" data-anchor-id="the-blanktrue-argument">The <code>blank=True</code> argument</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>first_language <span class="op">=</span> models.StringField(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    label<span class="op">=</span><span class="st">'Please state your first language.'</span>,</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    blank<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>By default, all form fields in oTree are required — participants cannot proceed to the next page without filling them in. Setting <code>blank=True</code> makes a field optional. Here <code>first_language</code> is optional because only participants who answered No to <code>english_is_first_language</code> need to complete it.</p>
+</section>
+<section id="section-comments" class="level4">
+<h4 class="anchored" data-anchor-id="section-comments">Section comments</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ~~~ Cognitive Reflection Task</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This is just a Python comment — a line beginning with <code>#</code> that oTree ignores entirely. It is there purely for readability, separating the demographic fields from the CRT fields. Use comments freely in your own code to mark where one section ends and another begins.</p>
+<hr>
+</section>
+</section>
+<section id="page-classes" class="level3">
+<h3 class="anchored" data-anchor-id="page-classes">Page classes</h3>
+<p>Each page in your app is defined as a class that inherits from <code>Page</code>. This app has two pages.</p>
+<section id="questionnaire_crt" class="level4">
+<h4 class="anchored" data-anchor-id="questionnaire_crt"><code>Questionnaire_CRT</code></h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Questionnaire_CRT(Page):</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    form_model <span class="op">=</span> <span class="st">'player'</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    form_fields <span class="op">=</span> [<span class="st">'crt_q1'</span>, <span class="st">'crt_q2'</span>, <span class="st">'crt_q3'</span>]</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">@staticmethod</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> is_displayed(player):</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> player.round_number <span class="op">==</span> C.NUM_ROUNDS</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 60%">
+<col style="width: 39%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Attribute or method</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>form_model = 'player'</code></td>
+<td>Tells oTree the form fields belong to the <code>Player</code> model</td>
+</tr>
+<tr class="even">
+<td><code>form_fields</code></td>
+<td>Lists the three CRT fields that will appear as inputs on this page</td>
+</tr>
+<tr class="odd">
+<td><code>@staticmethod</code></td>
+<td>Required decorator before any Page-level method when working in VS Code or any IDE</td>
+</tr>
+<tr class="even">
+<td><code>is_displayed</code></td>
+<td>A built-in oTree method that controls whether this page is shown to a participant. It returns <code>True</code> or <code>False</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>is_displayed</code> method here returns:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="cf">return</span> player.round_number <span class="op">==</span> C.NUM_ROUNDS</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Since <code>C.NUM_ROUNDS = 1</code>, this evaluates to <code>player.round_number == 1</code>, which is always <code>True</code> for a single-round app. In a multi-round app, this would restrict the page to only the final round. For now it is effectively always displayed.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span><code>@staticmethod</code> is required for Page methods in VS Code
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>When you define any built-in oTree method inside a Page class — such as <code>is_displayed</code>, <code>vars_for_template</code>, or <code>before_next_page</code> — you must precede it with <code>@staticmethod</code>. This is because these methods are defined at the Page level rather than outside it. If you forget <code>@staticmethod</code>, the method will either not work or will produce an error.</p>
+</div>
+</div>
+</section>
+<section id="demographics" class="level4">
+<h4 class="anchored" data-anchor-id="demographics"><code>Demographics</code></h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Demographics(Page):</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    form_model <span class="op">=</span> <span class="st">'player'</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    form_fields <span class="op">=</span> [<span class="st">'age'</span>, <span class="st">'gender'</span>, <span class="st">'race'</span>, <span class="st">'ethnicity'</span>, <span class="st">'school'</span>,</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>                   <span class="st">'field_of_study'</span>, <span class="st">'major_STEM'</span>, <span class="st">'math_courses'</span>,</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>                   <span class="st">'english_is_first_language'</span>, <span class="st">'first_language'</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This page has no special methods — just <code>form_model</code> and <code>form_fields</code>. All ten demographic fields will appear on this page in the order they are listed in <code>form_fields</code>. There is no <code>is_displayed</code> method, so this page is always shown.</p>
+<hr>
+</section>
+</section>
+<section id="the-page_sequence-list" class="level3">
+<h3 class="anchored" data-anchor-id="the-page_sequence-list">The <code>page_sequence</code> list</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>page_sequence <span class="op">=</span> [Questionnaire_CRT, Demographics]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This list controls the order in which participants see the pages. Participants will complete the CRT first, then the demographics questionnaire. If you swap the order here, they will see the demographics first.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Every page must be in <code>page_sequence</code>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you define a Page class but forget to add it to <code>page_sequence</code>, oTree will not show it to participants. Conversely, if you list a page in <code>page_sequence</code> that does not have a corresponding class definition, the app will crash when you try to run it.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="summary-the-anatomy-of-__init__.py" class="level2">
+<h2 class="anchored" data-anchor-id="summary-the-anatomy-of-__init__.py">Summary: The anatomy of <code>__init__.py</code></h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 24%">
+<col style="width: 45%">
+<col style="width: 29%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Section</th>
+<th>What it contains</th>
+<th>Required?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>from otree.api import *</code></td>
+<td>The oTree import statement</td>
+<td>Always</td>
+</tr>
+<tr class="even">
+<td><code>doc</code></td>
+<td>A short description of the app</td>
+<td>Optional but recommended</td>
+</tr>
+<tr class="odd">
+<td><code>class C(BaseConstants)</code></td>
+<td><code>NAME_IN_URL</code>, <code>PLAYERS_PER_GROUP</code>, <code>NUM_ROUNDS</code></td>
+<td>Always</td>
+</tr>
+<tr class="even">
+<td><code>class Subsession</code></td>
+<td>Round-level logic and fields</td>
+<td>Always — use <code>pass</code> if empty</td>
+</tr>
+<tr class="odd">
+<td><code>class Group</code></td>
+<td>Group-level logic and fields</td>
+<td>Always — use <code>pass</code> if empty</td>
+</tr>
+<tr class="even">
+<td><code>class Player</code></td>
+<td>Individual participant fields</td>
+<td>Always — add your data fields here</td>
+</tr>
+<tr class="odd">
+<td>Page classes</td>
+<td>One class per page, with <code>form_model</code>, <code>form_fields</code>, and any methods</td>
+<td>Always — at least one</td>
+</tr>
+<tr class="even">
+<td><code>page_sequence</code></td>
+<td>The ordered list of page classes</td>
+<td>Always</td>
+</tr>
+</tbody>
+</table>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../chapters/session-01/session-01b.html" class="pagination-link" aria-label="Inside an oTree Project: Folder Structure and `settings.py`">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Inside an oTree Project: Folder Structure and <code>settings.py</code></span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../chapters/session-02/session-02.html" class="pagination-link" aria-label="Session 2">
+        <span class="nav-page-text"><span class="chapter-title">Session 2</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/nidhigyanpandey/teaching-otree/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>

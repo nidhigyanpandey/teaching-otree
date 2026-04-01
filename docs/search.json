@@ -148,5 +148,287 @@
       "Let's Get Started!",
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Installing Python and oTree</span>"
     ]
+  },
+  {
+    "objectID": "chapters/session-01/index.html",
+    "href": "chapters/session-01/index.html",
+    "title": "Session 1",
+    "section": "",
+    "text": "In this session, we build the foundation for everything that follows in this course. We start by getting comfortable with VS Code and the terminal, then move into creating and understanding the structure of an oTree project, and finish with a hands-on exercise where you will download, configure, and run a real oTree app.\nBy the end of this session, you will be able to:\n\nNavigate your file system using the terminal and create a new oTree project and app from scratch.\nRead and make sense of what is inside an oTree project folder, and understand the key components of the settings.py file.\nDownload an app shared by someone else, add it to your project, update settings.py to include it, and run a working demo in your browser.\n\nThis session has three parts:\n\n\n\n\n\n\n\n\nPart\nTitle\nWhat you will do\n\n\n\n\nGetting Started\nGetting Started: VS Code, Projects, and Apps\nLearn the core terminal commands for working with oTree\n\n\nInside an oTree Project\nInside an oTree Project: Folder Structure and settings.py\nUnderstand what oTree creates and how to configure it\n\n\nHands-On\nHands-On: Adding and Running Your First App\nDownload, configure, and demo a shared oTree app",
+    "crumbs": [
+      "Session 1"
+    ]
+  },
+  {
+    "objectID": "chapters/session-01/session-01a.html",
+    "href": "chapters/session-01/session-01a.html",
+    "title": "Getting Started: VS Code, Projects, and Apps",
+    "section": "",
+    "text": "Opening VS Code and navigating to the right folder\nThis part covers the core terminal commands you will use every time you work in oTree. By the end of this part, you will be able to create a new oTree project and app from scratch, run the development server, and navigate your project folder in VS Code.\nBefore creating an oTree project, decide where on your computer you want to store your work. A good habit is to keep all your oTree projects inside a dedicated folder — for example, a folder called oTree_lab inside your Documents folder.\nTo open that folder in VS Code:\nYou should now see the folder listed in the Explorer panel on the left side of the screen.",
+    "crumbs": [
+      "Session 1",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Getting Started: VS Code, Projects, and Apps</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-01/session-01a.html#opening-vs-code-and-navigating-to-the-right-folder",
+    "href": "chapters/session-01/session-01a.html#opening-vs-code-and-navigating-to-the-right-folder",
+    "title": "Getting Started: VS Code, Projects, and Apps",
+    "section": "",
+    "text": "Open VS Code\nClick File → Open Folder\nNavigate to your chosen folder and click Open",
+    "crumbs": [
+      "Session 1",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Getting Started: VS Code, Projects, and Apps</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-01/session-01a.html#opening-the-terminal-in-vs-code",
+    "href": "chapters/session-01/session-01a.html#opening-the-terminal-in-vs-code",
+    "title": "Getting Started: VS Code, Projects, and Apps",
+    "section": "Opening the terminal in VS Code",
+    "text": "Opening the terminal in VS Code\nAlmost everything in oTree is done through the terminal. In VS Code, open a terminal by clicking Terminal → New Terminal from the top menu bar. A terminal panel will appear at the bottom of the screen.\n\n\n\n\n\n\nNoteWhat is the terminal?\n\n\n\nThe terminal is a text-based interface where you type commands directly to your computer. You will use it constantly in oTree — to navigate between folders, create projects and apps, and run the server.",
+    "crumbs": [
+      "Session 1",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Getting Started: VS Code, Projects, and Apps</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-01/session-01a.html#navigating-folders-cd",
+    "href": "chapters/session-01/session-01a.html#navigating-folders-cd",
+    "title": "Getting Started: VS Code, Projects, and Apps",
+    "section": "Navigating folders: cd",
+    "text": "Navigating folders: cd\nThe terminal always has a “current directory” — the folder it is currently pointed at. Before running any oTree commands, make sure the terminal is pointed at the right place.\nThe command cd (short for “change directory”) is how you move around.\nNavigate into a folder:\ncd Documents/oTree_lab\nGo back to your home directory:\ncd ~\n\n\n\n\n\n\nWarningAvoid spaces in folder names\n\n\n\nIf any folder in your path has a space in its name, wrap the entire path in quotes:\ncd \"Documents/my projects/oTree_lab\"\nThe safest habit is to never use spaces in folder or file names at all — use underscores instead (e.g., oTree_lab).",
+    "crumbs": [
+      "Session 1",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Getting Started: VS Code, Projects, and Apps</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-01/session-01a.html#finding-your-working-directory-pwd",
+    "href": "chapters/session-01/session-01a.html#finding-your-working-directory-pwd",
+    "title": "Getting Started: VS Code, Projects, and Apps",
+    "section": "Finding your working directory: pwd",
+    "text": "Finding your working directory: pwd\nBefore running any oTree command, you need to know exactly where the terminal is pointed. The command pwd (print working directory) tells you the full path of your current location.\npwd\nYou will see output like this:\n/Users/nidhipandey/Documents/GitHub/all-otree-code\nThis is the single most useful command for diagnosing navigation errors. If a cd command fails with “no such file or directory,” run pwd first to confirm where you actually are before trying again.\n\n\n\n\n\n\nWarningThe Explorer panel and the terminal are not always in sync\n\n\n\nThe VS Code Explorer panel shows the folder you have open in VS Code. The terminal shows the folder it is currently pointed at. These are two separate things and they can easily get out of sync — especially if you open the terminal from a different location or run cd ~ and navigate elsewhere.\nAlways check pwd if the terminal and the Explorer panel seem to be showing different things.",
+    "crumbs": [
+      "Session 1",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Getting Started: VS Code, Projects, and Apps</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-01/session-01a.html#navigating-to-a-folder-using-the-vs-code-terminal",
+    "href": "chapters/session-01/session-01a.html#navigating-to-a-folder-using-the-vs-code-terminal",
+    "title": "Getting Started: VS Code, Projects, and Apps",
+    "section": "Navigating to a folder using the VS Code terminal",
+    "text": "Navigating to a folder using the VS Code terminal\nThe safest and most reliable way to make sure the terminal is pointed at the right folder is to let VS Code do it for you.\nThe recommended workflow:\n\nOpen VS Code\nClick File → Open Folder and select the folder you want to work in — for example, all-otree-code\nClick Terminal → New Terminal\n\nVS Code will automatically open the terminal pointed at the folder you have open in the Explorer panel. You will see the folder name in the terminal prompt confirming this.\nFrom there, if you want to navigate into a subfolder — for example oTree_lab — just run:\ncd oTree_lab\nThis works every time because the terminal is already inside the parent folder. You do not need to type out the full path.\n\n\n\n\n\n\nImportantAlways open a new terminal from inside VS Code\n\n\n\nIf you open a terminal from outside VS Code — for example from macOS Spotlight or the Applications folder — it will start pointed at your home directory ~, not at your project folder. You will then have to navigate manually using the full path, which is easy to get wrong.\nThe habit to build: open VS Code first, open the right folder, then open the terminal from inside VS Code.\n\n\n\n\n\n\n\n\nTipWhen cd says “no such file or directory”\n\n\n\nThis error does not always mean the folder does not exist. It usually means the terminal cannot see it from its current location. Run pwd to check where you are, then build the correct path from there. For example, if pwd returns /Users/yourname/Documents/GitHub/all-otree-code, then a folder called oTree_lab inside it is reachable with:\ncd oTree_lab\nBut a folder somewhere else entirely on your computer will not be reachable with just its name. You must navigate to its parent folder first, or use the full path:\ncd /Users/yourname/Documents/GitHub/all-otree-code/oTree_lab",
+    "crumbs": [
+      "Session 1",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Getting Started: VS Code, Projects, and Apps</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-01/session-01a.html#starting-a-new-otree-project-otree-startproject",
+    "href": "chapters/session-01/session-01a.html#starting-a-new-otree-project-otree-startproject",
+    "title": "Getting Started: VS Code, Projects, and Apps",
+    "section": "Starting a new oTree project: otree startproject",
+    "text": "Starting a new oTree project: otree startproject\n\n\n\n\n\n\nImportantProject vs. App — know the difference\n\n\n\nAn oTree project is the top-level container for your experiment. It holds the settings.py file and all of your apps. You will typically only create one project per course or research project. This is a rare task; most of the times you would be creating new apps within an existing project.\nAn oTree app is a single task or module within your experiment (e.g., a survey, a game, a payment screen). You will create new apps regularly.\nMake sure you know which one you need before running a command.\n\n\nNavigate to your desired folder in the terminal, then run:\notree startproject PROJECT_NAME\nReplace PROJECT_NAME with a name of your choice — no spaces or special characters. For example:\notree startproject oTree_lab\noTree will ask whether you want sample games included:\nInclude sample games? (y or n):\nType y and press Enter. This is useful for your first project as it gives you working examples to explore.\nOnce the project is created, navigate into it:\ncd oTree_lab\n\nWhat just got created?\nClick on the image below to see what the oTree project folder that you created looks like.\n\n\n\n\n\n\n\n\nFigure 1: VS Code after running otree startproject oTree_lab. The Explorer panel (left) shows the newly created project folder containing the settings.py file and all sample app folders. The terminal at the bottom shows the full sequence of commands run to create and navigate into the project. Note: the code for starting a new project should be written in the terminal of the folder you want the project to live in.\n\n\n\n\n\nOpen the Explorer panel in VS Code and look at your new project folder. Here are the key things to know:\n\n\n\n\n\n\n\nItem\nWhat it is\n\n\n\n\nsettings.py\nThe control center for the entire project. You will edit this regularly.\n\n\n_rooms/\nWhere room configuration files go. Do not touch unless instructed.\n\n\n_static/\nWhere shared static files (images, CSS, JS) go.\n\n\n_templates/\nWhere shared HTML templates go.\n\n\nSample app folders\nThe sample games oTree installed for you.",
+    "crumbs": [
+      "Session 1",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Getting Started: VS Code, Projects, and Apps</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-01/session-01a.html#starting-a-new-app-otree-startapp",
+    "href": "chapters/session-01/session-01a.html#starting-a-new-app-otree-startapp",
+    "title": "Getting Started: VS Code, Projects, and Apps",
+    "section": "Starting a new app: otree startapp",
+    "text": "Starting a new app: otree startapp\nMake sure your terminal is pointed at your project folder, then run:\notree startapp APP_NAME\nFor example:\notree startapp my_survey\nThis creates a new folder called my_survey inside your project. Inside it you will find:\n\n__init__.py — the Python file where all the logic for your app lives\nNo HTML files yet — you will create those yourself as you build out your pages\n\n\n\n\n\n\n\nTipName your apps carefully\n\n\n\nApp names become part of the URL that participants see during your experiment. Use short, lowercase names with underscores and no special characters. Avoid names that reveal anything about your experimental design (e.g., do not call an app treatment_group).",
+    "crumbs": [
+      "Session 1",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Getting Started: VS Code, Projects, and Apps</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-01/session-01a.html#running-the-server-otree-devserver",
+    "href": "chapters/session-01/session-01a.html#running-the-server-otree-devserver",
+    "title": "Getting Started: VS Code, Projects, and Apps",
+    "section": "Running the server: otree devserver",
+    "text": "Running the server: otree devserver\nTo preview your project in the browser, run:\notree devserver\nYou will see output like this in the terminal:\nOpen your browser to http://localhost:8000/\nTo quit the server, press Control+C.\nOpen your browser and go to http://localhost:8000/demo to see the oTree Demo page. All the sample games will be listed there. Click on any one to try it out.\n\n\n\n\n\n\nWarningAlways quit the server when you are done\n\n\n\nWhen you are finished, go back to the terminal and press Ctrl + C to stop the server. Do not just close the browser window — always quit the server first.",
+    "crumbs": [
+      "Session 1",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Getting Started: VS Code, Projects, and Apps</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-01/session-01a.html#resetting-the-database-otree-resetdb",
+    "href": "chapters/session-01/session-01a.html#resetting-the-database-otree-resetdb",
+    "title": "Getting Started: VS Code, Projects, and Apps",
+    "section": "Resetting the database: otree resetdb",
+    "text": "Resetting the database: otree resetdb\nWhenever you make changes to model variables in your app or update settings.py, you need to reset the database before running the server again:\notree resetdb\noTree will ask you to confirm:\nThis will delete and recreate your database.\nProceed? (y or n): y\n\n\n\n\n\n\nImportantDo not reset if you have real session data\n\n\n\nResetting the database permanently deletes all session data. If you have collected data from real participants, download it before running otree resetdb. You cannot recover it afterward.",
+    "crumbs": [
+      "Session 1",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Getting Started: VS Code, Projects, and Apps</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-01/session-01a.html#zipping-your-project-otree-zip",
+    "href": "chapters/session-01/session-01a.html#zipping-your-project-otree-zip",
+    "title": "Getting Started: VS Code, Projects, and Apps",
+    "section": "Zipping your project: otree zip",
+    "text": "Zipping your project: otree zip\nThe otree zip command packages your entire oTree project into a single .otreezip file. This is useful for sharing your project with collaborators, submitting it for a class, or uploading it to a server for deployment.\nMake sure your terminal is pointed at your project folder, then run:\notree zip\noTree will create a file called PROJECT_NAME.otreezip in the same folder. For example, if your project is called my_experiment, the output will be:\nCreated my_experiment.otreezip\nYou can share this file directly with anyone who has oTree installed. To unzip and run it, they simply run:\notree unzip my_experiment.otreezip\n\n\n\n\n\n\nTipWhen to zip\n\n\n\nZip your project whenever you want to share it or submit it. It is also a good habit to zip and save a copy of your project before making major changes — think of it as a quick manual backup.",
+    "crumbs": [
+      "Session 1",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Getting Started: VS Code, Projects, and Apps</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-01/session-01a.html#summary-of-terminal-commands",
+    "href": "chapters/session-01/session-01a.html#summary-of-terminal-commands",
+    "title": "Getting Started: VS Code, Projects, and Apps",
+    "section": "Summary of terminal commands",
+    "text": "Summary of terminal commands\n\n\n\nCommand\nWhat it does\n\n\n\n\npwd\nPrint the full path of your current directory\n\n\ncd FOLDER_NAME\nNavigate into a folder\n\n\ncd ~\nReturn to your home directory\n\n\notree startproject NAME\nCreate a new oTree project\n\n\notree startapp NAME\nCreate a new app inside a project\n\n\notree devserver\nStart the local development server\n\n\notree resetdb\nReset the database\n\n\notree zip\nPackage the project into a .otreezip file\n\n\notree unzip FILE.otreezip\nUnpack a zipped project\n\n\nCtrl + C\nStop the server",
+    "crumbs": [
+      "Session 1",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Getting Started: VS Code, Projects, and Apps</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-01/session-01b.html",
+    "href": "chapters/session-01/session-01b.html",
+    "title": "Inside an oTree Project: Folder Structure and settings.py",
+    "section": "",
+    "text": "The oTree project folder\nNow that you have created your first oTree project, it is time to understand what is actually inside it. Every decision about how your experiment runs — which apps are included, how many participants can demo it, what the payment structure looks like — flows through one file: settings.py. This part explains the project folder layout and walks through the key components of settings.py so you know what to edit, what to leave alone, and why.\nWhen you run otree startproject and include sample games, oTree generates a ready-to-use project folder. Click on the image below to see what that looks like in VS Code.\nFigure 1: The oTree project folder oTree_lab open in VS Code. The Explorer panel shows the full contents of the project: the special system folders (_rooms, _static, _templates), the pre-installed sample app folders (such as bargaining, prisoner, survey, and others), and the settings.py file at the bottom of the list. The terminal confirms that the project was created and the working directory is now inside oTree_lab.\nHere is a breakdown of every item you will see in a new oTree project:",
+    "crumbs": [
+      "Session 1",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Inside an oTree Project: Folder Structure and `settings.py`</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-01/session-01b.html#the-otree-project-folder",
+    "href": "chapters/session-01/session-01b.html#the-otree-project-folder",
+    "title": "Inside an oTree Project: Folder Structure and settings.py",
+    "section": "",
+    "text": "Item\nWhat it is\nDo you edit it?\n\n\n\n\nsettings.py\nThe control center for the entire project\nYes — regularly\n\n\n_rooms/\nStores room configuration files for live sessions\nOnly when instructed\n\n\n_static/\nShared static files (images, CSS, JS) used across apps\nAs needed\n\n\n_templates/\nShared HTML templates used across apps\nAs needed\n\n\nApp folders (e.g., survey/)\nEach folder is one oTree app\nYes — this is where you build\n\n\nrequirements.txt\nLists Python packages the project depends on\nRarely\n\n\nProcfile\nServer configuration file\nDo not touch\n\n\nLICENSE\nLicense file\nDo not touch\n\n\n\n\n\n\n\n\n\nWarningSpecial folders vs. app folders\n\n\n\nThe three folders that begin with an underscore — _rooms/, _static/, and _templates/ — are system folders, not apps. Do not confuse them with your app folders. Never delete or rename them unless instructed by your lab administrator.",
+    "crumbs": [
+      "Session 1",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Inside an oTree Project: Folder Structure and `settings.py`</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-01/session-01b.html#the-settings.py-file",
+    "href": "chapters/session-01/session-01b.html#the-settings.py-file",
+    "title": "Inside an oTree Project: Folder Structure and settings.py",
+    "section": "The settings.py file",
+    "text": "The settings.py file\nThe settings.py file is the control center for your entire oTree project. Every app you want to run, every payment parameter, and every session configuration lives here. You will edit this file regularly throughout the course.\nClick on the image below to see what a typical settings.py file looks like.\n\n\n\n\n\n\n\n\nFigure 2: The settings.py file for an oTree project open in VS Code. The file contains several distinct sections: SESSION_CONFIGS (edited regularly), SESSION_CONFIG_DEFAULTS (edit with intention as needed), PARTICIPANT_FIELDS and SESSION_FIELDS (edited with intention as needed), and system-level settings such as SECRET_KEY and INSTALLED_APPS (never touch these). Each section serves a different purpose in controlling how your experiment runs.\n\n\n\n\n\n\nSESSION_CONFIGS: Your session list\nSESSION_CONFIGS is a Python list of dictionaries. Each dictionary defines one session — one experiment you can run or demo from the admin interface. Think of it as the menu of sessions available in your project.\nHere is what a SESSION_CONFIGS list looks like:\nSESSION_CONFIGS = [\n    dict(\n        name='guess_two_thirds',\n        display_name=\"Guess 2/3 of the Average\",\n        app_sequence=['guess_two_thirds', 'payment_info'],\n        num_demo_participants=3,\n    ),\n    dict(\n        name='survey',\n        app_sequence=['survey', 'payment_info'],\n        num_demo_participants=1,\n    ),\n]\nEvery session dictionary requires three key-value pairs:\n\n\n\n\n\n\n\nKey\nWhat it does\n\n\n\n\nname\nA unique internal identifier for the session. No spaces or special characters.\n\n\napp_sequence\nA Python list of app names in the order participants will complete them.\n\n\nnum_demo_participants\nHow many participants are created when you run a demo of this session.\n\n\n\n\n\n\n\n\n\nTipChoosing num_demo_participants\n\n\n\nSet this number based on your experimental design. If an app groups participants in pairs, use a multiple of 2. If it groups them in threes, use a multiple of 3. For individual decision-making tasks, 1 is enough to test the app.\n\n\nYou can also include optional keys in any session dictionary:\n\n\n\n\n\n\n\nOptional key\nWhat it does\n\n\n\n\ndisplay_name\nThe name shown in the admin interface. If omitted, name is used.\n\n\nreal_world_currency_per_point\nOverrides the default exchange rate for this session only.\n\n\nparticipation_fee\nOverrides the default participation fee for this session only.\n\n\n\n\n\nSESSION_CONFIG_DEFAULTS: Project-wide defaults\nSESSION_CONFIG_DEFAULTS is a single dictionary that sets default values inherited by all sessions unless a session dictionary explicitly overrides them. The two most commonly used defaults are real_world_currency_per_point and participation_fee.\nSESSION_CONFIG_DEFAULTS = dict(\n    real_world_currency_per_point=1.00,\n    participation_fee=10.00,\n    doc=\"\"\n)\nIf you want one specific session to use a different exchange rate or participation fee, simply add that key to that session’s dictionary in SESSION_CONFIGS and it will override the default for that session only.\n\n\n\n\n\n\nImportantLab participation fees\n\n\n\nIf you run sessions through the ESSL lab, you are bound by the lab’s participation fee policy. Make sure the participation_fee in your settings reflects the approved rate before running any real sessions.\n\n\n\n\nPARTICIPANT_FIELDS and SESSION_FIELDS\nThese two settings are lists that become relevant in more advanced experiments where you need to carry data from one app to the next — for example, storing a participant’s treatment assignment in the first app and reading it back in the payment screen.\n\nUse PARTICIPANT_FIELDS for data that is specific to an individual participant (e.g., their assigned treatment condition).\nUse SESSION_FIELDS for data that applies equally to everyone in the session.\n\nFor now, you can leave these as empty lists:\nPARTICIPANT_FIELDS = []\nSESSION_FIELDS = []\nYou will learn how to use them properly in later sessions when your experiments involve multiple apps.\n\n\nDEBUG\nYou do not currently have this in your settings.py file. Add DEBUG = 0 to your file settings.py under SESSION_FIELDS:\nPARTICIPANT_FIELDS = []\nSESSION_FIELDS = []\n\nDEBUG = 0\nWhat DEBUG does\nDEBUG controls whether oTree runs in development mode or production mode.\n\n\n\n\n\n\n\n\nValue\nMode\nWhat it means\n\n\n\n\nDEBUG = 1\nDevelopment mode\nExtra tools and error information are turned on\n\n\nDEBUG = 0\nProduction mode\nClean participant-facing interface, no extra tools\n\n\n\nWhy DEBUG = 1 is useful when building your app\nWhen you are writing and testing your code, setting DEBUG = 1 gives you two very useful advantages:\n\nAuto-advance buttons — On every page, oTree adds a small button that lets you skip past that page without manually filling in any form fields — pages are submitted with empty or default values instead. This lets you click through the entire experiment in seconds to check that the page flow works correctly, without having to fill in every input every time.\nDetailed error messages — If your Python code crashes, oTree shows you a full error traceback directly in the browser instead of just a blank page. This makes it much faster to find and fix problems in your code.\n\nThese two features make the development cycle dramatically faster. Instead of filling in every form field on every page just to check one thing at the end of the experiment, you can click through the whole app in a few seconds.\nWhy you must switch to DEBUG = 0 before running real sessions\nWhen DEBUG = 1, participants can also see the auto-advance buttons and skip past pages without submitting their answers. This means your data will be incomplete or entirely missing. Always confirm that DEBUG = 0 before inviting any real participants.\n\n\n\n\n\n\nWarningDo not run real sessions with DEBUG = 1\n\n\n\nIf DEBUG = 1 is on during a live session, participants will see a skip button on every page that lets them bypass your forms — if they use it, their answers will not be recorded. Always confirm DEBUG = 0 before starting any real data collection.\n\n\n\n\n\n\n\n\nTipA useful development habit\n\n\n\nWhile building and testing your app: set DEBUG = 1. Before running any real session: set DEBUG = 0. This single switch is one of the most common sources of data collection errors for new oTree users — do not forget it.\n\n\n\n\nWhat you should never touch\nSome parts of settings.py must not be modified under any circumstances:\n\n\n\n\n\n\n\nSetting\nWhy you leave it alone\n\n\n\n\nfrom os import environ\nSystem import required by oTree — removing it breaks the project\n\n\nSECRET_KEY\nSecurity key for the project — changing it will break everything\n\n\nINSTALLED_APPS\nRegisters oTree with Django — do not modify\n\n\nADMIN_PASSWORD\nManaged via environment variables by your administrator\n\n\n\n\n\n\n\n\n\n\n\nFigure 3: The end of the settings.py file for an oTree project open in VS Code. Do not change system-level settings such as SECRET_KEY and INSTALLED_APPS. Each section serves a different purpose in controlling how your experiment runs.\n\n\n\n\n\n\n\n\n\n\n\nWarningWhen in doubt, do not touch it\n\n\n\nIf a line in settings.py is not covered in this guide, leave it exactly as it is. Only edit the parts you understand. When in doubt, ask before making any changes.",
+    "crumbs": [
+      "Session 1",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Inside an oTree Project: Folder Structure and `settings.py`</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-01/session-01b.html#summary",
+    "href": "chapters/session-01/session-01b.html#summary",
+    "title": "Inside an oTree Project: Folder Structure and settings.py",
+    "section": "Summary",
+    "text": "Summary\n\n\n\n\n\n\n\n\nSection\nWhat it controls\nHow often you edit it\n\n\n\n\nSESSION_CONFIGS\nWhich sessions and apps are available\nRegularly\n\n\nSESSION_CONFIG_DEFAULTS\nDefault payment and session parameters\nOccasionally\n\n\nPARTICIPANT_FIELDS\nCross-app participant-level data\nWhen needed\n\n\nSESSION_FIELDS\nCross-app session-level data\nWhen needed\n\n\nUSE_POINTS\nIf True, earnings are shown in points and converted using the exchange rate. If False, real currency is used directly\nWhen needed — based on your design\n\n\nDEBUG\n0 = production mode (normal). 1 = debug mode (shows extra info on participant pages)\nLeave at 0 unless developing app or troubleshooting\n\n\nSystem settings\nSecurity, server configuration\nNever",
+    "crumbs": [
+      "Session 1",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Inside an oTree Project: Folder Structure and `settings.py`</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-01/session-01c.html",
+    "href": "chapters/session-01/session-01c.html",
+    "title": "Your First App: Adding, Registering, and Understanding __init__.py",
+    "section": "",
+    "text": "Step 1: Download and add the demographic_survey app\nIn this session you will add a pre-built app to your oTree project, register it in settings.py, demo it in the browser, and then open the code to understand how an oTree app is structured from the inside. By the end of this part you will be able to read and navigate any __init__.py file and understand what each component does.\nThe example code for this course is stored in a shared Google Drive folder. Navigate to the link below and download the file called demographic_survey.zip:\nExample Code — Google Drive\nOnce downloaded:\nAfter moving it, open VS Code and check the Explorer panel. You should now see demographic_survey listed alongside the other app folders inside your project.",
+    "crumbs": [
+      "Session 1",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Your First App: Adding, Registering, and Understanding `__init__.py`</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-01/session-01c.html#step-1-download-and-add-the-demographic_survey-app",
+    "href": "chapters/session-01/session-01c.html#step-1-download-and-add-the-demographic_survey-app",
+    "title": "Your First App: Adding, Registering, and Understanding __init__.py",
+    "section": "",
+    "text": "Locate demographic_survey.zip in your Downloads folder\nDouble-click the file to unzip it — this will produce a folder called demographic_survey\nMove the demographic_survey folder into your oTree project folder — for example, into oTree_lab\n\n\n\n\n\n\n\n\nWarningThe folder must be inside the project folder\n\n\n\nThe demographic_survey folder must sit directly inside your oTree project folder — at the same level as settings.py and the other app folders. If it is placed anywhere else, oTree will not be able to find it.",
+    "crumbs": [
+      "Session 1",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Your First App: Adding, Registering, and Understanding `__init__.py`</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-01/session-01c.html#step-2-register-the-app-in-session_configs",
+    "href": "chapters/session-01/session-01c.html#step-2-register-the-app-in-session_configs",
+    "title": "Your First App: Adding, Registering, and Understanding __init__.py",
+    "section": "Step 2: Register the app in SESSION_CONFIGS",
+    "text": "Step 2: Register the app in SESSION_CONFIGS\nAdding the folder to your project is not enough on its own. oTree only runs apps that are listed in SESSION_CONFIGS inside settings.py. Open settings.py and add the following dictionary to your SESSION_CONFIGS list:\nSESSION_CONFIGS = [\n    # ... your existing session dictionaries ...\n\n    dict(\n        name='survey_leveled_up',\n        display_name=\"End of experiment questionnaires\",\n        app_sequence=['demographic_survey'],\n        num_demo_participants=1,\n        doc=\"Standard end of experiment questionnaires.\"\n    ),\n]\nNotice the five key-value pairs in this dictionary:\n\n\n\n\n\n\n\n\nKey\nValue\nWhat it does\n\n\n\n\nname\n'survey_leveled_up'\nInternal identifier used by the server\n\n\ndisplay_name\n\"End of experiment questionnaires\"\nThe name shown in the admin interface\n\n\napp_sequence\n['demographic_survey']\nThe list of apps in this session — just one here\n\n\nnum_demo_participants\n1\nOne participant is enough to demo a survey\n\n\ndoc\n\"Standard end of experiment questionnaires.\"\nA short note describing the session — optional but good practice\n\n\n\nSave settings.py after making the change.\n\n\n\n\n\n\nImportantReset the database after editing settings.py\n\n\n\nAny time you edit settings.py — including adding a new session — you must reset the database before running the server. In the terminal, make sure you are inside your project folder, then run:\notree resetdb\nConfirm with y when prompted.",
+    "crumbs": [
+      "Session 1",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Your First App: Adding, Registering, and Understanding `__init__.py`</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-01/session-01c.html#step-3-demo-the-app",
+    "href": "chapters/session-01/session-01c.html#step-3-demo-the-app",
+    "title": "Your First App: Adding, Registering, and Understanding __init__.py",
+    "section": "Step 3: Demo the app",
+    "text": "Step 3: Demo the app\nWith the database reset, start the development server:\notree devserver\nOpen your browser and go to http://localhost:8000/demo. You should now see End of experiment questionnaires listed on the Demo page. Click on it to launch a demo session and work through the app as a participant would. When you are done, press Ctrl + C in the terminal to stop the server.",
+    "crumbs": [
+      "Session 1",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Your First App: Adding, Registering, and Understanding `__init__.py`</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-01/session-01c.html#step-4-open-__init__.py-and-understand-the-structure",
+    "href": "chapters/session-01/session-01c.html#step-4-open-__init__.py-and-understand-the-structure",
+    "title": "Your First App: Adding, Registering, and Understanding __init__.py",
+    "section": "Step 4: Open __init__.py and understand the structure",
+    "text": "Step 4: Open __init__.py and understand the structure\nEvery oTree app has exactly one __init__.py file. This single Python file contains everything the app needs to run: the constants, the data models, the page logic, and the page sequence. Open demographic_survey/__init__.py in VS Code. Here is the full file:\nfrom otree.api import *\n\ndoc = \"\"\"\nStandard, end-of-session survey.\nIncludes Cognitive Reflection Task and demographic survey.\n\"\"\"\n\nclass C(BaseConstants):\n    NAME_IN_URL = 'survey_experiment'\n    PLAYERS_PER_GROUP = None\n    NUM_ROUNDS = 1\n\n\nclass Subsession(BaseSubsession):\n    pass\n\n\nclass Group(BaseGroup):\n    pass\n\n\nclass Player(BasePlayer):\n    age = models.IntegerField(\n        label='What is your age?',\n        min=18,\n        max=99,\n    )\n    gender = models.StringField(\n        choices=[['Male', 'Male'], ['Female', 'Female'],\n                 ['Non-Binary', 'Non-Binary'],\n                 ['NoState', 'Prefer not to state']],\n        label='What is your gender?',\n        widget=widgets.RadioSelect,\n    )\n    race = models.StringField(\n        choices=[\n            ['Black', 'African descent, Black, African-American'],\n            ['Asian', 'Asian descent, Asian-American'],\n            ['Indigenous', 'Indigenous, First Nations, Native American'],\n            ['MiddleEastern', 'Middle Eastern or North African'],\n            ['Hawaiian', 'Native Hawaiian or Pacific Islander'],\n            ['White', 'White'],\n            ['Other', 'Other'],\n            ['Declined', 'Decline to state']\n        ],\n        label='What is your race?',\n        widget=widgets.RadioSelect,\n    )\n    ethnicity = models.BooleanField(\n        choices=[[True, 'Yes'], [False, 'No']],\n        label='Are you of Latinx/o/a or Hispanic origin?',\n        widget=widgets.RadioSelect,\n    )\n    school = models.StringField(\n        choices=[\n            ['Social', 'School of Social Sciences'],\n            ['Ecology', 'School of Social Ecology'],\n            ['Law', 'School of Law'],\n            ['Humanities', 'School of Humanities'],\n            ['Education', 'School of Education'],\n            ['Arts', 'Claire Trevor School of the Arts'],\n            ['Business', 'The Paul Merage School of Business'],\n            ['Biological', 'School of Biological Sciences'],\n            ['Engineering', 'The Henry Samueli School of Engineering'],\n            ['Computers', 'Donald Bren School of Information and Computer Sciences'],\n            ['Interdisciplinary', 'Interdisciplinary Studies'],\n            ['Physical', 'School of Physical Sciences'],\n            ['Medicine', 'School of Medicine'],\n            ['Nursing', 'Sue and Bill Gross School of Nursing'],\n            ['Pharmaceutical', 'School of Pharmacy and Pharmaceutical Sciences'],\n            ['Health', 'Program in Public Health']\n        ],\n        label='Choose the most appropriate option for your school below.',\n        widget=widgets.RadioSelect,\n    )\n    field_of_study = models.StringField(\n        label='What is your major or field of study?',\n    )\n    major_STEM = models.BooleanField(\n        choices=[[True, 'Yes'], [False, 'No']],\n        label='Are you majoring in a STEM field?',\n        widget=widgets.RadioSelect,\n    )\n    math_courses = models.IntegerField(\n        label='How many Mathematics/Statistics courses have you taken since High School?',\n        min=0,\n        max=99,\n    )\n    english_is_first_language = models.BooleanField(\n        choices=[[True, 'Yes'], [False, 'No']],\n        label='Is English your first language?',\n        widget=widgets.RadioSelect,\n    )\n    first_language = models.StringField(\n        label='Please state your first language.',\n        blank=True,\n    )\n\n    # ~~~ Cognitive Reflection Task\n\n    crt_q1 = models.StringField(\n        label=\"If John can drink one barrel of water in 6 days, and Mary can drink one barrel of water in 12 days, how many days would it take them to drink one barrel of water together?\"\n    )\n    crt_q2 = models.StringField(\n        label=\"A man buys a pig for \\$60, sells it for \\$70, buys it back for \\$80, and sells it finally for \\$90. How much money has he made in dollars?\"\n    )\n    crt_q3 = models.StringField(\n        label=\"Jerry received both the 15th highest and the 15th lowest mark in the class. How many students are in the class?\"\n    )\n\n\n# ~~~~~~~~~~~~~~~~~ PAGES\n\nclass Questionnaire_CRT(Page):\n    form_model = 'player'\n    form_fields = ['crt_q1', 'crt_q2', 'crt_q3']\n\n    @staticmethod\n    def is_displayed(player):\n        return player.round_number == C.NUM_ROUNDS\n\n\nclass Demographics(Page):\n    form_model = 'player'\n    form_fields = ['age', 'gender', 'race', 'ethnicity', 'school',\n                   'field_of_study', 'major_STEM', 'math_courses',\n                   'english_is_first_language', 'first_language']\n\n\npage_sequence = [Questionnaire_CRT, Demographics]\nNow let us go through every part of this file.\n\n\nThe import statement\nfrom otree.api import *\nThis line is the same in every single oTree app. It imports all of oTree’s built-in classes, field types, widgets, and functions. You will never change this line.\n\n\n\nThe doc string\ndoc = \"\"\"\nStandard, end-of-session survey.\nIncludes Cognitive Reflection Task and demographic survey.\n\"\"\"\nThe doc variable is an optional description of the app. It appears in the admin interface when you click on the app sequence for a session. It has no effect on how the app runs — it is purely informational. Write something useful here so that anyone looking at the admin interface understands what this app does without having to open the code.\n\n\n\nClass C: Constants\nclass C(BaseConstants):\n    NAME_IN_URL = 'survey_experiment'\n    PLAYERS_PER_GROUP = None\n    NUM_ROUNDS = 1\nThe C class holds all the fixed parameters of your app — values that are set before the session starts and do not change while it runs.\n\n\n\n\n\n\n\n\nConstant\nValue\nWhat it means\n\n\n\n\nNAME_IN_URL\n'survey_experiment'\nThe string that appears in the participant’s browser URL during the experiment\n\n\nPLAYERS_PER_GROUP\nNone\nParticipants are not grouped — this is an individual task\n\n\nNUM_ROUNDS\n1\nParticipants go through the page sequence once\n\n\n\n\n\n\n\n\n\nWarningParticipants can see NAME_IN_URL\n\n\n\nWhatever string you assign to NAME_IN_URL will be visible in the browser address bar during the experiment. Notice that this app uses 'survey_experiment' rather than 'demographic_survey' — this is deliberate. The name does not reveal what kind of survey is being administered. Do not use names that hint at the purpose or design of your study.\n\n\n\n\n\n\n\n\nTipPython naming conventions\n\n\n\nConstant variables like NAME_IN_URL are written in UPPERCASE_WITH_UNDERSCORES. Non-constant variables and function names use lowercase_with_underscores. Class names use PascalCase (e.g., BasePlayer, WaitPage). VS Code’s colour-coding works better when you follow these conventions.\n\n\n\n\n\nData model classes: Subsession, Group, and Player\nEvery __init__.py must define three data model classes. These represent the three levels of oTree’s data structure and correspond directly to tables in the database.\nclass Subsession(BaseSubsession):\n    pass\n\nclass Group(BaseGroup):\n    pass\nBoth Subsession and Group contain only pass here because this app collects individual participant data only. No group-level or round-level variables are needed.\n\n\n\n\n\n\nNoteWhat pass means\n\n\n\nIn Python, pass is a placeholder that means “this class exists but has nothing extra defined in it.” oTree requires all three model classes to be present in every __init__.py. If you are not adding any fields or methods to Subsession or Group, you must still include the class definition with pass underneath it. Removing either class entirely will crash the app.\n\n\n\n\n\nThe Player class and model fields\nThe Player class is where all the participant-level data lives. Every field you define here becomes a column in your exported data.\n\nField types used in this app\n\n\n\n\n\n\n\n\nField type\nUsed for\nExample in this app\n\n\n\n\nmodels.IntegerField()\nWhole numbers\nage, math_courses\n\n\nmodels.StringField()\nText or multiple choice\ngender, race, school, field_of_study\n\n\nmodels.BooleanField()\nTrue/False answers\nethnicity, major_STEM, english_is_first_language\n\n\n\n\n\nField arguments used in this app\n\n\n\n\n\n\n\nArgument\nWhat it does\n\n\n\n\nlabel\nThe question or prompt shown to the participant on the page\n\n\nmin / max\nSets the minimum and maximum values for numeric fields\n\n\nchoices\nA list of options for multiple choice questions\n\n\nwidget\nControls how the input is displayed — widgets.RadioSelect shows radio buttons\n\n\nblank\nIf True, the field is optional and participants can skip it\n\n\n\n\n\nHow choices works\nThis is one of the most important things to understand about oTree model fields. The choices argument takes a list of two-item lists, where each inner list follows this pattern:\nchoices = [[recorded_in_database, shown_to_participant], ...]\nLook at the gender field:\ngender = models.StringField(\n    choices=[['Male', 'Male'], ['Female', 'Female'],\n             ['Non-Binary', 'Non-Binary'],\n             ['NoState', 'Prefer not to state']],\n    label='What is your gender?',\n    widget=widgets.RadioSelect,\n)\nThe participant sees four options on screen: Male, Female, Non-Binary, and Prefer not to state. But notice that 'NoState' is what gets recorded in the database — not 'Prefer not to state'. The first value in each pair is what oTree saves; the second is what the participant reads.\nNow look at the ethnicity field:\nethnicity = models.BooleanField(\n    choices=[[True, 'Yes'], [False, 'No']],\n    label='Are you of Latinx/o/a or Hispanic origin?',\n    widget=widgets.RadioSelect,\n)\nThe participant sees Yes or No. The database records True or False. This is a clean and efficient way to store binary responses — it makes analysis much easier than storing the strings “Yes” and “No” directly.\n\n\n\n\n\n\nImportantThe choices format is always [recorded, displayed]\n\n\n\nThe first value in each pair is stored in the database. The second value is what the participant sees. Never mix these up. If you do, your data will contain the wrong values and you will not catch the error until analysis.\n\n\n\n\nThe blank=True argument\nfirst_language = models.StringField(\n    label='Please state your first language.',\n    blank=True,\n)\nBy default, all form fields in oTree are required — participants cannot proceed to the next page without filling them in. Setting blank=True makes a field optional. Here first_language is optional because only participants who answered No to english_is_first_language need to complete it.\n\n\nSection comments\n# ~~~ Cognitive Reflection Task\nThis is just a Python comment — a line beginning with # that oTree ignores entirely. It is there purely for readability, separating the demographic fields from the CRT fields. Use comments freely in your own code to mark where one section ends and another begins.\n\n\n\n\nPage classes\nEach page in your app is defined as a class that inherits from Page. This app has two pages.\n\nQuestionnaire_CRT\nclass Questionnaire_CRT(Page):\n    form_model = 'player'\n    form_fields = ['crt_q1', 'crt_q2', 'crt_q3']\n\n    @staticmethod\n    def is_displayed(player):\n        return player.round_number == C.NUM_ROUNDS\n\n\n\n\n\n\n\nAttribute or method\nWhat it does\n\n\n\n\nform_model = 'player'\nTells oTree the form fields belong to the Player model\n\n\nform_fields\nLists the three CRT fields that will appear as inputs on this page\n\n\n@staticmethod\nRequired decorator before any Page-level method when working in VS Code or any IDE\n\n\nis_displayed\nA built-in oTree method that controls whether this page is shown to a participant. It returns True or False.\n\n\n\nThe is_displayed method here returns:\nreturn player.round_number == C.NUM_ROUNDS\nSince C.NUM_ROUNDS = 1, this evaluates to player.round_number == 1, which is always True for a single-round app. In a multi-round app, this would restrict the page to only the final round. For now it is effectively always displayed.\n\n\n\n\n\n\nTip@staticmethod is required for Page methods in VS Code\n\n\n\nWhen you define any built-in oTree method inside a Page class — such as is_displayed, vars_for_template, or before_next_page — you must precede it with @staticmethod. This is because these methods are defined at the Page level rather than outside it. If you forget @staticmethod, the method will either not work or will produce an error.\n\n\n\n\nDemographics\nclass Demographics(Page):\n    form_model = 'player'\n    form_fields = ['age', 'gender', 'race', 'ethnicity', 'school',\n                   'field_of_study', 'major_STEM', 'math_courses',\n                   'english_is_first_language', 'first_language']\nThis page has no special methods — just form_model and form_fields. All ten demographic fields will appear on this page in the order they are listed in form_fields. There is no is_displayed method, so this page is always shown.\n\n\n\n\nThe page_sequence list\npage_sequence = [Questionnaire_CRT, Demographics]\nThis list controls the order in which participants see the pages. Participants will complete the CRT first, then the demographics questionnaire. If you swap the order here, they will see the demographics first.\n\n\n\n\n\n\nWarningEvery page must be in page_sequence\n\n\n\nIf you define a Page class but forget to add it to page_sequence, oTree will not show it to participants. Conversely, if you list a page in page_sequence that does not have a corresponding class definition, the app will crash when you try to run it.",
+    "crumbs": [
+      "Session 1",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Your First App: Adding, Registering, and Understanding `__init__.py`</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-01/session-01c.html#summary-the-anatomy-of-__init__.py",
+    "href": "chapters/session-01/session-01c.html#summary-the-anatomy-of-__init__.py",
+    "title": "Your First App: Adding, Registering, and Understanding __init__.py",
+    "section": "Summary: The anatomy of __init__.py",
+    "text": "Summary: The anatomy of __init__.py\n\n\n\n\n\n\n\n\nSection\nWhat it contains\nRequired?\n\n\n\n\nfrom otree.api import *\nThe oTree import statement\nAlways\n\n\ndoc\nA short description of the app\nOptional but recommended\n\n\nclass C(BaseConstants)\nNAME_IN_URL, PLAYERS_PER_GROUP, NUM_ROUNDS\nAlways\n\n\nclass Subsession\nRound-level logic and fields\nAlways — use pass if empty\n\n\nclass Group\nGroup-level logic and fields\nAlways — use pass if empty\n\n\nclass Player\nIndividual participant fields\nAlways — add your data fields here\n\n\nPage classes\nOne class per page, with form_model, form_fields, and any methods\nAlways — at least one\n\n\npage_sequence\nThe ordered list of page classes\nAlways",
+    "crumbs": [
+      "Session 1",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Your First App: Adding, Registering, and Understanding `__init__.py`</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/resources/resources.html",
+    "href": "chapters/resources/resources.html",
+    "title": "Useful Resources",
+    "section": "",
+    "text": "oTree\nThis is a curated list of resources to support your learning throughout this course. You do not need to master all of these — bookmark what is useful and return to it as needed.\nThe official oTree documentation is the most reliable resource for all questions about oTree. It is well-written, actively maintained, and covers fundamental concepts of what you will need.\nAlways check oTree’s demo apps and common task recipes before you start writing code from scratch — sample code has likely already been written for what you are trying to do. The Featured Projects section on oTree Hub is a great place to start:\nBoth the old and the new oTree forums are useful sources of solutions to common problems. Note that the old forum contains solutions written in oTree’s older self format, so some details may need to be adapted to the newer no-self format used in this course. See here for more details on how the new format differs from the old one.\nFinally, the Public projects section on oTree Hub hosts code from other oTree users that is shared publicly.\nHere is the complete list of oTree resources:",
+    "crumbs": [
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Useful Resources</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/resources/resources.html#otree",
+    "href": "chapters/resources/resources.html#otree",
+    "title": "Useful Resources",
+    "section": "",
+    "text": "Game Theory Sample Games — Classic games from economics and game theory (Prisoner’s Dilemma, etc.). Useful for understanding how standard experiments are structured in oTree. Includes a live demo and source code.\nMore Demos — A wide range of demo apps from different disciplines. A good starting point for finding code that is close to what you want to build. Includes a live demo and source code.\nSnippets — A collection of small recipes for common tasks in oTree. If you need to do something specific, check here first. Includes a live demo and source code(https://github.com/oTree-org/otree-snippets).\n\n\n\n\n\nOfficial oTree documentation\nFeatured Projects on oTree Hub\noTree’s “Where do I put this code?” breakdown\nNew oTree forum\nOld oTree forum\nPublic projects\n\n\n\n\n\n\n\nTipSearching for oTree help\n\n\n\nWhen you run into a problem and are not sure where to start, try Googling your task or error message together with the word “otree” — for example, “otree timer page” or “otree wait for all players”. This will surface relevant results from the documentation, forums, and other oTree users.\nIf you find a result on Stack Overflow, read the full discussion before implementing any solution — do not just copy the first answer you see. The comments often reveal important nuance, and your use-case may require a slightly different approach.",
+    "crumbs": [
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Useful Resources</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/resources/resources.html#python",
+    "href": "chapters/resources/resources.html#python",
+    "title": "Useful Resources",
+    "section": "Python",
+    "text": "Python\nPython is the backbone of your oTree app — it handles the logic, stores data, and communicates between the server and the participant’s browser. A quick tip: use print() to see variable values and outputs in the terminal while you are debugging your code.\nWeb-based editors (for testing small bits of code)\nThe following editors are useful when you want to quickly test a small piece of Python code without running it through oTree. This list is adapted from resources originally compiled by Faith Bague-Sampson.\n\nPython Fiddle\nmyCompiler: Python\nPYnative Online Python Editor",
+    "crumbs": [
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Useful Resources</span>"
+    ]
   }
 ]

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Installing Python and oTree – Using oTree: A Practical Guide</title>
+<title>Getting Started: VS Code, Projects, and Apps – Using oTree: A Practical Guide</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,8 +65,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../chapters/session-01/index.html" rel="next">
-<link href="../../chapters/setup/setup-vscode.html" rel="prev">
+<link href="../../chapters/session-01/session-01b.html" rel="next">
+<link href="../../chapters/session-01/index.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -82,6 +82,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/bootstrap/bootstrap-8da718032fe10746300a5aa92d152ce0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
 <link href="../../site_libs/bootstrap/bootstrap-dark-913b17780ec437ee198ef3e682b8cc2c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="../../site_libs/bootstrap/bootstrap-8da718032fe10746300a5aa92d152ce0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -285,7 +288,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/setup/index.html">Let’s Get Started!</a></li><li class="breadcrumb-item"><a href="../../chapters/setup/setup-otree.html"><span class="chapter-title">Installing Python and oTree</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/session-01/index.html">Session 1</a></li><li class="breadcrumb-item"><a href="../../chapters/session-01/session-01a.html"><span class="chapter-title">Getting Started: VS Code, Projects, and Apps</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -337,7 +340,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/setup/setup-otree.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Installing Python and oTree</span></a>
+  <a href="../../chapters/setup/setup-otree.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Installing Python and oTree</span></a>
   </div>
 </li>
       </ul>
@@ -353,7 +356,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/session-01/session-01a.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Getting Started: VS Code, Projects, and Apps</span></a>
+  <a href="../../chapters/session-01/session-01a.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Getting Started: VS Code, Projects, and Apps</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -404,15 +407,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#step-1-check-if-python-is-already-installed" id="toc-step-1-check-if-python-is-already-installed" class="nav-link active" data-scroll-target="#step-1-check-if-python-is-already-installed">Step 1: Check if Python is Already Installed</a></li>
-  <li><a href="#step-2-install-python-only-if-needed" id="toc-step-2-install-python-only-if-needed" class="nav-link" data-scroll-target="#step-2-install-python-only-if-needed">Step 2: Install Python (Only if Needed)</a>
+  <li><a href="#opening-vs-code-and-navigating-to-the-right-folder" id="toc-opening-vs-code-and-navigating-to-the-right-folder" class="nav-link active" data-scroll-target="#opening-vs-code-and-navigating-to-the-right-folder">Opening VS Code and navigating to the right folder</a></li>
+  <li><a href="#opening-the-terminal-in-vs-code" id="toc-opening-the-terminal-in-vs-code" class="nav-link" data-scroll-target="#opening-the-terminal-in-vs-code">Opening the terminal in VS Code</a></li>
+  <li><a href="#navigating-folders-cd" id="toc-navigating-folders-cd" class="nav-link" data-scroll-target="#navigating-folders-cd">Navigating folders: <code>cd</code></a></li>
+  <li><a href="#finding-your-working-directory-pwd" id="toc-finding-your-working-directory-pwd" class="nav-link" data-scroll-target="#finding-your-working-directory-pwd">Finding your working directory: <code>pwd</code></a></li>
+  <li><a href="#navigating-to-a-folder-using-the-vs-code-terminal" id="toc-navigating-to-a-folder-using-the-vs-code-terminal" class="nav-link" data-scroll-target="#navigating-to-a-folder-using-the-vs-code-terminal">Navigating to a folder using the VS Code terminal</a></li>
+  <li><a href="#starting-a-new-otree-project-otree-startproject" id="toc-starting-a-new-otree-project-otree-startproject" class="nav-link" data-scroll-target="#starting-a-new-otree-project-otree-startproject">Starting a new oTree project: <code>otree startproject</code></a>
   <ul class="collapse">
-  <li><a href="#macos" id="toc-macos" class="nav-link" data-scroll-target="#macos">macOS</a></li>
-  <li><a href="#windows" id="toc-windows" class="nav-link" data-scroll-target="#windows">Windows</a></li>
+  <li><a href="#what-just-got-created" id="toc-what-just-got-created" class="nav-link" data-scroll-target="#what-just-got-created">What just got created?</a></li>
   </ul></li>
-  <li><a href="#step-3-install-otree" id="toc-step-3-install-otree" class="nav-link" data-scroll-target="#step-3-install-otree">Step 3: Install oTree</a></li>
-  <li><a href="#step-4-verify-otree-installation" id="toc-step-4-verify-otree-installation" class="nav-link" data-scroll-target="#step-4-verify-otree-installation">Step 4: Verify oTree Installation</a></li>
-  <li><a href="#troubleshooting" id="toc-troubleshooting" class="nav-link" data-scroll-target="#troubleshooting">Troubleshooting</a></li>
+  <li><a href="#starting-a-new-app-otree-startapp" id="toc-starting-a-new-app-otree-startapp" class="nav-link" data-scroll-target="#starting-a-new-app-otree-startapp">Starting a new app: <code>otree startapp</code></a></li>
+  <li><a href="#running-the-server-otree-devserver" id="toc-running-the-server-otree-devserver" class="nav-link" data-scroll-target="#running-the-server-otree-devserver">Running the server: <code>otree devserver</code></a></li>
+  <li><a href="#resetting-the-database-otree-resetdb" id="toc-resetting-the-database-otree-resetdb" class="nav-link" data-scroll-target="#resetting-the-database-otree-resetdb">Resetting the database: <code>otree resetdb</code></a></li>
+  <li><a href="#zipping-your-project-otree-zip" id="toc-zipping-your-project-otree-zip" class="nav-link" data-scroll-target="#zipping-your-project-otree-zip">Zipping your project: <code>otree zip</code></a></li>
+  <li><a href="#summary-of-terminal-commands" id="toc-summary-of-terminal-commands" class="nav-link" data-scroll-target="#summary-of-terminal-commands">Summary of terminal commands</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/nidhigyanpandey/teaching-otree/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -420,9 +428,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/setup/index.html">Let’s Get Started!</a></li><li class="breadcrumb-item"><a href="../../chapters/setup/setup-otree.html"><span class="chapter-title">Installing Python and oTree</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../chapters/session-01/index.html">Session 1</a></li><li class="breadcrumb-item"><a href="../../chapters/session-01/session-01a.html"><span class="chapter-title">Getting Started: VS Code, Projects, and Apps</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-title">Installing Python and oTree</span></h1>
+<h1 class="title"><span class="chapter-title">Getting Started: VS Code, Projects, and Apps</span></h1>
 </div>
 
 
@@ -439,132 +447,348 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>oTree is built on Python, so we need to install Python first before installing oTree. Follow the steps below for your operating system.</p>
-<hr>
-<section id="step-1-check-if-python-is-already-installed" class="level2">
-<h2 class="anchored" data-anchor-id="step-1-check-if-python-is-already-installed">Step 1: Check if Python is Already Installed</h2>
-<p>Before downloading anything, check if Python is already on your system. Open your Terminal (macOS) or Command Prompt (Windows) and run:</p>
-<p><strong>macOS</strong> — run in Terminal:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">--version</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Windows</strong> — run in Command Prompt:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">--version</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>If you see something like <code>Python 3.10.x</code> or higher, you already have Python and can <strong>skip to Step 2</strong>.</p>
+<p>This part covers the core terminal commands you will use every time you work in oTree. By the end of this part, you will be able to create a new oTree project and app from scratch, run the development server, and navigate your project folder in VS Code.</p>
+<section id="opening-vs-code-and-navigating-to-the-right-folder" class="level2">
+<h2 class="anchored" data-anchor-id="opening-vs-code-and-navigating-to-the-right-folder">Opening VS Code and navigating to the right folder</h2>
+<p>Before creating an oTree project, decide where on your computer you want to store your work. A good habit is to keep all your oTree projects inside a dedicated folder — for example, a folder called <code>oTree_lab</code> inside your Documents folder.</p>
+<p>To open that folder in VS Code:</p>
+<ol type="1">
+<li>Open VS Code</li>
+<li>Click <strong>File</strong> → <strong>Open Folder</strong></li>
+<li>Navigate to your chosen folder and click <strong>Open</strong></li>
+</ol>
+<p>You should now see the folder listed in the Explorer panel on the left side of the screen.</p>
+</section>
+<section id="opening-the-terminal-in-vs-code" class="level2">
+<h2 class="anchored" data-anchor-id="opening-the-terminal-in-vs-code">Opening the terminal in VS Code</h2>
+<p>Almost everything in oTree is done through the terminal. In VS Code, open a terminal by clicking <strong>Terminal</strong> → <strong>New Terminal</strong> from the top menu bar. A terminal panel will appear at the bottom of the screen.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Note
+<span class="screen-reader-only">Note</span>What is the terminal?
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>If your terminal prompt starts with <code>(base)</code>, you have Anaconda or Miniconda installed. This is perfectly fine — Python is already included and you can skip directly to Step 2.</p>
+<p>The terminal is a text-based interface where you type commands directly to your computer. You will use it constantly in oTree — to navigate between folders, create projects and apps, and run the server.</p>
 </div>
 </div>
 </section>
-<section id="step-2-install-python-only-if-needed" class="level2">
-<h2 class="anchored" data-anchor-id="step-2-install-python-only-if-needed">Step 2: Install Python (Only if Needed)</h2>
-<section id="macos" class="level3">
-<h3 class="anchored" data-anchor-id="macos">macOS</h3>
-<ol type="1">
-<li>Go to <a href="https://www.python.org/downloads/">https://www.python.org/downloads/</a>.</li>
-<li>Click <strong>Download Python</strong> — it will suggest the latest version.</li>
-<li>Open the downloaded <code>.pkg</code> file and follow the installer.</li>
-<li>Once installed, verify by running:</li>
-</ol>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">--version</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>You should see something like <code>Python 3.12.x</code>. If you do, Python is successfully installed.</p>
-</section>
-<section id="windows" class="level3">
-<h3 class="anchored" data-anchor-id="windows">Windows</h3>
-<ol type="1">
-<li>Go to <a href="https://www.python.org/downloads/">https://www.python.org/downloads/</a>.</li>
-<li>Click <strong>Download Python</strong> — it will suggest the latest version.</li>
-<li>Run the downloaded <code>.exe</code> installer.</li>
-<li><strong>Important:</strong> On the first screen, check the box that says <strong>Add Python to PATH</strong> before clicking Install Now.</li>
-</ol>
+<section id="navigating-folders-cd" class="level2">
+<h2 class="anchored" data-anchor-id="navigating-folders-cd">Navigating folders: <code>cd</code></h2>
+<p>The terminal always has a “current directory” — the folder it is currently pointed at. Before running any oTree commands, make sure the terminal is pointed at the right place.</p>
+<p>The command <code>cd</code> (short for “change directory”) is how you move around.</p>
+<p><strong>Navigate into a folder:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> Documents/oTree_lab</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Go back to your home directory:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Warning
+<span class="screen-reader-only">Warning</span>Avoid spaces in folder names
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>If you skip checking <strong>Add Python to PATH</strong>, Python will not be recognized in the terminal and the next steps will not work. If you already installed Python without this box checked, uninstall it and reinstall with the box checked.</p>
+<p>If any folder in your path has a space in its name, wrap the entire path in quotes:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">"Documents/my projects/oTree_lab"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The safest habit is to never use spaces in folder or file names at all — use underscores instead (e.g., <code>oTree_lab</code>).</p>
 </div>
 </div>
-<ol start="5" type="1">
-<li>Once installed, verify by running:</li>
+</section>
+<section id="finding-your-working-directory-pwd" class="level2">
+<h2 class="anchored" data-anchor-id="finding-your-working-directory-pwd">Finding your working directory: <code>pwd</code></h2>
+<p>Before running any oTree command, you need to know exactly where the terminal is pointed. The command <code>pwd</code> (print working directory) tells you the full path of your current location.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">pwd</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>You will see output like this:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">/Users/nidhipandey/Documents/GitHub/all-otree-code</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This is the single most useful command for diagnosing navigation errors. If a <code>cd</code> command fails with “no such file or directory,” run <code>pwd</code> first to confirm where you actually are before trying again.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>The Explorer panel and the terminal are not always in sync
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The VS Code Explorer panel shows the folder you have <strong>open in VS Code</strong>. The terminal shows the folder it is <strong>currently pointed at</strong>. These are two separate things and they can easily get out of sync — especially if you open the terminal from a different location or run <code>cd ~</code> and navigate elsewhere.</p>
+<p>Always check <code>pwd</code> if the terminal and the Explorer panel seem to be showing different things.</p>
+</div>
+</div>
+</section>
+<section id="navigating-to-a-folder-using-the-vs-code-terminal" class="level2">
+<h2 class="anchored" data-anchor-id="navigating-to-a-folder-using-the-vs-code-terminal">Navigating to a folder using the VS Code terminal</h2>
+<p>The safest and most reliable way to make sure the terminal is pointed at the right folder is to let VS Code do it for you.</p>
+<p><strong>The recommended workflow:</strong></p>
+<ol type="1">
+<li>Open VS Code</li>
+<li>Click <strong>File</strong> → <strong>Open Folder</strong> and select the folder you want to work in — for example, <code>all-otree-code</code></li>
+<li>Click <strong>Terminal</strong> → <strong>New Terminal</strong></li>
 </ol>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">--version</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>You should see something like <code>Python 3.12.x</code>. If you do, Python is successfully installed.</p>
-</section>
-</section>
-<section id="step-3-install-otree" class="level2">
-<h2 class="anchored" data-anchor-id="step-3-install-otree">Step 3: Install oTree</h2>
-<p>Once Python is confirmed, install oTree using <code>pip</code>, Python’s built-in package installer.</p>
-<p><strong>macOS</strong> — run in Terminal:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip3</span> install otree <span class="at">--upgrade</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Windows</strong> — run in Command Prompt:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install otree <span class="at">--upgrade</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>This may take a minute or two as pip downloads and installs oTree and its dependencies. The <code>--upgrade</code> flag ensures you get the latest version even if oTree was previously installed on your system.</p>
-</section>
-<section id="step-4-verify-otree-installation" class="level2">
-<h2 class="anchored" data-anchor-id="step-4-verify-otree-installation">Step 4: Verify oTree Installation</h2>
-<p>Once the installation is complete, verify it by running the following in your Terminal or Command Prompt:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">oTree</span> <span class="at">--version</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>You should see <code>6.0.13</code> or similar. If you do, you are all set!</p>
-</section>
-<section id="troubleshooting" class="level2">
-<h2 class="anchored" data-anchor-id="troubleshooting">Troubleshooting</h2>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Problem</th>
-<th>Fix</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>python3: command not found</code> (macOS)</td>
-<td>Install Python from python.org</td>
-</tr>
-<tr class="even">
-<td><code>python: command not found</code> (Windows)</td>
-<td>Reinstall Python and check <strong>Add Python to PATH</strong></td>
-</tr>
-<tr class="odd">
-<td><code>pip3: command not found</code> (macOS)</td>
-<td>Run <code>python3 -m ensurepip</code> in Terminal</td>
-</tr>
-<tr class="even">
-<td><code>oTree: command not found</code></td>
-<td>Run <code>pip3 install otree --upgrade</code> again and restart Terminal</td>
-</tr>
-</tbody>
-</table>
+<p>VS Code will automatically open the terminal pointed at the folder you have open in the Explorer panel. You will see the folder name in the terminal prompt confirming this.</p>
+<p>From there, if you want to navigate into a subfolder — for example <code>oTree_lab</code> — just run:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> oTree_lab</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This works every time because the terminal is already inside the parent folder. You do not need to type out the full path.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Always open a new terminal from inside VS Code
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you open a terminal from outside VS Code — for example from macOS Spotlight or the Applications folder — it will start pointed at your home directory <code>~</code>, not at your project folder. You will then have to navigate manually using the full path, which is easy to get wrong.</p>
+<p>The habit to build: <strong>open VS Code first, open the right folder, then open the terminal from inside VS Code.</strong></p>
+</div>
+</div>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Tip
+<span class="screen-reader-only">Tip</span>When <code>cd</code> says “no such file or directory”
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>If you are stuck before the first session, you can use <a href="https://zotgpt.uci.edu">ZotGPT</a> — UCI’s free AI platform — to troubleshoot. Select the latest Claude model available and describe your error message. It is particularly good at solving software installation issues.</p>
-<p>You can also bring your laptop to the first lab session on April 1st and we will troubleshoot together.</p>
+<p>This error does not always mean the folder does not exist. It usually means the terminal cannot see it from its current location. Run <code>pwd</code> to check where you are, then build the correct path from there. For example, if <code>pwd</code> returns <code>/Users/yourname/Documents/GitHub/all-otree-code</code>, then a folder called <code>oTree_lab</code> inside it is reachable with:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> oTree_lab</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>But a folder somewhere else entirely on your computer will not be reachable with just its name. You must navigate to its parent folder first, or use the full path:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /Users/yourname/Documents/GitHub/all-otree-code/oTree_lab</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
+</section>
+<section id="starting-a-new-otree-project-otree-startproject" class="level2">
+<h2 class="anchored" data-anchor-id="starting-a-new-otree-project-otree-startproject">Starting a new oTree project: <code>otree startproject</code></h2>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Project vs.&nbsp;App — know the difference
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>An oTree <strong>project</strong> is the top-level container for your experiment. It holds the <code>settings.py</code> file and all of your apps. You will typically only create one project per course or research project. This is a rare task; most of the times you would be creating new apps within an existing project.</p>
+<p>An oTree <strong>app</strong> is a single task or module within your experiment (e.g., a survey, a game, a payment screen). You will create new apps regularly.</p>
+<p>Make sure you know which one you need before running a command.</p>
+</div>
+</div>
+<p>Navigate to your desired folder in the terminal, then run:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">otree</span> startproject PROJECT_NAME</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Replace <code>PROJECT_NAME</code> with a name of your choice — no spaces or special characters. For example:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">otree</span> startproject oTree_lab</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>oTree will ask whether you want sample games included:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Include</span> sample games<span class="pp">?</span> <span class="er">(</span><span class="ex">y</span> or n<span class="kw">)</span><span class="bu">:</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Type <code>y</code> and press Enter. This is useful for your first project as it gives you working examples to explore.</p>
+<p>Once the project is created, navigate into it:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> oTree_lab</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="what-just-got-created" class="level3">
+<h3 class="anchored" data-anchor-id="what-just-got-created">What just got created?</h3>
+<p>Click on the image below to see what the oTree project folder that you created looks like.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-vscode-startproject" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-vscode-startproject-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="images/vscode-startproject.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: VS Code after running otree startproject oTree_lab. The Explorer panel (left) shows the newly created project folder containing the settings.py file and all sample app folders. The terminal at the bottom shows the full sequence of commands run to create and navigate into the project. Note: the code for starting a new project should be written in the terminal of the folder you want the project to live in."><img src="images/vscode-startproject.png" class="img-fluid figure-img" width="946"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-vscode-startproject-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: VS Code after running <code>otree startproject oTree_lab</code>. The Explorer panel (left) shows the newly created project folder containing the <code>settings.py</code> file and all sample app folders. The terminal at the bottom shows the full sequence of commands run to create and navigate into the project. Note: the code for starting a new project should be written in the terminal of the folder you want the project to live in.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Open the Explorer panel in VS Code and look at your new project folder. Here are the key things to know:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 66%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>settings.py</code></td>
+<td>The control center for the entire project. You will edit this regularly.</td>
+</tr>
+<tr class="even">
+<td><code>_rooms/</code></td>
+<td>Where room configuration files go. Do not touch unless instructed.</td>
+</tr>
+<tr class="odd">
+<td><code>_static/</code></td>
+<td>Where shared static files (images, CSS, JS) go.</td>
+</tr>
+<tr class="even">
+<td><code>_templates/</code></td>
+<td>Where shared HTML templates go.</td>
+</tr>
+<tr class="odd">
+<td>Sample app folders</td>
+<td>The sample games oTree installed for you.</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="starting-a-new-app-otree-startapp" class="level2">
+<h2 class="anchored" data-anchor-id="starting-a-new-app-otree-startapp">Starting a new app: <code>otree startapp</code></h2>
+<p>Make sure your terminal is pointed at your project folder, then run:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">otree</span> startapp APP_NAME</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>For example:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">otree</span> startapp my_survey</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This creates a new folder called <code>my_survey</code> inside your project. Inside it you will find:</p>
+<ul>
+<li><code>__init__.py</code> — the Python file where all the logic for your app lives</li>
+<li>No HTML files yet — you will create those yourself as you build out your pages</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Name your apps carefully
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>App names become part of the URL that participants see during your experiment. Use short, lowercase names with underscores and no special characters. Avoid names that reveal anything about your experimental design (e.g., do not call an app <code>treatment_group</code>).</p>
+</div>
+</div>
+</section>
+<section id="running-the-server-otree-devserver" class="level2">
+<h2 class="anchored" data-anchor-id="running-the-server-otree-devserver">Running the server: <code>otree devserver</code></h2>
+<p>To preview your project in the browser, run:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">otree</span> devserver</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>You will see output like this in the terminal:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Open</span> your browser to http://localhost:8000/</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="ex">To</span> quit the server, press Control+C.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Open your browser and go to <code>http://localhost:8000/demo</code> to see the oTree Demo page. All the sample games will be listed there. Click on any one to try it out.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Always quit the server when you are done
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>When you are finished, go back to the terminal and press <strong>Ctrl + C</strong> to stop the server. Do not just close the browser window — always quit the server first.</p>
+</div>
+</div>
+</section>
+<section id="resetting-the-database-otree-resetdb" class="level2">
+<h2 class="anchored" data-anchor-id="resetting-the-database-otree-resetdb">Resetting the database: <code>otree resetdb</code></h2>
+<p>Whenever you make changes to model variables in your app or update <code>settings.py</code>, you need to reset the database before running the server again:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">otree</span> resetdb</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>oTree will ask you to confirm:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ex">This</span> will delete and recreate your database.</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Proceed?</span> <span class="er">(</span><span class="ex">y</span> or n<span class="kw">)</span><span class="bu">:</span> y</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Do not reset if you have real session data
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Resetting the database permanently deletes all session data. If you have collected data from real participants, download it <strong>before</strong> running <code>otree resetdb</code>. You cannot recover it afterward.</p>
+</div>
+</div>
+</section>
+<section id="zipping-your-project-otree-zip" class="level2">
+<h2 class="anchored" data-anchor-id="zipping-your-project-otree-zip">Zipping your project: <code>otree zip</code></h2>
+<p>The <code>otree zip</code> command packages your entire oTree project into a single <code>.otreezip</code> file. This is useful for sharing your project with collaborators, submitting it for a class, or uploading it to a server for deployment.</p>
+<p>Make sure your terminal is pointed at your project folder, then run:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ex">otree</span> zip</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>oTree will create a file called <code>PROJECT_NAME.otreezip</code> in the same folder. For example, if your project is called <code>my_experiment</code>, the output will be:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Created</span> my_experiment.otreezip</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>You can share this file directly with anyone who has oTree installed. To unzip and run it, they simply run:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ex">otree</span> unzip my_experiment.otreezip</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>When to zip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Zip your project whenever you want to share it or submit it. It is also a good habit to zip and save a copy of your project before making major changes — think of it as a quick manual backup.</p>
+</div>
+</div>
+</section>
+<section id="summary-of-terminal-commands" class="level2">
+<h2 class="anchored" data-anchor-id="summary-of-terminal-commands">Summary of terminal commands</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Command</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>pwd</code></td>
+<td>Print the full path of your current directory</td>
+</tr>
+<tr class="even">
+<td><code>cd FOLDER_NAME</code></td>
+<td>Navigate into a folder</td>
+</tr>
+<tr class="odd">
+<td><code>cd ~</code></td>
+<td>Return to your home directory</td>
+</tr>
+<tr class="even">
+<td><code>otree startproject NAME</code></td>
+<td>Create a new oTree project</td>
+</tr>
+<tr class="odd">
+<td><code>otree startapp NAME</code></td>
+<td>Create a new app inside a project</td>
+</tr>
+<tr class="even">
+<td><code>otree devserver</code></td>
+<td>Start the local development server</td>
+</tr>
+<tr class="odd">
+<td><code>otree resetdb</code></td>
+<td>Reset the database</td>
+</tr>
+<tr class="even">
+<td><code>otree zip</code></td>
+<td>Package the project into a <code>.otreezip</code> file</td>
+</tr>
+<tr class="odd">
+<td><code>otree unzip FILE.otreezip</code></td>
+<td>Unpack a zipped project</td>
+</tr>
+<tr class="even">
+<td><code>Ctrl + C</code></td>
+<td>Stop the server</td>
+</tr>
+</tbody>
+</table>
 
 
 </section>
@@ -985,19 +1209,51 @@ Tip
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../chapters/setup/setup-vscode.html" class="pagination-link" aria-label="Setting Up Visual Studio Code">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Setting Up Visual Studio Code</span></span>
+      <a href="../../chapters/session-01/index.html" class="pagination-link" aria-label="Session 1">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Session 1</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../chapters/session-01/index.html" class="pagination-link" aria-label="Session 1">
-        <span class="nav-page-text">Session 1</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../chapters/session-01/session-01b.html" class="pagination-link" aria-label="Inside an oTree Project: Folder Structure and `settings.py`">
+        <span class="nav-page-text"><span class="chapter-title">Inside an oTree Project: Folder Structure and <code>settings.py</code></span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/nidhigyanpandey/teaching-otree/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div></div></footer><script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
 
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/nidhigyanpandey/teaching-otree/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+</body></html>
