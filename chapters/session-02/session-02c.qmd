@@ -139,9 +139,9 @@ Even though the default behaviour already keeps groups fixed, adding the `creati
 :::
 
 
-## Step 4: add a `per_round_payoff` field
+## Step 4: add a `round_payoff` field
 
-Currently the Prisoner's Dilemma stores payoffs in the built-in `player.payoff` field. This works for a one-shot game, but for a repeated game you want to track each round's earnings separately. Add a new field to the `Player` class:
+Currently the Prisoner's Dilemma stores payoffs in the built-in `player.payoff` field. This works for a one-shot game, but for a repeated game you may want to track each round's earnings separately, especially if in the end you only want to pay for a particular round and not all rounds. Add a new field to the `Player` class:
 
 ```python
 class Player(BasePlayer):
@@ -150,7 +150,7 @@ class Player(BasePlayer):
         doc="""This player's decision""",
         widget=widgets.RadioSelect,
     )
-    per_round_payoff = models.CurrencyField()
+    round_payoff = models.CurrencyField()
 ```
 
 Then update the `set_payoff` function to use this new field:
@@ -164,11 +164,11 @@ def set_payoff(player: Player):
         (True, False): C.PAYOFF_D,
     }
     other = other_player(player)
-    player.per_round_payoff = payoff_matrix[(player.cooperate, other.cooperate)]
-    player.payoff = player.per_round_payoff
+    player.round_payoff = payoff_matrix[(player.cooperate, other.cooperate)]
+    player.payoff = player.round_payoff
 ```
 
-Now each round's earnings are saved in `per_round_payoff`, and the built-in `player.payoff` is also updated (oTree uses this for the final payment calculation).
+Now each round's earnings are saved in `round_payoff`, and the built-in `player.payoff` is also updated (oTree uses this for the final payment calculation).
 
 
 ## Step 5: build the game history in `vars_for_template`
@@ -188,13 +188,13 @@ class Decision(Page):
         cumulative_payoff = 0
         for p in player.in_previous_rounds():
             other_p = p.get_others_in_group()[0]
-            cumulative_payoff += p.per_round_payoff
+            cumulative_payoff += p.round_payoff
             game_history.append({
                 'round': p.round_number,
                 'my_choice': p.field_display('cooperate'),
-                'my_payoff': p.per_round_payoff,
+                'my_payoff': p.round_payoff,
                 'partner_choice': other_p.field_display('cooperate'),
-                'partner_payoff': other_p.per_round_payoff,
+                'partner_payoff': other_p.round_payoff,
                 'cumulative': cumulative_payoff,
             })
         return dict(
@@ -221,7 +221,7 @@ for p in player.in_previous_rounds():
 
 `player.in_previous_rounds()` is a built-in oTree method that returns a list of the **same player's** objects from all earlier rounds. If you are in round 4, it returns the player objects from rounds 1, 2, and 3. In round 1, it returns an empty list (there are no previous rounds), so the loop does not run and the history table is empty.
 
-Each `p` in the loop is a full Player object for that earlier round — you can access `p.cooperate`, `p.per_round_payoff`, `p.round_number`, and any other field.
+Each `p` in the loop is a full Player object for that earlier round — you can access `p.cooperate`, `p.round_payoff`, `p.round_number`, and any other field.
 
 ### Getting the partner for each round
 
@@ -234,18 +234,18 @@ This gets the partner from that specific round. Since groups are fixed, it will 
 ### Building each row
 
 ```python
-cumulative_payoff += p.per_round_payoff
+cumulative_payoff += p.round_payoff
 game_history.append({
     'round': p.round_number,
     'my_choice': p.field_display('cooperate'),
-    'my_payoff': p.per_round_payoff,
+    'my_payoff': p.round_payoff,
     'partner_choice': other_p.field_display('cooperate'),
-    'partner_payoff': other_p.per_round_payoff,
+    'partner_payoff': other_p.round_payoff,
     'cumulative': cumulative_payoff,
 })
 ```
 
-The `+=` operator adds `p.per_round_payoff` to the running total. Then `game_history.append(...)` adds a dictionary to the list. Each dictionary represents one row of the history table, with named keys that make the template code easy to read.
+The `+=` operator adds `p.round_payoff` to the running total. Then `game_history.append(...)` adds a dictionary to the list. Each dictionary represents one row of the history table, with named keys that make the template code easy to read.
 
 `p.field_display('cooperate')` returns the display label (`'Cooperate'` or `'Defect'`) instead of the raw value (`True` or `False`). This is what participants should see.
 
@@ -354,13 +354,13 @@ class Results(Page):
         cumulative_payoff = 0
         for p in player.in_all_rounds():
             other_p = p.get_others_in_group()[0]
-            cumulative_payoff += p.per_round_payoff
+            cumulative_payoff += p.round_payoff
             game_history.append({
                 'round': p.round_number,
                 'my_choice': p.field_display('cooperate'),
-                'my_payoff': p.per_round_payoff,
+                'my_payoff': p.round_payoff,
                 'partner_choice': other_p.field_display('cooperate'),
-                'partner_payoff': other_p.per_round_payoff,
+                'partner_payoff': other_p.round_payoff,
                 'cumulative': cumulative_payoff,
             })
         return dict(
@@ -592,7 +592,7 @@ You have now made the key modifications that transform a one-shot game into a re
 | Change `NUM_ROUNDS` | `1` → up to `10` with a stopping rule |
 | `is_displayed` for intro pages | Same pattern — show instructions in round 1 only |
 | `creating_session` for grouping | Same — randomize in round 1, fix thereafter |
-| `per_round_payoff` field | Same — track per-round earnings separately |
+| `round_payoff` field | Same — track per-round earnings separately |
 | Game history with `in_previous_rounds()` | Same loop pattern with different field names |
 | History table in HTML | Same `{{ for }}` loop with different columns |
 | Role constants and `player.role` | `PLAYER1_ROLE` → `HUNTER1_ROLE`, etc. |

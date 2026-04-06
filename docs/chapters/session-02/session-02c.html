@@ -434,7 +434,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#step-1-change-num_rounds-to-make-this-a-repeated-game" id="toc-step-1-change-num_rounds-to-make-this-a-repeated-game" class="nav-link" data-scroll-target="#step-1-change-num_rounds-to-make-this-a-repeated-game">Step 1: change <code>NUM_ROUNDS</code> to make this a repeated game</a></li>
   <li><a href="#step-2-show-the-introduction-only-in-round-1" id="toc-step-2-show-the-introduction-only-in-round-1" class="nav-link" data-scroll-target="#step-2-show-the-introduction-only-in-round-1">Step 2: show the introduction only in round 1</a></li>
   <li><a href="#step-3-keep-groups-fixed-across-rounds" id="toc-step-3-keep-groups-fixed-across-rounds" class="nav-link" data-scroll-target="#step-3-keep-groups-fixed-across-rounds">Step 3: keep groups fixed across rounds</a></li>
-  <li><a href="#step-4-add-a-per_round_payoff-field" id="toc-step-4-add-a-per_round_payoff-field" class="nav-link" data-scroll-target="#step-4-add-a-per_round_payoff-field">Step 4: add a <code>per_round_payoff</code> field</a></li>
+  <li><a href="#step-4-add-a-round_payoff-field" id="toc-step-4-add-a-round_payoff-field" class="nav-link" data-scroll-target="#step-4-add-a-round_payoff-field">Step 4: add a <code>round_payoff</code> field</a></li>
   <li><a href="#step-5-build-the-game-history-in-vars_for_template" id="toc-step-5-build-the-game-history-in-vars_for_template" class="nav-link" data-scroll-target="#step-5-build-the-game-history-in-vars_for_template">Step 5: build the game history in <code>vars_for_template</code></a>
   <ul class="collapse">
   <li><a href="#creating-an-empty-list" id="toc-creating-an-empty-list" class="nav-link" data-scroll-target="#creating-an-empty-list">Creating an empty list</a></li>
@@ -630,16 +630,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="step-4-add-a-per_round_payoff-field" class="level2">
-<h2 class="anchored" data-anchor-id="step-4-add-a-per_round_payoff-field">Step 4: add a <code>per_round_payoff</code> field</h2>
-<p>Currently the Prisoner’s Dilemma stores payoffs in the built-in <code>player.payoff</code> field. This works for a one-shot game, but for a repeated game you want to track each round’s earnings separately. Add a new field to the <code>Player</code> class:</p>
+<section id="step-4-add-a-round_payoff-field" class="level2">
+<h2 class="anchored" data-anchor-id="step-4-add-a-round_payoff-field">Step 4: add a <code>round_payoff</code> field</h2>
+<p>Currently the Prisoner’s Dilemma stores payoffs in the built-in <code>player.payoff</code> field. This works for a one-shot game, but for a repeated game you may want to track each round’s earnings separately, especially if in the end you only want to pay for a particular round and not all rounds. Add a new field to the <code>Player</code> class:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Player(BasePlayer):</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    cooperate <span class="op">=</span> models.BooleanField(</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>        choices<span class="op">=</span>[[<span class="va">True</span>, <span class="st">'Cooperate'</span>], [<span class="va">False</span>, <span class="st">'Defect'</span>]],</span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>        doc<span class="op">=</span><span class="st">"""This player's decision"""</span>,</span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>        widget<span class="op">=</span>widgets.RadioSelect,</span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    per_round_payoff <span class="op">=</span> models.CurrencyField()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    round_payoff <span class="op">=</span> models.CurrencyField()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Then update the <code>set_payoff</code> function to use this new field:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> set_payoff(player: Player):</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    payoff_matrix <span class="op">=</span> {</span>
@@ -649,9 +649,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>        (<span class="va">True</span>, <span class="va">False</span>): C.PAYOFF_D,</span>
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    }</span>
 <span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    other <span class="op">=</span> other_player(player)</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    player.per_round_payoff <span class="op">=</span> payoff_matrix[(player.cooperate, other.cooperate)]</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    player.payoff <span class="op">=</span> player.per_round_payoff</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Now each round’s earnings are saved in <code>per_round_payoff</code>, and the built-in <code>player.payoff</code> is also updated (oTree uses this for the final payment calculation).</p>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    player.round_payoff <span class="op">=</span> payoff_matrix[(player.cooperate, other.cooperate)]</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    player.payoff <span class="op">=</span> player.round_payoff</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Now each round’s earnings are saved in <code>round_payoff</code>, and the built-in <code>player.payoff</code> is also updated (oTree uses this for the final payment calculation).</p>
 </section>
 <section id="step-5-build-the-game-history-in-vars_for_template" class="level2">
 <h2 class="anchored" data-anchor-id="step-5-build-the-game-history-in-vars_for_template">Step 5: build the game history in <code>vars_for_template</code></h2>
@@ -667,13 +667,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>        cumulative_payoff <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> p <span class="kw">in</span> player.in_previous_rounds():</span>
 <span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>            other_p <span class="op">=</span> p.get_others_in_group()[<span class="dv">0</span>]</span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>            cumulative_payoff <span class="op">+=</span> p.per_round_payoff</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>            cumulative_payoff <span class="op">+=</span> p.round_payoff</span>
 <span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>            game_history.append({</span>
 <span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>                <span class="st">'round'</span>: p.round_number,</span>
 <span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>                <span class="st">'my_choice'</span>: p.field_display(<span class="st">'cooperate'</span>),</span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>                <span class="st">'my_payoff'</span>: p.per_round_payoff,</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>                <span class="st">'my_payoff'</span>: p.round_payoff,</span>
 <span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>                <span class="st">'partner_choice'</span>: other_p.field_display(<span class="st">'cooperate'</span>),</span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>                <span class="st">'partner_payoff'</span>: other_p.per_round_payoff,</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>                <span class="st">'partner_payoff'</span>: other_p.round_payoff,</span>
 <span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>                <span class="st">'cumulative'</span>: cumulative_payoff,</span>
 <span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>            })</span>
 <span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">dict</span>(</span>
@@ -690,7 +690,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="looping-through-previous-rounds">Looping through previous rounds</h3>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> p <span class="kw">in</span> player.in_previous_rounds():</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><code>player.in_previous_rounds()</code> is a built-in oTree method that returns a list of the <strong>same player’s</strong> objects from all earlier rounds. If you are in round 4, it returns the player objects from rounds 1, 2, and 3. In round 1, it returns an empty list (there are no previous rounds), so the loop does not run and the history table is empty.</p>
-<p>Each <code>p</code> in the loop is a full Player object for that earlier round — you can access <code>p.cooperate</code>, <code>p.per_round_payoff</code>, <code>p.round_number</code>, and any other field.</p>
+<p>Each <code>p</code> in the loop is a full Player object for that earlier round — you can access <code>p.cooperate</code>, <code>p.round_payoff</code>, <code>p.round_number</code>, and any other field.</p>
 </section>
 <section id="getting-the-partner-for-each-round" class="level3">
 <h3 class="anchored" data-anchor-id="getting-the-partner-for-each-round">Getting the partner for each round</h3>
@@ -699,16 +699,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="building-each-row" class="level3">
 <h3 class="anchored" data-anchor-id="building-each-row">Building each row</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>cumulative_payoff <span class="op">+=</span> p.per_round_payoff</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>cumulative_payoff <span class="op">+=</span> p.round_payoff</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>game_history.append({</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'round'</span>: p.round_number,</span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'my_choice'</span>: p.field_display(<span class="st">'cooperate'</span>),</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'my_payoff'</span>: p.per_round_payoff,</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'my_payoff'</span>: p.round_payoff,</span>
 <span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'partner_choice'</span>: other_p.field_display(<span class="st">'cooperate'</span>),</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'partner_payoff'</span>: other_p.per_round_payoff,</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'partner_payoff'</span>: other_p.round_payoff,</span>
 <span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'cumulative'</span>: cumulative_payoff,</span>
 <span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The <code>+=</code> operator adds <code>p.per_round_payoff</code> to the running total. Then <code>game_history.append(...)</code> adds a dictionary to the list. Each dictionary represents one row of the history table, with named keys that make the template code easy to read.</p>
+<p>The <code>+=</code> operator adds <code>p.round_payoff</code> to the running total. Then <code>game_history.append(...)</code> adds a dictionary to the list. Each dictionary represents one row of the history table, with named keys that make the template code easy to read.</p>
 <p><code>p.field_display('cooperate')</code> returns the display label (<code>'Cooperate'</code> or <code>'Defect'</code>) instead of the raw value (<code>True</code> or <code>False</code>). This is what participants should see.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -805,13 +805,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>        cumulative_payoff <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> p <span class="kw">in</span> player.in_all_rounds():</span>
 <span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>            other_p <span class="op">=</span> p.get_others_in_group()[<span class="dv">0</span>]</span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>            cumulative_payoff <span class="op">+=</span> p.per_round_payoff</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>            cumulative_payoff <span class="op">+=</span> p.round_payoff</span>
 <span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>            game_history.append({</span>
 <span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>                <span class="st">'round'</span>: p.round_number,</span>
 <span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>                <span class="st">'my_choice'</span>: p.field_display(<span class="st">'cooperate'</span>),</span>
-<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>                <span class="st">'my_payoff'</span>: p.per_round_payoff,</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>                <span class="st">'my_payoff'</span>: p.round_payoff,</span>
 <span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>                <span class="st">'partner_choice'</span>: other_p.field_display(<span class="st">'cooperate'</span>),</span>
-<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>                <span class="st">'partner_payoff'</span>: other_p.per_round_payoff,</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>                <span class="st">'partner_payoff'</span>: other_p.round_payoff,</span>
 <span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>                <span class="st">'cumulative'</span>: cumulative_payoff,</span>
 <span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>            })</span>
 <span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">dict</span>(</span>
@@ -1034,7 +1034,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>Same — randomize in round 1, fix thereafter</td>
 </tr>
 <tr class="even">
-<td><code>per_round_payoff</code> field</td>
+<td><code>round_payoff</code> field</td>
 <td>Same — track per-round earnings separately</td>
 </tr>
 <tr class="odd">
