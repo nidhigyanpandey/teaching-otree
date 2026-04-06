@@ -1,0 +1,16 @@
+# Session 2
+
+
+## From the Prisoner's Dilemma to the Stag Hunt
+
+In Session 1, you learned how to set up an oTree project, navigate the folder structure, understand `settings.py`, and read through a simple survey app. Now it is time to work with something more interesting — a two-player game.
+
+oTree comes with several sample games built in, including a one-shot Prisoner's Dilemma. In this session we will use that sample app as our starting point. We will first understand how it works — both the Python logic and the HTML templates — and then begin modifying it to build toward the Stag Hunt game you will submit for your assignment.
+
+This session covers:
+
+- **[Inside the Prisoner's Dilemma: `__init__.py`](session-02a.qmd)** — Understanding the Python code that powers a two-player game: constants, groups, player decisions, payoff matrices, wait pages, and results.
+- **[Inside the Prisoner's Dilemma: HTML Templates](session-02b.qmd)** — Understanding the four template files that control what participants see: page structure, payoff tables, conditional text, included templates, and the chat widget.
+- **[Hands-On: Getting started with Assignment 2](session-02c.qmd)** — Your first modifications to the Prisoner's Dilemma app: turning a one-shot game into a repeated game and building a history table that tracks every round.
+
+The final chapter contains a quick reference for the oTree features and Python patterns you will need for your Stag Hunt assignment.

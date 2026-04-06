@@ -1,0 +1,520 @@
+# Inside the Prisoner's Dilemma: `__init__.py`
+
+When you created your oTree project with sample games in Session 1, one of the apps included was `prisoner` — a one-shot Prisoner's Dilemma. Two players are paired together, each privately chooses to cooperate or defect, and their payoffs depend on the combination of choices.
+
+This app is a natural stepping stone toward the Stag Hunt. Both are two-player games with a 2×2 payoff matrix, and the code patterns you learn here — groups, roles, payoff calculations, wait pages — carry directly into your assignment.
+
+Open the file `prisoner/__init__.py` in VS Code. Here is the full file:
+
+```python
+
+from otree.api import *
+
+doc = """
+This is a one-shot "Prisoner's Dilemma". Two players are asked separately
+whether they want to cooperate or defect. Their choices directly determine the
+payoffs.
+"""
+
+class C(BaseConstants):
+    NAME_IN_URL = 'prisoner'
+    PLAYERS_PER_GROUP = 2
+    NUM_ROUNDS = 1
+    PAYOFF_A = cu(300)
+    PAYOFF_B = cu(200)
+    PAYOFF_C = cu(100)
+    PAYOFF_D = cu(0)
+
+class Subsession(BaseSubsession):
+    pass
+
+class Group(BaseGroup):
+    pass
+
+class Player(BasePlayer):
+    cooperate = models.BooleanField(
+        choices=[[True, 'Cooperate'], [False, 'Defect']],
+        doc="""This player's decision""",
+        widget=widgets.RadioSelect,
+    )
+
+# FUNCTIONS
+def set_payoffs(group: Group):
+    for p in group.get_players():
+        set_payoff(p)
+
+def other_player(player: Player):
+    return player.get_others_in_group()[0]
+
+def set_payoff(player: Player):
+    payoff_matrix = {
+        (False, True): C.PAYOFF_A,
+        (True, True): C.PAYOFF_B,
+        (False, False): C.PAYOFF_C,
+        (True, False): C.PAYOFF_D,
+    }
+    other = other_player(player)
+    player.payoff = payoff_matrix[(player.cooperate, other.cooperate)]
+
+# PAGES
+class Introduction(Page):
+    timeout_seconds = 100
+
+class Decision(Page):
+    form_model = 'player'
+    form_fields = ['cooperate']
+
+class ResultsWaitPage(WaitPage):
+    after_all_players_arrive = set_payoffs
+
+class Results(Page):
+    @staticmethod
+    def vars_for_template(player: Player):
+        opponent = other_player(player)
+        return dict(
+            opponent=opponent,
+            same_choice=player.cooperate == opponent.cooperate,
+            my_decision=player.field_display('cooperate'),
+            opponent_decision=opponent.field_display('cooperate'),
+        )
+
+page_sequence = [Introduction, Decision, ResultsWaitPage, Results]
+```
+
+Now let us go through each section. Many of these concepts were introduced briefly in Session 1 — here you will see them working together in a real game.
+
+
+## The import and `doc`
+
+```python
+
+from otree.api import *
+
+doc = """
+This is a one-shot "Prisoner's Dilemma". Two players are asked separately
+whether they want to cooperate or defect. Their choices directly determine the
+payoffs.
+"""
+```
+
+These are the same as in the demographic survey app. The import brings in everything oTree needs. The `doc` string is an optional description that appears in the admin interface.
+
+
+## Class `C`: constants for a two-player game
+
+```python
+
+class C(BaseConstants):
+    NAME_IN_URL = 'prisoner'
+    PLAYERS_PER_GROUP = 2
+    NUM_ROUNDS = 1
+    PAYOFF_A = cu(300)
+    PAYOFF_B = cu(200)
+    PAYOFF_C = cu(100)
+    PAYOFF_D = cu(0)
+```
+
+Compare this to the demographic survey's constants:
+
+| Constant | Demographic survey | Prisoner's Dilemma |
+|---|---|---|
+| `NAME_IN_URL` | `'survey_experiment'` | `'prisoner'` |
+| `PLAYERS_PER_GROUP` | `None` | `2` |
+| `NUM_ROUNDS` | `1` | `1` |
+
+The key difference is `PLAYERS_PER_GROUP = 2`. This tells oTree to automatically divide participants into **pairs**. If 10 participants join a session, oTree creates 5 groups of 2.
+
+### Payoff constants with `cu()`
+
+```python
+
+PAYOFF_A = cu(300)
+PAYOFF_B = cu(200)
+PAYOFF_C = cu(100)
+PAYOFF_D = cu(0)
+```
+
+The `cu()` function stands for **currency unit**. It creates a currency value that oTree knows how to format and display — with dollar signs, decimal places, and proper alignment. Using `cu()` instead of plain numbers ensures consistent formatting throughout the experiment.
+
+These four constants represent the four possible payoffs in the game. By defining them as constants, you can change the payoff structure by editing one line in the `C` class instead of searching through the entire file.
+
+::: {.callout-tip}
+## Why use named constants instead of raw numbers?
+
+Consider two versions of the same code:
+
+```python
+
+# Hard to understand
+player.payoff = cu(300)
+
+# Easy to understand
+player.payoff = C.PAYOFF_A
+```
+
+When you return to your code a week later, `C.PAYOFF_A` immediately tells you this is "payoff A from the game matrix." The number `300` tells you nothing about its role in the experiment.
+:::
+
+### How the payoff labels map to the game
+
+The Prisoner's Dilemma payoff matrix looks like this (your payoff listed first in each cell):
+
+|  | Partner cooperates | Partner defects |
+|---|---|---|
+| **You cooperate** | 200, 200 | 0, 300 |
+| **You defect** | 300, 0 | 100, 100 |
+
+The constants map to this matrix as follows:
+
+| Constant | Value | Meaning |
+|---|---|---|
+| `PAYOFF_A` | `cu(300)` | You defect, partner cooperates (temptation) |
+| `PAYOFF_B` | `cu(200)` | Both cooperate (mutual cooperation) |
+| `PAYOFF_C` | `cu(100)` | Both defect (mutual defection) |
+| `PAYOFF_D` | `cu(0)` | You cooperate, partner defects (sucker's payoff) |
+
+
+## The data model classes
+
+```python
+
+class Subsession(BaseSubsession):
+    pass
+
+class Group(BaseGroup):
+    pass
+
+class Player(BasePlayer):
+    cooperate = models.BooleanField(
+        choices=[[True, 'Cooperate'], [False, 'Defect']],
+        doc="""This player's decision""",
+        widget=widgets.RadioSelect,
+    )
+```
+
+### `Subsession` and `Group`
+
+Both are `pass` — no custom fields needed. The `Subsession` class has no extra logic because there is only one round and no special setup. The `Group` class has no fields because no group-level data is tracked (we only care about individual decisions and payoffs).
+
+Remember from Session 1: these classes must always be present in `__init__.py`, even if they contain nothing. Removing them will crash the app.
+
+### The `Player` class
+
+The `Player` class defines one field: `cooperate`. This is the participant's decision in the game.
+
+```python
+
+cooperate = models.BooleanField(
+    choices=[[True, 'Cooperate'], [False, 'Defect']],
+    doc="""This player's decision""",
+    widget=widgets.RadioSelect,
+)
+```
+
+This should look familiar from the demographic survey. Let us review the key parts:
+
+| Argument | Value | What it does |
+|---|---|---|
+| `models.BooleanField` | — | Stores `True` or `False` |
+| `choices` | `[[True, 'Cooperate'], [False, 'Defect']]` | Maps database values to display labels |
+| `doc` | `"This player's decision"` | Description in data export (optional) |
+| `widget` | `widgets.RadioSelect` | Displays radio buttons instead of a dropdown |
+
+The `choices` argument follows the `[recorded, displayed]` pattern from Session 1. The database stores `True` or `False`. The participant sees "Cooperate" or "Defect."
+
+
+## The functions: payoff logic
+
+The Prisoner's Dilemma app has three functions that handle payoff calculations. These functions sit outside of any class — they are **module-level functions** that oTree calls when needed.
+
+### `other_player`: finding the partner
+
+```python
+
+def other_player(player: Player):
+    return player.get_others_in_group()[0]
+```
+
+This function takes a player and returns their partner — the other player in the same group. Here is how it works:
+
+- `player.get_others_in_group()` is a built-in oTree method that returns a **list** of all other players in the same group.
+- Since `PLAYERS_PER_GROUP = 2`, there is exactly one other player, so the list has exactly one element.
+- `[0]` extracts the first (and only) element from the list.
+
+You will use this function every time you need to look at what the partner chose or what the partner earned.
+
+::: {.callout-note}
+## Python lists and indexing
+
+A list is an ordered collection of items. You access items by their **index** — their position in the list. Python uses **zero-based indexing**, which means the first item is at position `0`, the second at position `1`, and so on.
+
+```python
+
+my_list = ['apple', 'banana', 'cherry']
+my_list[0]   # returns 'apple'
+my_list[1]   # returns 'banana'
+my_list[2]   # returns 'cherry'
+```
+
+So `get_others_in_group()[0]` means "get the list of other players, then grab the first one."
+:::
+
+### `set_payoff`: the payoff matrix as a dictionary
+
+```python
+
+def set_payoff(player: Player):
+    payoff_matrix = {
+        (False, True): C.PAYOFF_A,
+        (True, True): C.PAYOFF_B,
+        (False, False): C.PAYOFF_C,
+        (True, False): C.PAYOFF_D,
+    }
+    other = other_player(player)
+    player.payoff = payoff_matrix[(player.cooperate, other.cooperate)]
+```
+
+This is the heart of the game. It calculates the player's payoff based on both players' decisions. Let us break it down.
+
+**The payoff matrix dictionary:**
+
+A Python **dictionary** maps keys to values. Here, each key is a **tuple** — a pair of values in parentheses — representing `(my_choice, partner_choice)`. Each value is the corresponding payoff.
+
+| Key | My choice | Partner's choice | Payoff |
+|---|---|---|---|
+| `(True, True)` | Cooperate | Cooperate | `cu(200)` |
+| `(True, False)` | Cooperate | Defect | `cu(0)` |
+| `(False, True)` | Defect | Cooperate | `cu(300)` |
+| `(False, False)` | Defect | Defect | `cu(100)` |
+
+**The lookup:**
+
+```python
+
+other = other_player(player)
+player.payoff = payoff_matrix[(player.cooperate, other.cooperate)]
+```
+
+First, the code gets the partner using `other_player`. Then it constructs a tuple from both players' choices — `(player.cooperate, other.cooperate)` — and uses it as a key to look up the payoff in the dictionary.
+
+For example, if this player cooperated (`True`) and the partner defected (`False`), the key is `(True, False)`, and the payoff is `C.PAYOFF_D = cu(0)`.
+
+The result is stored in `player.payoff`, which is a **built-in oTree field** that tracks each player's earnings. Unlike the custom fields you define yourself, `player.payoff` exists automatically in every app.
+
+::: {.callout-note}
+## Python dictionaries
+
+A dictionary is created with curly braces and contains key-value pairs separated by colons:
+
+```python
+
+my_dict = {
+    'apple': 3,
+    'banana': 5,
+}
+```
+
+You look up a value by its key: `my_dict['apple']` returns `3`.
+
+In the payoff matrix, the keys are tuples like `(True, False)` instead of strings. This is a common and powerful Python pattern — it lets you look up a value based on a combination of conditions in one clean step, instead of writing a long chain of if/else statements.
+:::
+
+::: {.callout-tip}
+## The dictionary approach vs. if/else
+
+Without the dictionary, you would need to write:
+
+```python
+
+if player.cooperate == True and other.cooperate == True:
+    player.payoff = C.PAYOFF_B
+elif player.cooperate == True and other.cooperate == False:
+    player.payoff = C.PAYOFF_D
+elif player.cooperate == False and other.cooperate == True:
+    player.payoff = C.PAYOFF_A
+else:
+    player.payoff = C.PAYOFF_C
+```
+
+This works, but the dictionary version is more compact and easier to verify against the game matrix. Both approaches produce the same result — use whichever you find clearer.
+:::
+
+### `set_payoffs`: applying to the whole group
+
+```python
+
+def set_payoffs(group: Group):
+    for p in group.get_players():
+        set_payoff(p)
+```
+
+This function loops through every player in the group and calls `set_payoff` on each one. Since `PLAYERS_PER_GROUP = 2`, the loop runs exactly twice — once for each player.
+
+::: {.callout-note}
+## Python `for` loops
+
+A `for` loop repeats a block of code once for each item in a list:
+
+```python
+
+for item in my_list:
+    # do something with item
+```
+
+Here, `group.get_players()` returns a list of Player objects. The variable `p` takes on a different Player object each time through the loop. Indentation defines what code is "inside" the loop — everything indented under the `for` line runs once per item.
+:::
+
+
+## The pages
+
+The Prisoner's Dilemma has four pages. Let us look at each one.
+
+### `Introduction`: a simple instruction page
+
+```python
+
+class Introduction(Page):
+    timeout_seconds = 100
+```
+
+This page displays the experiment instructions. It has no form fields — participants just read and click "Next." The `timeout_seconds = 100` automatically advances the page after 100 seconds if the participant has not clicked "Next" themselves.
+
+The actual text shown on this page comes from the HTML template `Introduction.html`, which we will look at in the next part.
+
+### `Decision`: collecting the player's choice
+
+```python
+
+class Decision(Page):
+    form_model = 'player'
+    form_fields = ['cooperate']
+```
+
+This page collects the participant's decision. The two attributes tell oTree:
+
+- `form_model = 'player'` — The form data belongs to the `Player` model.
+- `form_fields = ['cooperate']` — Display the `cooperate` field as an input on this page.
+
+When the participant submits the page, their choice (`True` for cooperate, `False` for defect) is saved to `player.cooperate`.
+
+### `ResultsWaitPage`: synchronising both players
+
+```python
+
+class ResultsWaitPage(WaitPage):
+    after_all_players_arrive = set_payoffs
+```
+
+This is the first `WaitPage` you are seeing. A wait page is fundamentally different from a regular page:
+
+- A regular `Page` shows content to one player and lets them proceed independently.
+- A `WaitPage` **pauses** each player until **all players in the group** have arrived.
+
+This is essential in the Prisoner's Dilemma. You cannot calculate payoffs until both players have submitted their decisions. When Player 1 finishes the Decision page, they see the wait page. When Player 2 also finishes, the wait page releases both players.
+
+**`after_all_players_arrive = set_payoffs`** tells oTree: "Once both players have arrived at this wait page, run the `set_payoffs` function." This calculates both players' payoffs before they see the results.
+
+::: {.callout-important}
+## `after_all_players_arrive` runs once per group
+
+This function runs **once** after all players in the group have reached the wait page — not once per player. That is why `set_payoffs` takes a `group` as its argument and loops through all players in the group internally.
+:::
+
+::: {.callout-warning}
+## Testing wait pages
+
+When testing locally with `otree devserver`, you need to open **two browser tabs** (or two browsers) to simulate two players in the same group. If you only have one tab open, you will be stuck on the wait page forever because the second player never arrives.
+:::
+
+### `Results`: showing the outcome
+
+```python
+
+class Results(Page):
+    @staticmethod
+    def vars_for_template(player: Player):
+        opponent = other_player(player)
+        return dict(
+            opponent=opponent,
+            same_choice=player.cooperate == opponent.cooperate,
+            my_decision=player.field_display('cooperate'),
+            opponent_decision=opponent.field_display('cooperate'),
+        )
+```
+
+This page displays the round's results. It uses `vars_for_template` to pass several calculated variables to the HTML template.
+
+**`vars_for_template`** is a built-in oTree method that lets you send custom data from Python to the HTML template. Whatever keys you include in the returned dictionary become available in the template using `{{ variable_name }}` syntax.
+
+Let us look at each variable:
+
+| Variable | Value | Purpose |
+|---|---|---|
+| `opponent` | The other player object | Access opponent's data in the template |
+| `same_choice` | `True` if both made the same choice | Used for conditional display |
+| `my_decision` | `'Cooperate'` or `'Defect'` (display label) | Human-readable version of the choice |
+| `opponent_decision` | `'Cooperate'` or `'Defect'` (display label) | Human-readable version of partner's choice |
+
+**`player.field_display('cooperate')`** is a built-in oTree method that returns the **display label** for a field's value instead of the raw database value. So instead of `True`, it returns `'Cooperate'`. This is what you want to show participants — they should see words, not `True`/`False`.
+
+**`player.cooperate == opponent.cooperate`** creates a Boolean value: `True` if both players made the same choice, `False` otherwise. The template uses this to display different messages depending on the outcome.
+
+::: {.callout-note}
+## Variables oTree passes automatically
+
+You do not need `vars_for_template` for everything. oTree automatically makes `player`, `group`, `subsession`, `participant`, `session`, and `C` available in every template. You can always write `{{ player.payoff }}` or `{{ C.NUM_ROUNDS }}` without any extra work.
+
+Use `vars_for_template` for values that require calculation or processing — like the display labels, the opponent's data, or derived Boolean flags.
+:::
+
+
+## The page sequence
+
+```python
+
+page_sequence = [Introduction, Decision, ResultsWaitPage, Results]
+```
+
+Participants move through the pages in this order:
+
+1. **Introduction** — Read the instructions (with a 100-second timer).
+2. **Decision** — Choose to cooperate or defect.
+3. **ResultsWaitPage** — Wait for the partner. Once both arrive, payoffs are calculated.
+4. **Results** — See what both players chose and the resulting payoffs.
+
+Since `NUM_ROUNDS = 1`, this sequence runs exactly once. In the next hands-on session, you will change `NUM_ROUNDS` and see the entire sequence repeat.
+
+
+## Comparing the survey app to the Prisoner's Dilemma
+
+Now that you have seen both a survey app and a game app, here is a side-by-side comparison of the key differences:
+
+| Feature | Demographic survey | Prisoner's Dilemma |
+|---|---|---|
+| `PLAYERS_PER_GROUP` | `None` (individual) | `2` (pairs) |
+| `NUM_ROUNDS` | `1` | `1` |
+| `Group` class | `pass` | `pass` |
+| `Player` fields | Many (age, gender, etc.) | One (`cooperate`) |
+| Functions | None | `set_payoff`, `set_payoffs`, `other_player` |
+| `WaitPage` | Not used | Used (to sync both players) |
+| `vars_for_template` | Not used | Used (to pass opponent data) |
+| `form_fields` | Many fields on one page | One field on one page |
+
+The game app introduces three concepts not needed in surveys: **groups** (pairing players), **wait pages** (synchronising players), and **payoff functions** (calculating earnings based on joint decisions).
+
+
+## Summary
+
+| Concept | What it does | Where it appears |
+|---|---|---|
+| `PLAYERS_PER_GROUP = 2` | Pairs participants into groups of 2 | `class C` |
+| `cu()` | Creates a formatted currency value | Payoff constants |
+| `models.BooleanField` with `choices` | Stores True/False, displays custom labels | `Player` class |
+| `get_others_in_group()[0]` | Returns the other player in the group | `other_player` function |
+| Dictionary with tuple keys | Maps `(my_choice, partner_choice)` to payoff | `set_payoff` function |
+| `for` loop over `group.get_players()` | Runs code for each player in the group | `set_payoffs` function |
+| `WaitPage` | Pauses until all group members arrive | `ResultsWaitPage` |
+| `after_all_players_arrive` | Runs a function once all players reach the wait page | `ResultsWaitPage` |
+| `vars_for_template` | Passes custom variables to the HTML template | `Results` page |
+| `field_display('field')` | Returns the display label instead of the raw value | `Results` page |
+| `player.payoff` | Built-in field for storing a player's earnings | Set in `set_payoff` |

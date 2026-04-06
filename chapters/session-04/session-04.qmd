@@ -1,1 +1,277 @@
-# Session 4 {#sec-session-04}
+---
+title: "Session 4"
+---
+
+# Using Claude for Coding and Deploying Your Experiment
+
+You have now learned how to build a complete oTree experiment — from the data model and payoff logic to HTML templates and cross-app data flow. This final session covers two remaining topics. First, how to use AI tools like Claude effectively to help you write, debug, and improve your oTree code. Second, how to package your project and deploy it on a server so you can run a live session with real participants.
+
+
+## Using Claude to help with oTree coding
+
+The assignment states: "You should also make heavy use of an AI LLM (ChatGPT, Claude, etc). Learning how to leverage AI assistance will be an essential part of creating your best code." This section teaches you how to do that well.
+
+### What AI can do for you
+
+AI assistants are excellent at several tasks that come up constantly in oTree development:
+
+- **Generating boilerplate code** — "Write an oTree page class with a timer and a form field called `contribution`."
+- **Explaining code** — "What does `player.in_previous_rounds()` return?"
+- **Debugging errors** — Paste your error traceback and ask what went wrong.
+- **Writing HTML templates** — "Build an HTML table that displays a 2×2 payoff matrix."
+- **Translating logic into code** — "I want to randomly select one round for payment at the end of the game."
+- **Refactoring** — "Can you rewrite this chain of if/else statements as a dictionary lookup?"
+
+### How to write effective prompts
+
+The quality of the code you get back depends on the quality of your prompt. Here are principles that work well for oTree coding.
+
+**Be specific about the oTree version.** oTree has changed significantly over the years. The newer "no-self" format (used in this course) is different from older versions. Always mention that you are using the current oTree syntax. For example: "I am using the latest version of oTree with the no-self format. Write a function that..."
+
+**Provide context.** Do not just ask "how do I calculate payoffs?" Instead, describe your game: "I have a two-player Stag Hunt with `PLAYERS_PER_GROUP = 2`. Each player chooses A or B. I need a function that looks up the payoff from a 2×2 matrix based on both players' choices."
+
+**Share your existing code.** If you have a partial implementation or a function that is not working, paste the relevant section and explain what you expected versus what happened. The more context the AI has, the better its suggestions will be.
+
+**Ask for explanations, not just code.** Instead of "write this for me," try "write this for me and explain what each line does." This helps you learn and makes it easier to modify the code later.
+
+**Iterate.** If the first response is not quite right, explain what needs to change. "This is close, but the payoff matrix should be different for Hunter 1 and Hunter 2. Hunter 2's B payoff is X, which changes after round 3."
+
+::: {.callout-tip}
+## Example prompt for an oTree task
+
+Here is a prompt that would produce good results:
+
+*"I am building an oTree experiment using the latest no-self format. I have a two-player game with `PLAYERS_PER_GROUP = 2` and `NUM_ROUNDS = 10`. I want to implement a random stopping rule: after round 5, each round should have a 55% chance of being the last round, but the game should never go past round 10. When the game ends, I want to randomly select one round for payment. Can you write the `after_all_players_arrive` method for my WaitPage that implements this? Please explain what each part does."*
+
+This prompt specifies the oTree version, the game structure, the exact rule to implement, where the code should go, and asks for explanations.
+:::
+
+### What AI is not good at
+
+AI is a powerful tool but it has real limitations:
+
+- **It can produce code that looks correct but has subtle bugs.** Always test your code by running `otree devserver` and clicking through the experiment yourself.
+- **It may use outdated oTree syntax.** If you see `self.player` or `self.session` in generated code, that is the old format. The correct syntax is `player` and `player.session`.
+- **It cannot test your experiment.** It does not know if your payoffs display correctly, if your timer works, or if your wait page releases both players at the right time. Only running the code can tell you that.
+- **It does not know your experimental design.** You need to check that the generated code implements the game you intend, not just a game that runs without errors.
+
+::: {.callout-warning}
+## Always test AI-generated code
+
+Never submit code you have not tested yourself. Run `otree devserver`, open two browser tabs (to simulate two players), and play through the entire experiment. Check that payoffs are correct, the game history table displays properly, the stopping rule works, and the summary screen shows the right information. 
+:::
+
+
+### Debugging with `print()`
+
+When your code does not work as expected, `print()` is your most useful debugging tool. You can insert `print()` statements anywhere in your Python code to see what values variables hold at that point:
+
+```python
+
+def set_payoff(player: Player):
+    other = other_player(player)
+    print('Player role:', player.role)
+    print('Player chose:', player.stag)
+    print('Other chose:', other.stag)
+    # ... rest of the function
+```
+
+The output appears in the terminal where `otree devserver` is running. This is enormously helpful for tracking down bugs — if a payoff is wrong, printing the inputs to the payoff calculation will usually reveal the problem.
+
+::: {.callout-tip}
+## Remove `print()` before deploying
+
+`print()` statements are for development only. They clutter the server logs during real sessions. Remove or comment them out before deploying your experiment. You can comment out a line by adding `#` at the beginning:
+
+```python
+
+# print('Player role:', player.role)  # commented out for deployment
+```
+:::
+
+
+## Common Python patterns for oTree
+
+Here is a quick reference for the Python patterns you will use most often in oTree.
+
+### If/elif/else
+
+```python
+
+if player.round_number <= 3:
+    X = cu(2)
+elif player.round_number <= 6:
+    X = cu(3)
+else:
+    X = cu(4)
+```
+
+`elif` (short for "else if") lets you chain multiple conditions. Python checks them in order and runs the first one that is `True`.
+
+### For loops
+
+```python
+
+# Loop through all players in a group
+for p in group.get_players():
+    print(p.role, p.stag)
+
+# Loop through all previous rounds
+for p in player.in_previous_rounds():
+    print(p.round_number, p.per_round_payoff)
+
+# Loop with index using enumerate
+for i, p in enumerate(group.get_players()):
+    print(f"Player {i}: {p.role}")
+```
+
+### Lists
+
+```python
+
+# Create an empty list and add items
+history = []
+history.append('round 1 data')
+history.append('round 2 data')
+
+# Access items by index (starts at 0)
+first_item = history[0]
+
+# List comprehension — create a list from a loop
+payoffs = [p.per_round_payoff for p in player.in_all_rounds()]
+total = sum(payoffs)
+```
+
+### Dictionaries
+
+```python
+
+# Create a dictionary
+payoff_matrix = {
+    (True, True): cu(4),
+    (True, False): cu(0),
+    (False, True): cu(1),
+    (False, False): cu(1),
+}
+
+# Look up a value
+result = payoff_matrix[(True, False)]  # returns cu(0)
+```
+
+### String formatting
+
+```python
+
+# f-strings (the modern way)
+name = "Hunter 1"
+payoff = cu(4)
+message = f"{name} earned {payoff} this round."
+```
+
+
+## Deploying your experiment
+
+Once your code is tested and working locally, you need to deploy it to a server so that real participants can access it over the internet.
+
+### Step 1: Zip your project
+
+In the terminal, navigate to your project folder and run:
+
+```
+otree zip
+```
+
+This creates a `.otreezip` file containing your entire project. This is the file you will upload to oTree Hub.
+
+::: {.callout-warning}
+## Check your `settings.py` before zipping
+
+Before zipping, make sure:
+
+- `DEBUG = 0` — Do not deploy with debug mode on.
+- Your `SESSION_CONFIGS` list contains the session you want to run.
+- `SESSION_FIELDS` and `PARTICIPANT_FIELDS` are correctly declared.
+- `participation_fee` and `real_world_currency_per_point` are set to the correct values.
+:::
+
+### Step 2: Upload to oTree Hub
+
+1. Go to [oTree Hub](https://www.otreehub.com/) and log in (or create an account).
+2. Create a new project on oTree Hub.
+3. Upload your `.otreezip` file.
+4. oTree Hub will build and deploy your project.
+
+### Step 3: Connect to Heroku
+
+oTree Hub can deploy your project to [Heroku](https://www.heroku.com/), a cloud platform that hosts your experiment and makes it accessible via a URL. Follow the oTree Hub instructions to link your Heroku account and deploy.
+
+Once deployed, you will receive a URL like `https://your-project-name.herokuapp.com`. This is the address participants will use to access the experiment.
+
+### Step 4: Set up rooms for a live session
+
+For running sessions in a lab, oTree uses **rooms**. A room assigns a fixed URL to each participant station, which prevents the problems that can occur with open session-wide links (like the same participant joining twice).
+
+To create a room:
+
+1. Create a text file in your project's `_rooms/` folder — for example, `_rooms/econ227b.txt`.
+2. List one participant label per line (e.g., `P1`, `P2`, `P3`, ..., `P20`).
+3. In `settings.py`, add a `ROOMS` setting that references this file.
+
+When you start a session using a room, each participant label gets its own unique link. In the lab, each computer opens its assigned link.
+
+::: {.callout-tip}
+## Test your deployment
+
+After deploying to Heroku, always run a complete test session through the deployed URL — not just locally. Network latency, server configuration, and browser differences can all cause issues that do not appear on `localhost`.
+:::
+
+### Step 5: Run the session
+
+On the admin interface of your deployed oTree server:
+
+1. Click **Sessions** → **Create new session**.
+2. Select the session config you want to run (e.g., `assignment`).
+3. Set the number of participants.
+4. Choose a room if you set one up.
+5. Click **Create**.
+
+The admin interface will show you the participant links and allow you to monitor the session in real time — you can see which page each participant is on, who is waiting, and when everyone has finished.
+
+
+## Final checklist before submission
+
+Before submitting your assignment, go through this checklist:
+
+- [ ] All three apps run without errors (`otree devserver`)
+- [ ] Payoffs are calculated correctly for both Hunter 1 and Hunter 2
+- [ ] Payoffs change correctly after round 3 (X goes from 2 to 3)
+- [ ] Groups of 2 are formed and remain fixed across rounds
+- [ ] The stopping rule works (game continues after round 5 with probability 0.45, never past round 10)
+- [ ] Game history table displays correctly on the decision screen
+- [ ] Instructions are clear, use cold language, and display at 24pt font
+- [ ] Hunter 1 references are in **bold red**, Hunter 2 references are in *italic green*
+- [ ] Wait page replicates the decision screen without input ability
+- [ ] Happy/sad face images appear on the results page
+- [ ] Stag-Stag percentage appears on the final summary screen
+- [ ] Timer works on the decision page, defaulting to Stag on timeout
+- [ ] Random round for payment is selected and displayed
+- [ ] Questionnaire collects at least 5 demographic questions
+- [ ] `DEBUG = 0` before deployment
+- [ ] Project zips successfully with `otree zip`
+- [ ] All files uploaded to the Google Drive folder
+
+
+## Summary
+
+| Topic | Key takeaway |
+|---|---|
+| AI for coding | Be specific, provide context, share code, ask for explanations, always test |
+| `print()` debugging | Insert print statements to inspect variable values in the terminal |
+| If/elif/else | Chain conditions; Python checks them in order |
+| For loops | Iterate through players, rounds, or any list |
+| Lists and list comprehensions | Build data structures for game history and aggregation |
+| Dictionaries | Use as payoff matrices with tuple keys |
+| `otree zip` | Packages your project for upload |
+| oTree Hub + Heroku | Deploys your project to a public URL |
+| Rooms | Assign fixed participant links for lab sessions |
+| Pre-deployment checks | `DEBUG = 0`, correct settings, full test run |

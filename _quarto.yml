@@ -18,7 +18,12 @@ book:
         - chapters/session-01/session-01a.qmd
         - chapters/session-01/session-01b.qmd
         - chapters/session-01/session-01c.qmd
-    - chapters/session-02/session-02.qmd
+    - part: chapters/session-02/index.qmd
+      chapters: 
+        - chapters/session-02/session-02a.qmd
+        - chapters/session-02/session-02b.qmd
+        - chapters/session-02/session-02c.qmd
+        - chapters/session-02/session-02d.qmd
     - chapters/session-03/session-03.qmd
     - chapters/session-04/session-04.qmd
     - chapters/resources/resources.qmd

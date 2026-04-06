@@ -1,0 +1,501 @@
+# Assignment 2 Cheat Sheet
+
+This is a quick reference for the oTree features and Python patterns you will need for your Stag Hunt assignment. It is not a tutorial — it tells you **what exists** and **how to use it**, so you know what to reach for when building your app. Use this alongside the [official oTree documentation](https://otree.readthedocs.io/en/latest/) and AI assistance.
+
+
+## Constants (`class C`)
+
+### Required constants
+
+Every app must define these three:
+
+```python
+class C(BaseConstants):
+    NAME_IN_URL = 'my_app'       # Appears in participants' browser URL
+    PLAYERS_PER_GROUP = 2        # None for individual tasks
+    NUM_ROUNDS = 10              # How many times the page sequence repeats
+```
+
+### Currency values
+
+```python
+PAYOFF_A = cu(4)     # Creates a formatted currency value
+PAYOFF_B = cu(0)     # oTree handles dollar signs, decimals, etc.
+```
+
+### Role constants
+
+```python
+HUNTER1_ROLE = 'Hunter_1'    # Assigned to id_in_group = 1
+HUNTER2_ROLE = 'Hunter_2'    # Assigned to id_in_group = 2
+```
+
+Access in code: `player.role` returns the role string (e.g., `'Hunter_1'`).
+
+Access in templates: `{{ player.role }}`.
+
+
+## Model fields
+
+### Field types
+
+| Type | Use for | Example |
+|---|---|---|
+| `models.BooleanField()` | True/False choices | Player's decision (A or B) |
+| `models.IntegerField()` | Whole numbers | Age, number of courses |
+| `models.FloatField()` | Decimal numbers | Probabilities, percentages |
+| `models.StringField()` | Text | Name, major, open-ended response |
+| `models.CurrencyField()` | Money amounts | Per-round payoff |
+| `models.LongStringField()` | Long text | Essay responses, comments |
+
+### Common field arguments
+
+| Argument | What it does | Example |
+|---|---|---|
+| `label` | Question text shown to participant | `label='What is your age?'` |
+| `choices` | List of `[recorded, displayed]` pairs | `choices=[[True, 'A'], [False, 'B']]` |
+| `widget` | How the field is rendered | `widget=widgets.RadioSelect` |
+| `min` / `max` | Validation for numeric fields | `min=18, max=99` |
+| `blank` | If `True`, field is optional | `blank=True` |
+| `doc` | Description in data export | `doc="Player's decision"` |
+| `default` | Default value | `default=0` |
+
+### Where to define fields
+
+| Level | Class | When to use |
+|---|---|---|
+| Individual data | `class Player(BasePlayer)` | Decisions, payoffs, survey responses |
+| Group data | `class Group(BaseGroup)` | Data about the pair/group as a whole |
+| Round data | `class Subsession(BaseSubsession)` | Data that applies to the entire round |
+
+
+## Built-in player attributes
+
+These exist automatically on every player — you do not define them.
+
+| Attribute | What it returns |
+|---|---|
+| `player.id_in_group` | Position in the group (1, 2, ...) |
+| `player.role` | Role name (from constants, e.g., `'Hunter_1'`) |
+| `player.round_number` | Current round (1, 2, ..., up to `NUM_ROUNDS`) |
+| `player.payoff` | Built-in earnings field (currency) |
+
+
+## Accessing other players and rounds
+
+### Within the same round
+
+| Method | Returns |
+|---|---|
+| `player.get_others_in_group()` | List of other players in the same group |
+| `player.group` | The Group object this player belongs to |
+| `group.get_players()` | List of all players in the group |
+| `group.get_player_by_role('Hunter_1')` | The specific player with that role |
+| `subsession.get_players()` | All players in the round |
+| `subsession.get_groups()` | All groups in the round |
+
+### Across rounds
+
+| Method | Returns |
+|---|---|
+| `player.in_previous_rounds()` | List of this player's objects from earlier rounds |
+| `player.in_all_rounds()` | List from all rounds including current |
+| `player.in_round(3)` | This player's object in round 3 specifically |
+| `group.in_all_rounds()` | List of this group's objects from all rounds |
+| `group.in_round(3)` | This group's object in round 3 specifically |
+
+### Display values
+
+| Method | Returns |
+|---|---|
+| `player.field_display('stag')` | The display label (e.g., `'A'`) instead of the raw value (`True`) |
+
+
+## Grouping
+
+### In `creating_session`
+
+```python
+def creating_session(subsession: Subsession):
+    if subsession.round_number == 1:
+        subsession.group_randomly()          # Random groups in round 1
+    else:
+        subsession.group_like_round(1)       # Same groups as round 1
+```
+
+### Other grouping methods
+
+| Method | What it does |
+|---|---|
+| `subsession.group_randomly()` | Randomly assigns players to groups |
+| `subsession.group_randomly(fixed_id_in_group=True)` | Random groups but keep same `id_in_group` |
+| `subsession.group_like_round(n)` | Copy group assignments from round `n` |
+
+
+## Page classes
+
+### Basic page
+
+```python
+class MyPage(Page):
+    form_model = 'player'                 # Which model the form saves to
+    form_fields = ['field1', 'field2']     # Which fields appear on the page
+```
+
+### Page methods
+
+| Method | When it runs | Common use |
+|---|---|---|
+| `is_displayed(player)` | Before the page is shown | Skip pages conditionally |
+| `vars_for_template(player)` | Before rendering the template | Pass calculated data to HTML |
+| `before_next_page(player, timeout_happened)` | After form submission | Set defaults, do calculations |
+| `app_after_this_page(player, upcoming_apps)` | After the page | Skip to a different app entirely |
+
+```python
+class Decision(Page):
+    form_model = 'player'
+    form_fields = ['stag']
+    timeout_seconds = 60
+
+    @staticmethod
+    def is_displayed(player):
+        return player.round_number == 1
+
+    @staticmethod
+    def vars_for_template(player):
+        return dict(my_variable=some_value)
+
+    @staticmethod
+    def before_next_page(player, timeout_happened):
+        if timeout_happened:
+            player.stag = True
+
+    @staticmethod
+    def app_after_this_page(player, upcoming_apps):
+        if some_condition:
+            return upcoming_apps[0]    # Skip to the next app
+```
+
+### Wait pages
+
+```python
+class MyWaitPage(WaitPage):
+    after_all_players_arrive = my_function    # Runs once when all players arrive
+```
+
+Or with a method defined inline:
+
+```python
+class MyWaitPage(WaitPage):
+    @staticmethod
+    def after_all_players_arrive(group):
+        # Calculate payoffs, check stopping rule, etc.
+        for p in group.get_players():
+            set_payoff(p)
+```
+
+### Custom wait page template
+
+```python
+class MyWaitPage(WaitPage):
+    template_name = __name__ + '/MyWaitPage.html'
+    title_text = "Waiting for other participants..."
+
+    @staticmethod
+    def vars_for_template(player):
+        return dict(my_data=some_value)
+```
+
+Wait pages can also have `vars_for_template` to pass data to the custom template.
+
+
+## Timers
+
+```python
+class MyPage(Page):
+    timeout_seconds = 120          # Fixed timer (2 minutes)
+    timeout_seconds = C.MY_TIMER   # Timer from a constant
+```
+
+The timer appears automatically on the page and counts down. When it reaches zero, the page submits automatically. On pages with form fields, always pair with `before_next_page` to handle missing data.
+
+
+## Cross-app data: `PARTICIPANT_FIELDS` and `SESSION_FIELDS`
+
+### Why you need them
+
+Player and group data only exist within their app. To pass data from one app to the next, you store it on the `participant` (for individual data) or `session` (for shared data).
+
+### Declaring fields in `settings.py`
+
+```python
+PARTICIPANT_FIELDS = ['finished_rounds', 'round_to_pay', 'opponent_payoff']
+SESSION_FIELDS = ['total_rounds_played', 'yes_stag']
+```
+
+You must list every custom participant/session variable here. Without this declaration, oTree will raise an error.
+
+### Setting values
+
+```python
+# Participant-level (specific to one person, persists across apps)
+player.participant.round_to_pay = 5
+player.participant.finished_rounds = True
+
+# Session-level (shared across everyone, persists across apps)
+player.session.total_rounds_played = 0
+player.session.yes_stag = 0
+```
+
+### Reading values in another app
+
+```python
+# In a later app's vars_for_template or page method
+payment_round = player.participant.round_to_pay
+total_stag = player.session.yes_stag
+```
+
+In templates:
+
+```html
+{{ participant.round_to_pay }}
+{{ session.total_rounds_played }}
+```
+
+### Initializing in `creating_session`
+
+Session-level variables should be initialized once (typically in round 1 of the first app):
+
+```python
+def creating_session(subsession):
+    if subsession.round_number == 1:
+        subsession.session.my_counter = 0
+```
+
+
+## Skipping rounds and apps
+
+### Skipping to the next app with `app_after_this_page`
+
+```python
+@staticmethod
+def app_after_this_page(player, upcoming_apps):
+    if player.participant.finished_rounds:
+        return upcoming_apps[0]    # Jump to the next app in app_sequence
+```
+
+`upcoming_apps` is a list of app names remaining in `app_sequence`. Returning `upcoming_apps[0]` sends the player to the very next app, skipping all remaining rounds.
+
+Return `None` (or do not return anything) to continue normally.
+
+
+## Template syntax
+
+### Displaying data
+
+```html
+{{ player.payoff }}              <!-- Built-in field -->
+{{ player.role }}                <!-- Built-in attribute -->
+{{ C.NUM_ROUNDS }}               <!-- Constant -->
+{{ my_variable }}                <!-- From vars_for_template -->
+{{ player.round_number }}        <!-- Current round number -->
+```
+
+### Conditionals
+
+```html
+{{ if player.round_number == 1 }}
+    <p>Welcome!</p>
+{{ endif }}
+
+{{ if same_choice }}
+    <p>You agreed.</p>
+{{ else }}
+    <p>You disagreed.</p>
+{{ endif }}
+
+{{ if player.role == 'Hunter_1' }}
+    <b style="color: red;">Hunter 1</b>
+{{ else }}
+    <i style="color: green;">Hunter 2</i>
+{{ endif }}
+```
+
+### Loops
+
+```html
+{{ for row in game_history }}
+<tr>
+    <td>{{ row.round }}</td>
+    <td>{{ row.my_choice }}</td>
+</tr>
+{{ endfor }}
+```
+
+### Forms
+
+```html
+{{ formfields }}                           <!-- All fields at once -->
+{{ formfield 'stag' }}                     <!-- One specific field -->
+{{ formfield 'stag' label="Your choice" }} <!-- With custom label -->
+```
+
+### Buttons and navigation
+
+```html
+{{ next_button }}              <!-- Standard "Next" button -->
+
+<!-- Custom button that submits a form field -->
+<button name="stag" value="True" class="btn btn-primary">
+    Choose A
+</button>
+```
+
+### Including other files
+
+```html
+{{ include_sibling 'instructions.html' }}
+```
+
+### Static files (images, CSS, JS)
+
+```html
+<img src="{{ static 'happy.png' }}" alt="Happy" width="80">
+```
+
+Place files in the `_static/` folder at the project level.
+
+
+## The `settings.py` session config
+
+```python
+SESSION_CONFIGS = [
+    dict(
+        name='my_experiment',
+        display_name='My Stag Hunt Experiment',
+        app_sequence=['stag_hunt', 'questionnaire', 'summary'],
+        num_demo_participants=2,
+    ),
+]
+```
+
+| Key | What it does |
+|---|---|
+| `name` | Internal identifier (no spaces) |
+| `display_name` | Shown in the admin interface |
+| `app_sequence` | Ordered list of app names participants go through |
+| `num_demo_participants` | How many demo players to create (use a multiple of `PLAYERS_PER_GROUP`) |
+
+
+## Python patterns quick reference
+
+### If / elif / else
+
+```python
+if player.round_number <= 3:
+    X = cu(2)
+elif player.round_number <= 6:
+    X = cu(3)
+else:
+    X = cu(4)
+```
+
+### For loops
+
+```python
+for p in group.get_players():
+    print(p.role, p.payoff)
+
+for p in player.in_previous_rounds():
+    total += p.per_round_payoff
+```
+
+### Dictionaries
+
+```python
+# Create
+payoff_matrix = {
+    (True, True): cu(4),
+    (True, False): cu(0),
+    (False, True): cu(1),
+    (False, False): cu(1),
+}
+
+# Look up
+result = payoff_matrix[(player.stag, other.stag)]
+```
+
+### Lists
+
+```python
+history = []                          # Create empty list
+history.append({'round': 1})          # Add item
+first = history[0]                    # Access by index
+length = len(history)                 # Get length
+```
+
+### List comprehensions
+
+```python
+# Create a list from a loop in one line
+payoffs = [p.per_round_payoff for p in player.in_all_rounds()]
+total = sum(payoffs)
+```
+
+### Random numbers
+
+```python
+import random
+random.random()                       # Float between 0 and 1
+random.choice([1, 2, 3, 4, 5])       # Pick one random item
+random.choice(range(1, 11))          # Pick random int from 1 to 10
+```
+
+### String formatting
+
+```python
+message = f"Round {player.round_number} of {C.NUM_ROUNDS}"
+```
+
+### The `+=` operator
+
+```python
+total = 0
+total += 5     # total is now 5
+total += 3     # total is now 8
+```
+
+
+## Debugging
+
+### `print()` in the terminal
+
+Insert `print()` anywhere in your Python code. Output appears in the terminal where `otree devserver` is running.
+
+```python
+print('Player role:', player.role)
+print('Stag choice:', player.stag)
+print('Payoff:', player.per_round_payoff)
+```
+
+Remove or comment out `print()` statements before deploying.
+
+### Common errors and fixes
+
+| Error | Likely cause | Fix |
+|---|---|---|
+| "Table has no column named X" | Added a field but did not reset database | Run `otree resetdb` |
+| "NoneType has no attribute" | A field is `None` (not set) | Check timeout handling, check field defaults |
+| Page is blank / crashes | Template name does not match page class | File must be `PageClassName.html` exactly |
+| Stuck on wait page | Only one browser tab open | Open a second tab to simulate the other player |
+| "X is not defined" in template | Variable not in `vars_for_template` | Add it to the `return dict(...)` |
+| Session/participant field error | Field not declared in `settings.py` | Add to `SESSION_FIELDS` or `PARTICIPANT_FIELDS` |
+
+
+## Useful links
+
+- [Official oTree documentation](https://otree.readthedocs.io/en/latest/)
+- [oTree sample games (source code)](https://github.com/oTree-org/otree)
+- [oTree snippets (common recipes)](https://github.com/oTree-org/otree-snippets)
+- [oTree Hub (featured projects)](https://www.otreehub.com/projects/?featured=1)
+- [New oTree forum](https://www.otreehub.com/forum/)

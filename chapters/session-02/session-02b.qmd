@@ -1,0 +1,437 @@
+# Inside the Prisoner's Dilemma: HTML Templates
+
+Every page class in your `__init__.py` has a matching HTML template file that controls what participants see on screen. The Python code handles the logic — grouping, payoffs, page flow. The HTML templates handle the presentation — text, tables, buttons, and layout.
+
+The Prisoner's Dilemma app has four template files:
+
+| File | Page class | What it shows |
+|---|---|---|
+| `Introduction.html` | `Introduction` | Instructions for the game |
+| `Decision.html` | `Decision` | The payoff matrix and choice buttons |
+| `Results.html` | `Results` | What both players chose and the payoff |
+| `instructions.html` | (none — included in other pages) | A reusable instructions card |
+
+Open each of these files in VS Code as we go through them.
+
+
+## The basic template structure
+
+Every oTree HTML template uses the same skeleton:
+
+```html
+{{ block title }}
+  Page Title Goes Here
+{{ endblock }}
+
+{{ block content }}
+  Everything the participant sees goes here.
+
+  {{ next_button }}
+{{ endblock }}
+```
+
+There are two blocks:
+
+- **`{{ block title }}`** — Sets the text shown at the top of the page and in the browser tab.
+- **`{{ block content }}`** — Contains all the page content: text, tables, images, form fields, and the Next button.
+
+The `{{ next_button }}` tag renders a standard "Next" button that advances the participant to the next page. If you leave it out, participants have no way to proceed (unless you use buttons that submit the form directly, as the Decision page does).
+
+::: {.callout-important}
+## `{{ }}` is oTree's template syntax
+
+Everything wrapped in double curly braces `{{ }}` is processed by oTree before the page is sent to the participant's browser. Plain HTML is rendered directly. You will see `{{ }}` used to display variables, insert buttons, include other files, and write conditional logic.
+:::
+
+
+## `Introduction.html`: a minimal page
+
+```html
+{{ block title }}Introduction{{ endblock }}
+{{ block content }}
+
+    {{ include_sibling 'instructions.html' }}
+
+    {{ next_button }}
+
+{{ endblock }}
+```
+
+This is the simplest template in the app. It does three things:
+
+1. Sets the page title to "Introduction."
+2. Includes the content of another file (`instructions.html`) using `{{ include_sibling }}`.
+3. Displays the Next button.
+
+### `{{ include_sibling }}`: reusing content across pages
+
+```html
+{{ include_sibling 'instructions.html' }}
+```
+
+This tag inserts the entire contents of `instructions.html` into this page. It is like copy-pasting the file's content, but without actually duplicating it. If you update `instructions.html`, the change automatically appears everywhere it is included.
+
+The word "sibling" means the included file must be in the **same folder** as the template that includes it — in this case, both files are inside the `prisoner/` app folder.
+
+::: {.callout-tip}
+## When to use `include_sibling`
+
+Use `{{ include_sibling }}` when you want the same block of content to appear on multiple pages. In this app, the instructions card appears on both the Introduction page and the Decision page. Instead of copying the table into both files, you write it once in `instructions.html` and include it wherever you need it.
+
+This is the same principle as defining constants in `class C` — write it once, use it everywhere, change it in one place.
+:::
+
+
+## `instructions.html`: a reusable card
+
+```html
+<div class="card bg-light m-3">
+    <div class="card-body">
+
+    <h3>
+        Instructions
+    </h3>
+
+    <p>
+        In this study, you will be randomly and anonymously paired with another
+        participant.
+        Each of you simultaneously and privately chooses whether you want to
+        cooperate or defect.
+        Your payoffs will be determined by the choices of both as below:
+    </p>
+    <p><i>In each cell, the amount to the left is the payoff for
+        you and to the right for the other participant.</i></p>
+
+    <table class='table table-bordered text-center'
+           style='width: auto; margin: auto'>
+        <tr>
+            <th colspan=2 rowspan=2></th>
+            <th colspan=2>The Other Participant</th>
+        </tr>
+        <tr>
+            <th>Cooperate</th>
+            <th>Defect</th>
+        </tr>
+        <tr>
+            <th rowspan=2>
+                <span style="transform: rotate(-90deg);">You</span>
+            </th>
+            <th>Cooperate</th>
+            <td>{{ C.PAYOFF_B }}, {{ C.PAYOFF_B }}</td>
+            <td>0, {{ C.PAYOFF_A }}</td>
+        </tr>
+        <tr>
+            <th>Defect</th>
+            <td>{{ C.PAYOFF_A }}, 0</td>
+            <td>{{ C.PAYOFF_C }}, {{ C.PAYOFF_C }}</td>
+        </tr>
+    </table>
+
+</div>
+</div>
+```
+
+This file is **not** a full page — it has no `{{ block title }}` or `{{ block content }}`. It is a fragment designed to be included inside other pages. Let us go through the key elements.
+
+### HTML basics: tags and attributes
+
+If you have not worked with HTML before, here is what you need to know:
+
+- HTML uses **tags** to structure content. Tags come in pairs: `<p>` starts a paragraph, `</p>` ends it.
+- Tags can have **attributes** that modify their behaviour: `<table class="table">` creates a table with the CSS class `"table"`.
+- Common tags: `<p>` (paragraph), `<h3>` (heading), `<table>` (table), `<tr>` (table row), `<th>` (table header cell), `<td>` (table data cell), `<div>` (a container), `<i>` (italic text), `<b>` (bold text), `<span>` (inline container).
+
+### The Bootstrap card
+
+```html
+<div class="card bg-light m-3">
+    <div class="card-body">
+        ...
+    </div>
+</div>
+```
+
+oTree includes **Bootstrap**, a CSS framework that provides pre-styled components. The classes used here are:
+
+| Class | What it does |
+|---|---|
+| `card` | Creates a card component — a bordered box with padding |
+| `bg-light` | Sets a light grey background colour |
+| `m-3` | Adds margin (spacing) around the card |
+| `card-body` | The inner content area of the card |
+
+You do not need to write any CSS to use these — Bootstrap handles the styling. This is a quick way to make your pages look professional.
+
+### The payoff table
+
+```html
+<table class='table table-bordered text-center'
+       style='width: auto; margin: auto'>
+```
+
+This creates a table with Bootstrap styling:
+
+| Class/Style | What it does |
+|---|---|
+| `table` | Applies Bootstrap's default table styling |
+| `table-bordered` | Adds borders around all cells |
+| `text-center` | Centres text in all cells |
+| `width: auto` | Makes the table only as wide as its content |
+| `margin: auto` | Centres the table on the page |
+
+### Displaying constants in the table
+
+```html
+<td>{{ C.PAYOFF_B }}, {{ C.PAYOFF_B }}</td>
+```
+
+This displays two values from the `C` class, separated by a comma. Since `C.PAYOFF_B = cu(200)`, the cell shows `$200.00, $200.00` (or whatever currency format oTree is configured to use). Remember: `C` is automatically available in every template — you do not need `vars_for_template` to access constants.
+
+### Table structure: `colspan` and `rowspan`
+
+```html
+<th colspan=2 rowspan=2></th>
+<th colspan=2>The Other Participant</th>
+```
+
+The `colspan` and `rowspan` attributes make a cell span across multiple columns or rows. This is how the table headers are structured:
+
+- `colspan=2 rowspan=2` on the empty top-left cell makes it span 2 columns and 2 rows, creating the blank corner of the matrix.
+- `colspan=2` on "The Other Participant" makes it span the two choice columns (Cooperate and Defect).
+
+::: {.callout-tip}
+## Understanding table layout
+
+A 2×2 payoff matrix actually needs more than 2 columns and 2 rows in HTML because of the row and column headers. The full table is structured like this:
+
+| | | Cooperate | Defect |
+|---|---|---|---|
+| | | (header spanning 2 cols) | |
+| **You** | **Cooperate** | Payoff, Payoff | Payoff, Payoff |
+| | **Defect** | Payoff, Payoff | Payoff, Payoff |
+
+The `colspan` and `rowspan` attributes handle the merging of header cells to create this layout.
+:::
+
+
+## `Decision.html`: buttons as form submission
+
+```html
+{{ block title }}Your Choice{{ endblock }}
+{{ block content }}
+
+    <div class="form-group required">
+        <table class="table table-bordered text-center"
+               style="width: auto; margin: auto">
+            <tr>
+                <th colspan="2" rowspan="2"></th>
+                <th colspan="2">The Other Participant</th>
+            </tr>
+            <tr>
+                <th>Cooperate</th>
+                <th>Defect</th>
+            </tr>
+            <tr>
+                <th rowspan="2"><span>You</span></th>
+                <td>
+                    <button name="cooperate" value="True"
+                            class="btn btn-primary btn-large">
+                        I will cooperate
+                    </button>
+                </td>
+                <td>{{C.PAYOFF_B}}, {{C.PAYOFF_B}}</td>
+                <td>{{ C.PAYOFF_D }}, {{C.PAYOFF_A}}</td>
+            </tr>
+            <tr>
+                <td>
+                    <button name="cooperate" value="False"
+                            class="btn btn-primary btn-large">
+                        I will defect
+                    </button>
+                </td>
+                <td>{{C.PAYOFF_A}}, {{ C.PAYOFF_D }}</td>
+                <td>{{C.PAYOFF_C}}, {{C.PAYOFF_C}}</td>
+            </tr>
+        </table>
+    </div>
+
+    <p>Here you can chat with the other participant.</p>
+
+    {{ chat }}
+
+    {{ include_sibling 'instructions.html' }}
+
+{{ endblock }}
+```
+
+This is the most complex template in the app. Let us focus on the new elements.
+
+### Buttons instead of radio buttons
+
+The `Decision` page class has `form_fields = ['cooperate']`, which means oTree expects the `cooperate` field to be submitted on this page. But instead of using `{{ formfields }}` to display the standard radio buttons, this template uses **HTML buttons** embedded in the payoff matrix:
+
+```html
+<button name="cooperate" value="True"
+        class="btn btn-primary btn-large">
+    I will cooperate
+</button>
+```
+
+When a participant clicks this button, oTree sets `player.cooperate = True` and submits the page. The key attributes are:
+
+| Attribute | Value | What it does |
+|---|---|---|
+| `name` | `"cooperate"` | Must match the field name in `form_fields` |
+| `value` | `"True"` | The value submitted for this field |
+| `class` | `"btn btn-primary btn-large"` | Bootstrap classes for a styled blue button |
+
+This approach integrates the form submission directly into the payoff matrix, so participants can make their choice by clicking a button in the relevant row of the table. There is no separate Next button — clicking either button submits the form and advances the page.
+
+::: {.callout-note}
+## `{{ formfields }}` vs. custom buttons
+
+You have two options for collecting form data:
+
+1. **`{{ formfields }}`** — Automatically renders all fields in `form_fields` as standard inputs (radio buttons, text fields, etc.). Simple and reliable.
+2. **Custom HTML buttons** — You write the buttons yourself using `<button name="..." value="...">`. This gives you full control over layout and appearance.
+
+The custom approach is more work but lets you place inputs exactly where you want them — for example, inside a payoff matrix.
+:::
+
+### The `{{ chat }}` widget
+
+```html
+{{ chat }}
+```
+
+This single tag adds oTree's built-in chat widget to the page. Participants in the same group can send messages to each other in real time. This is included in the sample app to demonstrate the feature, but you would typically only use it if your experimental design requires communication between participants.
+
+::: {.callout-note}
+## You probably will not use `{{ chat }}` in your assignment
+
+The Stag Hunt assignment does not require a chat feature. When you build your own app, you can simply leave this out. It is included here because the Prisoner's Dilemma sample is designed to showcase oTree's capabilities.
+:::
+
+
+## `Results.html`: conditional display
+
+```html
+{{ block title }}Results{{ endblock }}
+{{ block content }}
+
+    <p>
+        {{ if same_choice }}
+            Both of you chose to {{ my_decision }}.
+        {{ else }}
+            You chose to {{ my_decision }} and the other participant
+            chose to {{ opponent_decision }}.
+        {{ endif }}
+    </p>
+
+    <p>
+        As a result, you earned {{ player.payoff }}.
+    </p>
+
+    {{ next_button }}
+
+    {{ include_sibling 'instructions.html' }}
+
+{{ endblock }}
+```
+
+This template introduces two important template features.
+
+### `{{ if }}` / `{{ else }}` / `{{ endif }}`: conditional display
+
+```html
+{{ if same_choice }}
+    Both of you chose to {{ my_decision }}.
+{{ else }}
+    You chose to {{ my_decision }} and the other participant
+    chose to {{ opponent_decision }}.
+{{ endif }}
+```
+
+This is the template equivalent of a Python if/else statement. It controls which text is shown based on a condition:
+
+- If `same_choice` is `True` (both players made the same decision), the first paragraph appears.
+- If `same_choice` is `False`, the second paragraph appears instead.
+
+The variable `same_choice` was created in `vars_for_template` in the `Results` page class. Any Boolean variable can be used as a condition in `{{ if }}`.
+
+::: {.callout-note}
+## Template `{{ if }}` syntax
+
+The full syntax supports several patterns:
+
+```html
+{{/* Simple condition */}}
+{{ if variable }}
+    Shown when variable is True (or non-empty)
+{{ endif }}
+
+{{/* If/else */}}
+{{ if variable }}
+    Shown when True
+{{ else }}
+    Shown when False
+{{ endif }}
+
+{{/* Comparisons */}}
+{{ if player.round_number == 1 }}
+    This is the first round.
+{{ endif }}
+
+{{ if player.payoff > 0 }}
+    You earned something!
+{{ endif }}
+```
+
+Always close your `{{ if }}` blocks with `{{ endif }}`. Forgetting `{{ endif }}` will cause a template error.
+:::
+
+### Displaying variables from `vars_for_template`
+
+```html
+{{ my_decision }}
+{{ opponent_decision }}
+{{ player.payoff }}
+```
+
+Variables created in `vars_for_template` (like `my_decision` and `opponent_decision`) are accessed by name. Built-in variables (like `player.payoff`) are accessed using dot notation. Both use the `{{ }}` syntax.
+
+
+## File structure recap
+
+Here is how the four files relate to each other:
+
+```
+prisoner/
+├── __init__.py           ← Python logic (constants, payoffs, pages)
+├── Introduction.html     ← Instructions page (includes instructions.html)
+├── Decision.html         ← Choice page with buttons (includes instructions.html)
+├── Results.html          ← Outcome page (includes instructions.html)
+└── instructions.html     ← Reusable instructions card (included by others)
+```
+
+The `__init__.py` file defines the **logic** — what data to collect, how to calculate payoffs, and what variables to pass to templates. The HTML files define the **presentation** — what text participants read, how the payoff matrix looks, and where the buttons go.
+
+
+## Summary
+
+| Concept | Syntax | What it does |
+|---|---|---|
+| `{{ block title }}` | Template block | Sets the page title |
+| `{{ block content }}` | Template block | Contains all page content |
+| `{{ next_button }}` | Template tag | Renders the "Next" button |
+| `{{ variable_name }}` | Template variable | Displays a variable's value |
+| `{{ C.CONSTANT }}` | Template variable | Displays a constant from the `C` class |
+| `{{ player.field }}` | Template variable | Displays a player field's value |
+| `{{ if }} ... {{ endif }}` | Conditional | Shows content based on a condition |
+| `{{ if }} ... {{ else }} ... {{ endif }}` | Conditional | Shows one of two blocks |
+| `{{ include_sibling 'file.html' }}` | Include | Inserts content from another file |
+| `{{ formfields }}` | Form rendering | Displays all form fields automatically |
+| `{{ chat }}` | Chat widget | Adds a real-time group chat |
+| `<button name="field" value="val">` | HTML button | Submits a form field with a specific value |
+| Bootstrap classes (`table`, `card`, `btn`) | CSS classes | Pre-built styling from Bootstrap |
+| `colspan` / `rowspan` | HTML attributes | Makes table cells span multiple columns/rows |

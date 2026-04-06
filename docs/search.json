@@ -402,13 +402,700 @@
     ]
   },
   {
+    "objectID": "chapters/session-02/index.html",
+    "href": "chapters/session-02/index.html",
+    "title": "Session 2",
+    "section": "",
+    "text": "From the Prisoner’s Dilemma to the Stag Hunt\nIn Session 1, you learned how to set up an oTree project, navigate the folder structure, understand settings.py, and read through a simple survey app. Now it is time to work with something more interesting — a two-player game.\noTree comes with several sample games built in, including a one-shot Prisoner’s Dilemma. In this session we will use that sample app as our starting point. We will first understand how it works — both the Python logic and the HTML templates — and then begin modifying it to build toward the Stag Hunt game you will submit for your assignment.\nThis session covers:\nThe final chapter contains a quick reference for the oTree features and Python patterns you will need for your Stag Hunt assignment.",
+    "crumbs": [
+      "Session 2"
+    ]
+  },
+  {
+    "objectID": "chapters/session-02/index.html#from-the-prisoners-dilemma-to-the-stag-hunt",
+    "href": "chapters/session-02/index.html#from-the-prisoners-dilemma-to-the-stag-hunt",
+    "title": "Session 2",
+    "section": "",
+    "text": "Inside the Prisoner’s Dilemma: __init__.py — Understanding the Python code that powers a two-player game: constants, groups, player decisions, payoff matrices, wait pages, and results.\nInside the Prisoner’s Dilemma: HTML Templates — Understanding the four template files that control what participants see: page structure, payoff tables, conditional text, included templates, and the chat widget.\nHands-On: Getting started with Assignment 2 — Your first modifications to the Prisoner’s Dilemma app: turning a one-shot game into a repeated game and building a history table that tracks every round.",
+    "crumbs": [
+      "Session 2"
+    ]
+  },
+  {
+    "objectID": "chapters/session-02/session-02a.html",
+    "href": "chapters/session-02/session-02a.html",
+    "title": "Inside the Prisoner’s Dilemma: __init__.py",
+    "section": "",
+    "text": "The import and doc\nWhen you created your oTree project with sample games in Session 1, one of the apps included was prisoner — a one-shot Prisoner’s Dilemma. Two players are paired together, each privately chooses to cooperate or defect, and their payoffs depend on the combination of choices.\nThis app is a natural stepping stone toward the Stag Hunt. Both are two-player games with a 2×2 payoff matrix, and the code patterns you learn here — groups, roles, payoff calculations, wait pages — carry directly into your assignment.\nOpen the file prisoner/__init__.py in VS Code. Here is the full file:\nNow let us go through each section. Many of these concepts were introduced briefly in Session 1 — here you will see them working together in a real game.\nThese are the same as in the demographic survey app. The import brings in everything oTree needs. The doc string is an optional description that appears in the admin interface.",
+    "crumbs": [
+      "Session 2",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Inside the Prisoner's Dilemma: `__init__.py`</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-02/session-02a.html#the-import-and-doc",
+    "href": "chapters/session-02/session-02a.html#the-import-and-doc",
+    "title": "Inside the Prisoner’s Dilemma: __init__.py",
+    "section": "",
+    "text": "from otree.api import *\n\ndoc = \"\"\"\nThis is a one-shot \"Prisoner's Dilemma\". Two players are asked separately\nwhether they want to cooperate or defect. Their choices directly determine the\npayoffs.\n\"\"\"",
+    "crumbs": [
+      "Session 2",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Inside the Prisoner's Dilemma: `__init__.py`</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-02/session-02a.html#class-c-constants-for-a-two-player-game",
+    "href": "chapters/session-02/session-02a.html#class-c-constants-for-a-two-player-game",
+    "title": "Inside the Prisoner’s Dilemma: __init__.py",
+    "section": "Class C: constants for a two-player game",
+    "text": "Class C: constants for a two-player game\n\nclass C(BaseConstants):\n    NAME_IN_URL = 'prisoner'\n    PLAYERS_PER_GROUP = 2\n    NUM_ROUNDS = 1\n    PAYOFF_A = cu(300)\n    PAYOFF_B = cu(200)\n    PAYOFF_C = cu(100)\n    PAYOFF_D = cu(0)\nCompare this to the demographic survey’s constants:\n\n\n\nConstant\nDemographic survey\nPrisoner’s Dilemma\n\n\n\n\nNAME_IN_URL\n'survey_experiment'\n'prisoner'\n\n\nPLAYERS_PER_GROUP\nNone\n2\n\n\nNUM_ROUNDS\n1\n1\n\n\n\nThe key difference is PLAYERS_PER_GROUP = 2. This tells oTree to automatically divide participants into pairs. If 10 participants join a session, oTree creates 5 groups of 2.\n\nPayoff constants with cu()\n\nPAYOFF_A = cu(300)\nPAYOFF_B = cu(200)\nPAYOFF_C = cu(100)\nPAYOFF_D = cu(0)\nThe cu() function stands for currency unit. It creates a currency value that oTree knows how to format and display — with dollar signs, decimal places, and proper alignment. Using cu() instead of plain numbers ensures consistent formatting throughout the experiment.\nThese four constants represent the four possible payoffs in the game. By defining them as constants, you can change the payoff structure by editing one line in the C class instead of searching through the entire file.\n\n\n\n\n\n\nTipWhy use named constants instead of raw numbers?\n\n\n\nConsider two versions of the same code:\n\n# Hard to understand\nplayer.payoff = cu(300)\n\n# Easy to understand\nplayer.payoff = C.PAYOFF_A\nWhen you return to your code a week later, C.PAYOFF_A immediately tells you this is “payoff A from the game matrix.” The number 300 tells you nothing about its role in the experiment.\n\n\n\n\nHow the payoff labels map to the game\nThe Prisoner’s Dilemma payoff matrix looks like this (your payoff listed first in each cell):\n\n\n\n\nPartner cooperates\nPartner defects\n\n\n\n\nYou cooperate\n200, 200\n0, 300\n\n\nYou defect\n300, 0\n100, 100\n\n\n\nThe constants map to this matrix as follows:\n\n\n\n\n\n\n\n\nConstant\nValue\nMeaning\n\n\n\n\nPAYOFF_A\ncu(300)\nYou defect, partner cooperates (temptation)\n\n\nPAYOFF_B\ncu(200)\nBoth cooperate (mutual cooperation)\n\n\nPAYOFF_C\ncu(100)\nBoth defect (mutual defection)\n\n\nPAYOFF_D\ncu(0)\nYou cooperate, partner defects (sucker’s payoff)",
+    "crumbs": [
+      "Session 2",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Inside the Prisoner's Dilemma: `__init__.py`</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-02/session-02a.html#the-data-model-classes",
+    "href": "chapters/session-02/session-02a.html#the-data-model-classes",
+    "title": "Inside the Prisoner’s Dilemma: __init__.py",
+    "section": "The data model classes",
+    "text": "The data model classes\n\nclass Subsession(BaseSubsession):\n    pass\n\nclass Group(BaseGroup):\n    pass\n\nclass Player(BasePlayer):\n    cooperate = models.BooleanField(\n        choices=[[True, 'Cooperate'], [False, 'Defect']],\n        doc=\"\"\"This player's decision\"\"\",\n        widget=widgets.RadioSelect,\n    )\n\nSubsession and Group\nBoth are pass — no custom fields needed. The Subsession class has no extra logic because there is only one round and no special setup. The Group class has no fields because no group-level data is tracked (we only care about individual decisions and payoffs).\nRemember from Session 1: these classes must always be present in __init__.py, even if they contain nothing. Removing them will crash the app.\n\n\nThe Player class\nThe Player class defines one field: cooperate. This is the participant’s decision in the game.\n\ncooperate = models.BooleanField(\n    choices=[[True, 'Cooperate'], [False, 'Defect']],\n    doc=\"\"\"This player's decision\"\"\",\n    widget=widgets.RadioSelect,\n)\nThis should look familiar from the demographic survey. Let us review the key parts:\n\n\n\n\n\n\n\n\nArgument\nValue\nWhat it does\n\n\n\n\nmodels.BooleanField\n—\nStores True or False\n\n\nchoices\n[[True, 'Cooperate'], [False, 'Defect']]\nMaps database values to display labels\n\n\ndoc\n\"This player's decision\"\nDescription in data export (optional)\n\n\nwidget\nwidgets.RadioSelect\nDisplays radio buttons instead of a dropdown\n\n\n\nThe choices argument follows the [recorded, displayed] pattern from Session 1. The database stores True or False. The participant sees “Cooperate” or “Defect.”",
+    "crumbs": [
+      "Session 2",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Inside the Prisoner's Dilemma: `__init__.py`</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-02/session-02a.html#the-functions-payoff-logic",
+    "href": "chapters/session-02/session-02a.html#the-functions-payoff-logic",
+    "title": "Inside the Prisoner’s Dilemma: __init__.py",
+    "section": "The functions: payoff logic",
+    "text": "The functions: payoff logic\nThe Prisoner’s Dilemma app has three functions that handle payoff calculations. These functions sit outside of any class — they are module-level functions that oTree calls when needed.\n\nother_player: finding the partner\n\ndef other_player(player: Player):\n    return player.get_others_in_group()[0]\nThis function takes a player and returns their partner — the other player in the same group. Here is how it works:\n\nplayer.get_others_in_group() is a built-in oTree method that returns a list of all other players in the same group.\nSince PLAYERS_PER_GROUP = 2, there is exactly one other player, so the list has exactly one element.\n[0] extracts the first (and only) element from the list.\n\nYou will use this function every time you need to look at what the partner chose or what the partner earned.\n\n\n\n\n\n\nNotePython lists and indexing\n\n\n\nA list is an ordered collection of items. You access items by their index — their position in the list. Python uses zero-based indexing, which means the first item is at position 0, the second at position 1, and so on.\n\nmy_list = ['apple', 'banana', 'cherry']\nmy_list[0]   # returns 'apple'\nmy_list[1]   # returns 'banana'\nmy_list[2]   # returns 'cherry'\nSo get_others_in_group()[0] means “get the list of other players, then grab the first one.”\n\n\n\n\nset_payoff: the payoff matrix as a dictionary\n\ndef set_payoff(player: Player):\n    payoff_matrix = {\n        (False, True): C.PAYOFF_A,\n        (True, True): C.PAYOFF_B,\n        (False, False): C.PAYOFF_C,\n        (True, False): C.PAYOFF_D,\n    }\n    other = other_player(player)\n    player.payoff = payoff_matrix[(player.cooperate, other.cooperate)]\nThis is the heart of the game. It calculates the player’s payoff based on both players’ decisions. Let us break it down.\nThe payoff matrix dictionary:\nA Python dictionary maps keys to values. Here, each key is a tuple — a pair of values in parentheses — representing (my_choice, partner_choice). Each value is the corresponding payoff.\n\n\n\nKey\nMy choice\nPartner’s choice\nPayoff\n\n\n\n\n(True, True)\nCooperate\nCooperate\ncu(200)\n\n\n(True, False)\nCooperate\nDefect\ncu(0)\n\n\n(False, True)\nDefect\nCooperate\ncu(300)\n\n\n(False, False)\nDefect\nDefect\ncu(100)\n\n\n\nThe lookup:\n\nother = other_player(player)\nplayer.payoff = payoff_matrix[(player.cooperate, other.cooperate)]\nFirst, the code gets the partner using other_player. Then it constructs a tuple from both players’ choices — (player.cooperate, other.cooperate) — and uses it as a key to look up the payoff in the dictionary.\nFor example, if this player cooperated (True) and the partner defected (False), the key is (True, False), and the payoff is C.PAYOFF_D = cu(0).\nThe result is stored in player.payoff, which is a built-in oTree field that tracks each player’s earnings. Unlike the custom fields you define yourself, player.payoff exists automatically in every app.\n\n\n\n\n\n\nNotePython dictionaries\n\n\n\nA dictionary is created with curly braces and contains key-value pairs separated by colons:\n\nmy_dict = {\n    'apple': 3,\n    'banana': 5,\n}\nYou look up a value by its key: my_dict['apple'] returns 3.\nIn the payoff matrix, the keys are tuples like (True, False) instead of strings. This is a common and powerful Python pattern — it lets you look up a value based on a combination of conditions in one clean step, instead of writing a long chain of if/else statements.\n\n\n\n\n\n\n\n\nTipThe dictionary approach vs. if/else\n\n\n\nWithout the dictionary, you would need to write:\n\nif player.cooperate == True and other.cooperate == True:\n    player.payoff = C.PAYOFF_B\nelif player.cooperate == True and other.cooperate == False:\n    player.payoff = C.PAYOFF_D\nelif player.cooperate == False and other.cooperate == True:\n    player.payoff = C.PAYOFF_A\nelse:\n    player.payoff = C.PAYOFF_C\nThis works, but the dictionary version is more compact and easier to verify against the game matrix. Both approaches produce the same result — use whichever you find clearer.\n\n\n\n\nset_payoffs: applying to the whole group\n\ndef set_payoffs(group: Group):\n    for p in group.get_players():\n        set_payoff(p)\nThis function loops through every player in the group and calls set_payoff on each one. Since PLAYERS_PER_GROUP = 2, the loop runs exactly twice — once for each player.\n\n\n\n\n\n\nNotePython for loops\n\n\n\nA for loop repeats a block of code once for each item in a list:\n\nfor item in my_list:\n    # do something with item\nHere, group.get_players() returns a list of Player objects. The variable p takes on a different Player object each time through the loop. Indentation defines what code is “inside” the loop — everything indented under the for line runs once per item.",
+    "crumbs": [
+      "Session 2",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Inside the Prisoner's Dilemma: `__init__.py`</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-02/session-02a.html#the-pages",
+    "href": "chapters/session-02/session-02a.html#the-pages",
+    "title": "Inside the Prisoner’s Dilemma: __init__.py",
+    "section": "The pages",
+    "text": "The pages\nThe Prisoner’s Dilemma has four pages. Let us look at each one.\n\nIntroduction: a simple instruction page\n\nclass Introduction(Page):\n    timeout_seconds = 100\nThis page displays the experiment instructions. It has no form fields — participants just read and click “Next.” The timeout_seconds = 100 automatically advances the page after 100 seconds if the participant has not clicked “Next” themselves.\nThe actual text shown on this page comes from the HTML template Introduction.html, which we will look at in the next part.\n\n\nDecision: collecting the player’s choice\n\nclass Decision(Page):\n    form_model = 'player'\n    form_fields = ['cooperate']\nThis page collects the participant’s decision. The two attributes tell oTree:\n\nform_model = 'player' — The form data belongs to the Player model.\nform_fields = ['cooperate'] — Display the cooperate field as an input on this page.\n\nWhen the participant submits the page, their choice (True for cooperate, False for defect) is saved to player.cooperate.\n\n\nResultsWaitPage: synchronising both players\n\nclass ResultsWaitPage(WaitPage):\n    after_all_players_arrive = set_payoffs\nThis is the first WaitPage you are seeing. A wait page is fundamentally different from a regular page:\n\nA regular Page shows content to one player and lets them proceed independently.\nA WaitPage pauses each player until all players in the group have arrived.\n\nThis is essential in the Prisoner’s Dilemma. You cannot calculate payoffs until both players have submitted their decisions. When Player 1 finishes the Decision page, they see the wait page. When Player 2 also finishes, the wait page releases both players.\nafter_all_players_arrive = set_payoffs tells oTree: “Once both players have arrived at this wait page, run the set_payoffs function.” This calculates both players’ payoffs before they see the results.\n\n\n\n\n\n\nImportantafter_all_players_arrive runs once per group\n\n\n\nThis function runs once after all players in the group have reached the wait page — not once per player. That is why set_payoffs takes a group as its argument and loops through all players in the group internally.\n\n\n\n\n\n\n\n\nWarningTesting wait pages\n\n\n\nWhen testing locally with otree devserver, you need to open two browser tabs (or two browsers) to simulate two players in the same group. If you only have one tab open, you will be stuck on the wait page forever because the second player never arrives.\n\n\n\n\nResults: showing the outcome\n\nclass Results(Page):\n    @staticmethod\n    def vars_for_template(player: Player):\n        opponent = other_player(player)\n        return dict(\n            opponent=opponent,\n            same_choice=player.cooperate == opponent.cooperate,\n            my_decision=player.field_display('cooperate'),\n            opponent_decision=opponent.field_display('cooperate'),\n        )\nThis page displays the round’s results. It uses vars_for_template to pass several calculated variables to the HTML template.\nvars_for_template is a built-in oTree method that lets you send custom data from Python to the HTML template. Whatever keys you include in the returned dictionary become available in the template using { variable_name } syntax.\nLet us look at each variable:\n\n\n\n\n\n\n\n\nVariable\nValue\nPurpose\n\n\n\n\nopponent\nThe other player object\nAccess opponent’s data in the template\n\n\nsame_choice\nTrue if both made the same choice\nUsed for conditional display\n\n\nmy_decision\n'Cooperate' or 'Defect' (display label)\nHuman-readable version of the choice\n\n\nopponent_decision\n'Cooperate' or 'Defect' (display label)\nHuman-readable version of partner’s choice\n\n\n\nplayer.field_display('cooperate') is a built-in oTree method that returns the display label for a field’s value instead of the raw database value. So instead of True, it returns 'Cooperate'. This is what you want to show participants — they should see words, not True/False.\nplayer.cooperate == opponent.cooperate creates a Boolean value: True if both players made the same choice, False otherwise. The template uses this to display different messages depending on the outcome.\n\n\n\n\n\n\nNoteVariables oTree passes automatically\n\n\n\nYou do not need vars_for_template for everything. oTree automatically makes player, group, subsession, participant, session, and C available in every template. You can always write { player.payoff } or { C.NUM_ROUNDS } without any extra work.\nUse vars_for_template for values that require calculation or processing — like the display labels, the opponent’s data, or derived Boolean flags.",
+    "crumbs": [
+      "Session 2",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Inside the Prisoner's Dilemma: `__init__.py`</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-02/session-02a.html#the-page-sequence",
+    "href": "chapters/session-02/session-02a.html#the-page-sequence",
+    "title": "Inside the Prisoner’s Dilemma: __init__.py",
+    "section": "The page sequence",
+    "text": "The page sequence\n\npage_sequence = [Introduction, Decision, ResultsWaitPage, Results]\nParticipants move through the pages in this order:\n\nIntroduction — Read the instructions (with a 100-second timer).\nDecision — Choose to cooperate or defect.\nResultsWaitPage — Wait for the partner. Once both arrive, payoffs are calculated.\nResults — See what both players chose and the resulting payoffs.\n\nSince NUM_ROUNDS = 1, this sequence runs exactly once. In the next hands-on session, you will change NUM_ROUNDS and see the entire sequence repeat.",
+    "crumbs": [
+      "Session 2",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Inside the Prisoner's Dilemma: `__init__.py`</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-02/session-02a.html#comparing-the-survey-app-to-the-prisoners-dilemma",
+    "href": "chapters/session-02/session-02a.html#comparing-the-survey-app-to-the-prisoners-dilemma",
+    "title": "Inside the Prisoner’s Dilemma: __init__.py",
+    "section": "Comparing the survey app to the Prisoner’s Dilemma",
+    "text": "Comparing the survey app to the Prisoner’s Dilemma\nNow that you have seen both a survey app and a game app, here is a side-by-side comparison of the key differences:\n\n\n\nFeature\nDemographic survey\nPrisoner’s Dilemma\n\n\n\n\nPLAYERS_PER_GROUP\nNone (individual)\n2 (pairs)\n\n\nNUM_ROUNDS\n1\n1\n\n\nGroup class\npass\npass\n\n\nPlayer fields\nMany (age, gender, etc.)\nOne (cooperate)\n\n\nFunctions\nNone\nset_payoff, set_payoffs, other_player\n\n\nWaitPage\nNot used\nUsed (to sync both players)\n\n\nvars_for_template\nNot used\nUsed (to pass opponent data)\n\n\nform_fields\nMany fields on one page\nOne field on one page\n\n\n\nThe game app introduces three concepts not needed in surveys: groups (pairing players), wait pages (synchronising players), and payoff functions (calculating earnings based on joint decisions).",
+    "crumbs": [
+      "Session 2",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Inside the Prisoner's Dilemma: `__init__.py`</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-02/session-02a.html#summary",
+    "href": "chapters/session-02/session-02a.html#summary",
+    "title": "Inside the Prisoner’s Dilemma: __init__.py",
+    "section": "Summary",
+    "text": "Summary\n\n\n\n\n\n\n\n\nConcept\nWhat it does\nWhere it appears\n\n\n\n\nPLAYERS_PER_GROUP = 2\nPairs participants into groups of 2\nclass C\n\n\ncu()\nCreates a formatted currency value\nPayoff constants\n\n\nmodels.BooleanField with choices\nStores True/False, displays custom labels\nPlayer class\n\n\nget_others_in_group()[0]\nReturns the other player in the group\nother_player function\n\n\nDictionary with tuple keys\nMaps (my_choice, partner_choice) to payoff\nset_payoff function\n\n\nfor loop over group.get_players()\nRuns code for each player in the group\nset_payoffs function\n\n\nWaitPage\nPauses until all group members arrive\nResultsWaitPage\n\n\nafter_all_players_arrive\nRuns a function once all players reach the wait page\nResultsWaitPage\n\n\nvars_for_template\nPasses custom variables to the HTML template\nResults page\n\n\nfield_display('field')\nReturns the display label instead of the raw value\nResults page\n\n\nplayer.payoff\nBuilt-in field for storing a player’s earnings\nSet in set_payoff",
+    "crumbs": [
+      "Session 2",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Inside the Prisoner's Dilemma: `__init__.py`</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-02/session-02b.html",
+    "href": "chapters/session-02/session-02b.html",
+    "title": "Inside the Prisoner’s Dilemma: HTML Templates",
+    "section": "",
+    "text": "The basic template structure\nEvery page class in your __init__.py has a matching HTML template file that controls what participants see on screen. The Python code handles the logic — grouping, payoffs, page flow. The HTML templates handle the presentation — text, tables, buttons, and layout.\nThe Prisoner’s Dilemma app has four template files:\nOpen each of these files in VS Code as we go through them.\nEvery oTree HTML template uses the same skeleton:\nThere are two blocks:\nThe { next_button } tag renders a standard “Next” button that advances the participant to the next page. If you leave it out, participants have no way to proceed (unless you use buttons that submit the form directly, as the Decision page does).",
+    "crumbs": [
+      "Session 2",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Inside the Prisoner's Dilemma: HTML Templates</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-02/session-02b.html#the-basic-template-structure",
+    "href": "chapters/session-02/session-02b.html#the-basic-template-structure",
+    "title": "Inside the Prisoner’s Dilemma: HTML Templates",
+    "section": "",
+    "text": "{{ block title }}\n  Page Title Goes Here\n{{ endblock }}\n\n{{ block content }}\n  Everything the participant sees goes here.\n\n  {{ next_button }}\n{{ endblock }}\n\n\n{ block title } — Sets the text shown at the top of the page and in the browser tab.\n{ block content } — Contains all the page content: text, tables, images, form fields, and the Next button.\n\n\n\n\n\n\n\n\nImportant{ } is oTree’s template syntax\n\n\n\nEverything wrapped in double curly braces { } is processed by oTree before the page is sent to the participant’s browser. Plain HTML is rendered directly. You will see { } used to display variables, insert buttons, include other files, and write conditional logic.",
+    "crumbs": [
+      "Session 2",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Inside the Prisoner's Dilemma: HTML Templates</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-02/session-02b.html#introduction.html-a-minimal-page",
+    "href": "chapters/session-02/session-02b.html#introduction.html-a-minimal-page",
+    "title": "Inside the Prisoner’s Dilemma: HTML Templates",
+    "section": "Introduction.html: a minimal page",
+    "text": "Introduction.html: a minimal page\n{{ block title }}Introduction{{ endblock }}\n{{ block content }}\n\n    {{ include_sibling 'instructions.html' }}\n\n    {{ next_button }}\n\n{{ endblock }}\nThis is the simplest template in the app. It does three things:\n\nSets the page title to “Introduction.”\nIncludes the content of another file (instructions.html) using { include_sibling }.\nDisplays the Next button.\n\n\n{ include_sibling }: reusing content across pages\n{{ include_sibling 'instructions.html' }}\nThis tag inserts the entire contents of instructions.html into this page. It is like copy-pasting the file’s content, but without actually duplicating it. If you update instructions.html, the change automatically appears everywhere it is included.\nThe word “sibling” means the included file must be in the same folder as the template that includes it — in this case, both files are inside the prisoner/ app folder.\n\n\n\n\n\n\nTipWhen to use include_sibling\n\n\n\nUse { include_sibling } when you want the same block of content to appear on multiple pages. In this app, the instructions card appears on both the Introduction page and the Decision page. Instead of copying the table into both files, you write it once in instructions.html and include it wherever you need it.\nThis is the same principle as defining constants in class C — write it once, use it everywhere, change it in one place.",
+    "crumbs": [
+      "Session 2",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Inside the Prisoner's Dilemma: HTML Templates</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-02/session-02b.html#instructions.html-a-reusable-card",
+    "href": "chapters/session-02/session-02b.html#instructions.html-a-reusable-card",
+    "title": "Inside the Prisoner’s Dilemma: HTML Templates",
+    "section": "instructions.html: a reusable card",
+    "text": "instructions.html: a reusable card\n&lt;div class=\"card bg-light m-3\"&gt;\n    &lt;div class=\"card-body\"&gt;\n\n    &lt;h3&gt;\n        Instructions\n    &lt;/h3&gt;\n\n    &lt;p&gt;\n        In this study, you will be randomly and anonymously paired with another\n        participant.\n        Each of you simultaneously and privately chooses whether you want to\n        cooperate or defect.\n        Your payoffs will be determined by the choices of both as below:\n    &lt;/p&gt;\n    &lt;p&gt;&lt;i&gt;In each cell, the amount to the left is the payoff for\n        you and to the right for the other participant.&lt;/i&gt;&lt;/p&gt;\n\n    &lt;table class='table table-bordered text-center'\n           style='width: auto; margin: auto'&gt;\n        &lt;tr&gt;\n            &lt;th colspan=2 rowspan=2&gt;&lt;/th&gt;\n            &lt;th colspan=2&gt;The Other Participant&lt;/th&gt;\n        &lt;/tr&gt;\n        &lt;tr&gt;\n            &lt;th&gt;Cooperate&lt;/th&gt;\n            &lt;th&gt;Defect&lt;/th&gt;\n        &lt;/tr&gt;\n        &lt;tr&gt;\n            &lt;th rowspan=2&gt;\n                &lt;span style=\"transform: rotate(-90deg);\"&gt;You&lt;/span&gt;\n            &lt;/th&gt;\n            &lt;th&gt;Cooperate&lt;/th&gt;\n            &lt;td&gt;{{ C.PAYOFF_B }}, {{ C.PAYOFF_B }}&lt;/td&gt;\n            &lt;td&gt;0, {{ C.PAYOFF_A }}&lt;/td&gt;\n        &lt;/tr&gt;\n        &lt;tr&gt;\n            &lt;th&gt;Defect&lt;/th&gt;\n            &lt;td&gt;{{ C.PAYOFF_A }}, 0&lt;/td&gt;\n            &lt;td&gt;{{ C.PAYOFF_C }}, {{ C.PAYOFF_C }}&lt;/td&gt;\n        &lt;/tr&gt;\n    &lt;/table&gt;\n\n&lt;/div&gt;\n&lt;/div&gt;\nThis file is not a full page — it has no { block title } or { block content }. It is a fragment designed to be included inside other pages. Let us go through the key elements.\n\nHTML basics: tags and attributes\nIf you have not worked with HTML before, here is what you need to know:\n\nHTML uses tags to structure content. Tags come in pairs: &lt;p&gt; starts a paragraph, &lt;/p&gt; ends it.\nTags can have attributes that modify their behaviour: &lt;table class=\"table\"&gt; creates a table with the CSS class \"table\".\nCommon tags: &lt;p&gt; (paragraph), &lt;h3&gt; (heading), &lt;table&gt; (table), &lt;tr&gt; (table row), &lt;th&gt; (table header cell), &lt;td&gt; (table data cell), &lt;div&gt; (a container), &lt;i&gt; (italic text), &lt;b&gt; (bold text), &lt;span&gt; (inline container).\n\n\n\nThe Bootstrap card\n&lt;div class=\"card bg-light m-3\"&gt;\n    &lt;div class=\"card-body\"&gt;\n        ...\n    &lt;/div&gt;\n&lt;/div&gt;\noTree includes Bootstrap, a CSS framework that provides pre-styled components. The classes used here are:\n\n\n\nClass\nWhat it does\n\n\n\n\ncard\nCreates a card component — a bordered box with padding\n\n\nbg-light\nSets a light grey background colour\n\n\nm-3\nAdds margin (spacing) around the card\n\n\ncard-body\nThe inner content area of the card\n\n\n\nYou do not need to write any CSS to use these — Bootstrap handles the styling. This is a quick way to make your pages look professional.\n\n\nThe payoff table\n&lt;table class='table table-bordered text-center'\n       style='width: auto; margin: auto'&gt;\nThis creates a table with Bootstrap styling:\n\n\n\nClass/Style\nWhat it does\n\n\n\n\ntable\nApplies Bootstrap’s default table styling\n\n\ntable-bordered\nAdds borders around all cells\n\n\ntext-center\nCentres text in all cells\n\n\nwidth: auto\nMakes the table only as wide as its content\n\n\nmargin: auto\nCentres the table on the page\n\n\n\n\n\nDisplaying constants in the table\n&lt;td&gt;{{ C.PAYOFF_B }}, {{ C.PAYOFF_B }}&lt;/td&gt;\nThis displays two values from the C class, separated by a comma. Since C.PAYOFF_B = cu(200), the cell shows $200.00, $200.00 (or whatever currency format oTree is configured to use). Remember: C is automatically available in every template — you do not need vars_for_template to access constants.\n\n\nTable structure: colspan and rowspan\n&lt;th colspan=2 rowspan=2&gt;&lt;/th&gt;\n&lt;th colspan=2&gt;The Other Participant&lt;/th&gt;\nThe colspan and rowspan attributes make a cell span across multiple columns or rows. This is how the table headers are structured:\n\ncolspan=2 rowspan=2 on the empty top-left cell makes it span 2 columns and 2 rows, creating the blank corner of the matrix.\ncolspan=2 on “The Other Participant” makes it span the two choice columns (Cooperate and Defect).\n\n\n\n\n\n\n\nTipUnderstanding table layout\n\n\n\nA 2×2 payoff matrix actually needs more than 2 columns and 2 rows in HTML because of the row and column headers. The full table is structured like this:\n\n\n\n\n\nCooperate\nDefect\n\n\n\n\n\n\n(header spanning 2 cols)\n\n\n\nYou\nCooperate\nPayoff, Payoff\nPayoff, Payoff\n\n\n\nDefect\nPayoff, Payoff\nPayoff, Payoff\n\n\n\nThe colspan and rowspan attributes handle the merging of header cells to create this layout.",
+    "crumbs": [
+      "Session 2",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Inside the Prisoner's Dilemma: HTML Templates</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-02/session-02b.html#decision.html-buttons-as-form-submission",
+    "href": "chapters/session-02/session-02b.html#decision.html-buttons-as-form-submission",
+    "title": "Inside the Prisoner’s Dilemma: HTML Templates",
+    "section": "Decision.html: buttons as form submission",
+    "text": "Decision.html: buttons as form submission\n{{ block title }}Your Choice{{ endblock }}\n{{ block content }}\n\n    &lt;div class=\"form-group required\"&gt;\n        &lt;table class=\"table table-bordered text-center\"\n               style=\"width: auto; margin: auto\"&gt;\n            &lt;tr&gt;\n                &lt;th colspan=\"2\" rowspan=\"2\"&gt;&lt;/th&gt;\n                &lt;th colspan=\"2\"&gt;The Other Participant&lt;/th&gt;\n            &lt;/tr&gt;\n            &lt;tr&gt;\n                &lt;th&gt;Cooperate&lt;/th&gt;\n                &lt;th&gt;Defect&lt;/th&gt;\n            &lt;/tr&gt;\n            &lt;tr&gt;\n                &lt;th rowspan=\"2\"&gt;&lt;span&gt;You&lt;/span&gt;&lt;/th&gt;\n                &lt;td&gt;\n                    &lt;button name=\"cooperate\" value=\"True\"\n                            class=\"btn btn-primary btn-large\"&gt;\n                        I will cooperate\n                    &lt;/button&gt;\n                &lt;/td&gt;\n                &lt;td&gt;{{C.PAYOFF_B}}, {{C.PAYOFF_B}}&lt;/td&gt;\n                &lt;td&gt;{{ C.PAYOFF_D }}, {{C.PAYOFF_A}}&lt;/td&gt;\n            &lt;/tr&gt;\n            &lt;tr&gt;\n                &lt;td&gt;\n                    &lt;button name=\"cooperate\" value=\"False\"\n                            class=\"btn btn-primary btn-large\"&gt;\n                        I will defect\n                    &lt;/button&gt;\n                &lt;/td&gt;\n                &lt;td&gt;{{C.PAYOFF_A}}, {{ C.PAYOFF_D }}&lt;/td&gt;\n                &lt;td&gt;{{C.PAYOFF_C}}, {{C.PAYOFF_C}}&lt;/td&gt;\n            &lt;/tr&gt;\n        &lt;/table&gt;\n    &lt;/div&gt;\n\n    &lt;p&gt;Here you can chat with the other participant.&lt;/p&gt;\n\n    {{ chat }}\n\n    {{ include_sibling 'instructions.html' }}\n\n{{ endblock }}\nThis is the most complex template in the app. Let us focus on the new elements.\n\nButtons instead of radio buttons\nThe Decision page class has form_fields = ['cooperate'], which means oTree expects the cooperate field to be submitted on this page. But instead of using { formfields } to display the standard radio buttons, this template uses HTML buttons embedded in the payoff matrix:\n&lt;button name=\"cooperate\" value=\"True\"\n        class=\"btn btn-primary btn-large\"&gt;\n    I will cooperate\n&lt;/button&gt;\nWhen a participant clicks this button, oTree sets player.cooperate = True and submits the page. The key attributes are:\n\n\n\n\n\n\n\n\nAttribute\nValue\nWhat it does\n\n\n\n\nname\n\"cooperate\"\nMust match the field name in form_fields\n\n\nvalue\n\"True\"\nThe value submitted for this field\n\n\nclass\n\"btn btn-primary btn-large\"\nBootstrap classes for a styled blue button\n\n\n\nThis approach integrates the form submission directly into the payoff matrix, so participants can make their choice by clicking a button in the relevant row of the table. There is no separate Next button — clicking either button submits the form and advances the page.\n\n\n\n\n\n\nNote{ formfields } vs. custom buttons\n\n\n\nYou have two options for collecting form data:\n\n{ formfields } — Automatically renders all fields in form_fields as standard inputs (radio buttons, text fields, etc.). Simple and reliable.\nCustom HTML buttons — You write the buttons yourself using &lt;button name=\"...\" value=\"...\"&gt;. This gives you full control over layout and appearance.\n\nThe custom approach is more work but lets you place inputs exactly where you want them — for example, inside a payoff matrix.\n\n\n\n\nThe { chat } widget\n{{ chat }}\nThis single tag adds oTree’s built-in chat widget to the page. Participants in the same group can send messages to each other in real time. This is included in the sample app to demonstrate the feature, but you would typically only use it if your experimental design requires communication between participants.\n\n\n\n\n\n\nNoteYou probably will not use { chat } in your assignment\n\n\n\nThe Stag Hunt assignment does not require a chat feature. When you build your own app, you can simply leave this out. It is included here because the Prisoner’s Dilemma sample is designed to showcase oTree’s capabilities.",
+    "crumbs": [
+      "Session 2",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Inside the Prisoner's Dilemma: HTML Templates</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-02/session-02b.html#results.html-conditional-display",
+    "href": "chapters/session-02/session-02b.html#results.html-conditional-display",
+    "title": "Inside the Prisoner’s Dilemma: HTML Templates",
+    "section": "Results.html: conditional display",
+    "text": "Results.html: conditional display\n{{ block title }}Results{{ endblock }}\n{{ block content }}\n\n    &lt;p&gt;\n        {{ if same_choice }}\n            Both of you chose to {{ my_decision }}.\n        {{ else }}\n            You chose to {{ my_decision }} and the other participant\n            chose to {{ opponent_decision }}.\n        {{ endif }}\n    &lt;/p&gt;\n\n    &lt;p&gt;\n        As a result, you earned {{ player.payoff }}.\n    &lt;/p&gt;\n\n    {{ next_button }}\n\n    {{ include_sibling 'instructions.html' }}\n\n{{ endblock }}\nThis template introduces two important template features.\n\n{ if } / { else } / { endif }: conditional display\n{{ if same_choice }}\n    Both of you chose to {{ my_decision }}.\n{{ else }}\n    You chose to {{ my_decision }} and the other participant\n    chose to {{ opponent_decision }}.\n{{ endif }}\nThis is the template equivalent of a Python if/else statement. It controls which text is shown based on a condition:\n\nIf same_choice is True (both players made the same decision), the first paragraph appears.\nIf same_choice is False, the second paragraph appears instead.\n\nThe variable same_choice was created in vars_for_template in the Results page class. Any Boolean variable can be used as a condition in { if }.\n\n\n\n\n\n\nNoteTemplate { if } syntax\n\n\n\nThe full syntax supports several patterns:\n{{/* Simple condition */}}\n{{ if variable }}\n    Shown when variable is True (or non-empty)\n{{ endif }}\n\n{{/* If/else */}}\n{{ if variable }}\n    Shown when True\n{{ else }}\n    Shown when False\n{{ endif }}\n\n{{/* Comparisons */}}\n{{ if player.round_number == 1 }}\n    This is the first round.\n{{ endif }}\n\n{{ if player.payoff &gt; 0 }}\n    You earned something!\n{{ endif }}\nAlways close your { if } blocks with { endif }. Forgetting { endif } will cause a template error.\n\n\n\n\nDisplaying variables from vars_for_template\n{{ my_decision }}\n{{ opponent_decision }}\n{{ player.payoff }}\nVariables created in vars_for_template (like my_decision and opponent_decision) are accessed by name. Built-in variables (like player.payoff) are accessed using dot notation. Both use the { } syntax.",
+    "crumbs": [
+      "Session 2",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Inside the Prisoner's Dilemma: HTML Templates</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-02/session-02b.html#file-structure-recap",
+    "href": "chapters/session-02/session-02b.html#file-structure-recap",
+    "title": "Inside the Prisoner’s Dilemma: HTML Templates",
+    "section": "File structure recap",
+    "text": "File structure recap\nHere is how the four files relate to each other:\nprisoner/\n├── __init__.py           ← Python logic (constants, payoffs, pages)\n├── Introduction.html     ← Instructions page (includes instructions.html)\n├── Decision.html         ← Choice page with buttons (includes instructions.html)\n├── Results.html          ← Outcome page (includes instructions.html)\n└── instructions.html     ← Reusable instructions card (included by others)\nThe __init__.py file defines the logic — what data to collect, how to calculate payoffs, and what variables to pass to templates. The HTML files define the presentation — what text participants read, how the payoff matrix looks, and where the buttons go.",
+    "crumbs": [
+      "Session 2",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Inside the Prisoner's Dilemma: HTML Templates</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-02/session-02b.html#summary",
+    "href": "chapters/session-02/session-02b.html#summary",
+    "title": "Inside the Prisoner’s Dilemma: HTML Templates",
+    "section": "Summary",
+    "text": "Summary\n\n\n\n\n\n\n\n\nConcept\nSyntax\nWhat it does\n\n\n\n\n{ block title }\nTemplate block\nSets the page title\n\n\n{ block content }\nTemplate block\nContains all page content\n\n\n{ next_button }\nTemplate tag\nRenders the “Next” button\n\n\n{ variable_name }\nTemplate variable\nDisplays a variable’s value\n\n\n{ C.CONSTANT }\nTemplate variable\nDisplays a constant from the C class\n\n\n{ player.field }\nTemplate variable\nDisplays a player field’s value\n\n\n{ if } ... {{ endif }}\nConditional\nShows content based on a condition\n\n\n{ if } ... {{ else }} ... {{ endif }}\nConditional\nShows one of two blocks\n\n\n{ include_sibling 'file.html' }\nInclude\nInserts content from another file\n\n\n{ formfields }\nForm rendering\nDisplays all form fields automatically\n\n\n{ chat }\nChat widget\nAdds a real-time group chat\n\n\n&lt;button name=\"field\" value=\"val\"&gt;\nHTML button\nSubmits a form field with a specific value\n\n\nBootstrap classes (table, card, btn)\nCSS classes\nPre-built styling from Bootstrap\n\n\ncolspan / rowspan\nHTML attributes\nMakes table cells span multiple columns/rows",
+    "crumbs": [
+      "Session 2",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Inside the Prisoner's Dilemma: HTML Templates</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-02/session-02c.html",
+    "href": "chapters/session-02/session-02c.html",
+    "title": "Hands-On: Getting started with Assignment 2",
+    "section": "",
+    "text": "Step 0: register the new app in settings.py\nNow that you understand how the Prisoner’s Dilemma app works — both the Python logic and the HTML templates — it is time to start modifying it. In this part you will make several changes that move the app closer to the Stag Hunt assignment:\nBy the end of this part, you will have a working multi-round Prisoner’s Dilemma with several features from the assignment — and you will understand the patterns needed to build the rest on your own.\nBefore you can demo your new stag_hunt app, you need to tell oTree it exists. Open settings.py and add a new session dictionary to your SESSION_CONFIGS list:\nNotice that num_demo_participants=2 matches PLAYERS_PER_GROUP = 2 in the app. If you set this to 1, the demo will get stuck on the wait page because the second player never arrives.",
+    "crumbs": [
+      "Session 2",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Hands-On: Getting started with Assignment 2</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-02/session-02c.html#step-0-register-the-new-app-in-settings.py",
+    "href": "chapters/session-02/session-02c.html#step-0-register-the-new-app-in-settings.py",
+    "title": "Hands-On: Getting started with Assignment 2",
+    "section": "",
+    "text": "SESSION_CONFIGS = [\n    # ... your existing session dictionaries ...\n\n    dict(\n        name='stag_hunt',\n        display_name=\"Stag Hunt (in progress)\",\n        app_sequence=['stag_hunt'],\n        num_demo_participants=2,\n    ),\n]\n\n\n\n\n\n\n\nImportantEvery app must be registered in settings.py\n\n\n\nAdding the stag_hunt folder to your project is not enough on its own. oTree only runs apps that appear in SESSION_CONFIGS. If you skip this step and try to demo the app, it will not show up on the demo page.",
+    "crumbs": [
+      "Session 2",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Hands-On: Getting started with Assignment 2</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-02/session-02c.html#step-1-change-num_rounds-to-make-this-a-repeated-game",
+    "href": "chapters/session-02/session-02c.html#step-1-change-num_rounds-to-make-this-a-repeated-game",
+    "title": "Hands-On: Getting started with Assignment 2",
+    "section": "Step 1: change NUM_ROUNDS to make this a repeated game",
+    "text": "Step 1: change NUM_ROUNDS to make this a repeated game\nNow open stag_hunt/__init__.py and find the constants:\nclass C(BaseConstants):\n    NAME_IN_URL = 'stag_hunt'\n    PLAYERS_PER_GROUP = 2\n    NUM_ROUNDS = 1\n    PAYOFF_A = cu(300)\n    PAYOFF_B = cu(200)\n    PAYOFF_C = cu(100)\n    PAYOFF_D = cu(0)\nChange NUM_ROUNDS from 1 to 5:\nNUM_ROUNDS = 5\nSave both files. The change to settings.py registers the app so it appears on the demo page. The change to NUM_ROUNDS tells oTree to repeat the entire page sequence 5 times — every page in page_sequence will now appear in every round.\n\n\n\n\n\n\nWarningReset the database after editing settings.py or changing model fields\n\n\n\nWhenever you edit settings.py or change constants like NUM_ROUNDS, you must reset the database before running the server:\notree resetdb\nConfirm with y when prompted. If you skip this step, you will get database errors when you try to run the app.\n\n\nTo verify everything is working, start the server with otree devserver, open your browser to http://localhost:8000/demo, and confirm that “Stag Hunt (in progress)” appears on the demo page. Click on it and open two browser tabs to simulate both players. You should see the original Prisoner’s Dilemma flow — but now repeating for 5 rounds. Press Ctrl + C in the terminal to stop the server when you are done.",
+    "crumbs": [
+      "Session 2",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Hands-On: Getting started with Assignment 2</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-02/session-02c.html#step-2-show-the-introduction-only-in-round-1",
+    "href": "chapters/session-02/session-02c.html#step-2-show-the-introduction-only-in-round-1",
+    "title": "Hands-On: Getting started with Assignment 2",
+    "section": "Step 2: show the introduction only in round 1",
+    "text": "Step 2: show the introduction only in round 1\nWith NUM_ROUNDS = 5, the Introduction page currently appears in every round — participants would re-read the instructions five times. You need to restrict it to round 1 only.\nAdd an is_displayed method to the Introduction page class:\nclass Introduction(Page):\n    timeout_seconds = 100\n\n    @staticmethod\n    def is_displayed(player):\n        return player.round_number == 1\nis_displayed returns True or False. If it returns True, the page appears. If False, the page is skipped for that round. Here, player.round_number == 1 is True only in the first round, so the instructions appear once and are skipped in rounds 2 through 5.\n\n\n\n\n\n\nNoteplayer.round_number\n\n\n\nEvery player object has a built-in attribute called round_number that tells you the current round. It starts at 1 (not 0) and goes up to NUM_ROUNDS.\n\n\nYou can use is_displayed to show any page conditionally. For example, if you wanted a page to appear only in round 4 to announce a rule change, you would write:\n@staticmethod\ndef is_displayed(player):\n    return player.round_number == 4",
+    "crumbs": [
+      "Session 2",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Hands-On: Getting started with Assignment 2</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-02/session-02c.html#step-3-keep-groups-fixed-across-rounds",
+    "href": "chapters/session-02/session-02c.html#step-3-keep-groups-fixed-across-rounds",
+    "title": "Hands-On: Getting started with Assignment 2",
+    "section": "Step 3: keep groups fixed across rounds",
+    "text": "Step 3: keep groups fixed across rounds\nBy default, when NUM_ROUNDS is greater than 1, oTree keeps the same group assignments across rounds — so you do not need to do anything extra for this step. Your pairs will remain the same from round 1 through round 5.\nHowever, if you wanted to randomize groups in round 1 and then keep them fixed, you would add a creating_session function:\ndef creating_session(subsession: Subsession):\n    if subsession.round_number == 1:\n        subsession.group_randomly()\n    else:\n        subsession.group_like_round(1)\nThis function runs automatically at the start of each round (oTree recognises the name creating_session and calls it). In round 1, group_randomly() shuffles participants into random pairs. In all later rounds, group_like_round(1) copies the group assignments from round 1 so that pairs stay together.\nFor the Stag Hunt assignment, you will need this — the assignment states that “each subject should retain their role for the duration of the experiment” with roles assigned randomly.\n\n\n\n\n\n\nTipAdd this function now\n\n\n\nEven though the default behaviour already keeps groups fixed, adding the creating_session function explicitly is good practice. It makes your code self-documenting — anyone reading it can immediately see that groups are randomized in round 1 and fixed thereafter. Place this function after the Player class and before the set_payoffs function.",
+    "crumbs": [
+      "Session 2",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Hands-On: Getting started with Assignment 2</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-02/session-02c.html#step-4-add-a-per_round_payoff-field",
+    "href": "chapters/session-02/session-02c.html#step-4-add-a-per_round_payoff-field",
+    "title": "Hands-On: Getting started with Assignment 2",
+    "section": "Step 4: add a per_round_payoff field",
+    "text": "Step 4: add a per_round_payoff field\nCurrently the Prisoner’s Dilemma stores payoffs in the built-in player.payoff field. This works for a one-shot game, but for a repeated game you want to track each round’s earnings separately. Add a new field to the Player class:\nclass Player(BasePlayer):\n    cooperate = models.BooleanField(\n        choices=[[True, 'Cooperate'], [False, 'Defect']],\n        doc=\"\"\"This player's decision\"\"\",\n        widget=widgets.RadioSelect,\n    )\n    per_round_payoff = models.CurrencyField()\nThen update the set_payoff function to use this new field:\ndef set_payoff(player: Player):\n    payoff_matrix = {\n        (False, True): C.PAYOFF_A,\n        (True, True): C.PAYOFF_B,\n        (False, False): C.PAYOFF_C,\n        (True, False): C.PAYOFF_D,\n    }\n    other = other_player(player)\n    player.per_round_payoff = payoff_matrix[(player.cooperate, other.cooperate)]\n    player.payoff = player.per_round_payoff\nNow each round’s earnings are saved in per_round_payoff, and the built-in player.payoff is also updated (oTree uses this for the final payment calculation).",
+    "crumbs": [
+      "Session 2",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Hands-On: Getting started with Assignment 2</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-02/session-02c.html#step-5-build-the-game-history-in-vars_for_template",
+    "href": "chapters/session-02/session-02c.html#step-5-build-the-game-history-in-vars_for_template",
+    "title": "Hands-On: Getting started with Assignment 2",
+    "section": "Step 5: build the game history in vars_for_template",
+    "text": "Step 5: build the game history in vars_for_template\nThis is the most important new feature. You want to display a table on the Decision page that shows what happened in every previous round — the round number, what you chose, what your partner chose, what you each earned, and your running total.\nAdd a vars_for_template method to the Decision page:\nclass Decision(Page):\n    form_model = 'player'\n    form_fields = ['cooperate']\n\n    @staticmethod\n    def vars_for_template(player: Player):\n        game_history = []\n        cumulative_payoff = 0\n        for p in player.in_previous_rounds():\n            other_p = p.get_others_in_group()[0]\n            cumulative_payoff += p.per_round_payoff\n            game_history.append({\n                'round': p.round_number,\n                'my_choice': p.field_display('cooperate'),\n                'my_payoff': p.per_round_payoff,\n                'partner_choice': other_p.field_display('cooperate'),\n                'partner_payoff': other_p.per_round_payoff,\n                'cumulative': cumulative_payoff,\n            })\n        return dict(\n            game_history=game_history,\n        )\nLet us go through this step by step.\n\nCreating an empty list\ngame_history = []\ncumulative_payoff = 0\ngame_history starts as an empty list. Each previous round will add one entry (a dictionary) to this list. cumulative_payoff is a running total that starts at zero.\n\n\nLooping through previous rounds\nfor p in player.in_previous_rounds():\nplayer.in_previous_rounds() is a built-in oTree method that returns a list of the same player’s objects from all earlier rounds. If you are in round 4, it returns the player objects from rounds 1, 2, and 3. In round 1, it returns an empty list (there are no previous rounds), so the loop does not run and the history table is empty.\nEach p in the loop is a full Player object for that earlier round — you can access p.cooperate, p.per_round_payoff, p.round_number, and any other field.\n\n\nGetting the partner for each round\nother_p = p.get_others_in_group()[0]\nThis gets the partner from that specific round. Since groups are fixed, it will always be the same person — but you still need to use p.get_others_in_group() (not player.get_others_in_group()) because p is the player object from the correct round.\n\n\nBuilding each row\ncumulative_payoff += p.per_round_payoff\ngame_history.append({\n    'round': p.round_number,\n    'my_choice': p.field_display('cooperate'),\n    'my_payoff': p.per_round_payoff,\n    'partner_choice': other_p.field_display('cooperate'),\n    'partner_payoff': other_p.per_round_payoff,\n    'cumulative': cumulative_payoff,\n})\nThe += operator adds p.per_round_payoff to the running total. Then game_history.append(...) adds a dictionary to the list. Each dictionary represents one row of the history table, with named keys that make the template code easy to read.\np.field_display('cooperate') returns the display label ('Cooperate' or 'Defect') instead of the raw value (True or False). This is what participants should see.\n\n\n\n\n\n\nNoteLists vs. dictionaries for table rows\n\n\n\nIn the example above, each row is a dictionary with named keys like 'round', 'my_choice', etc. You could also use a list where each element is accessed by position:\n# Dictionary approach (more readable)\ngame_history.append({\n    'round': p.round_number,\n    'my_choice': p.field_display('cooperate'),\n})\n# In template: {{ row.round }}, {{ row.my_choice }}\n\n# List approach (more compact)\ngame_history.append([\n    p.round_number,\n    p.field_display('cooperate'),\n])\n# In template: {{ row.0 }}, {{ row.1 }}\nThe dictionary approach is recommended because the template code is self-documenting — { row.round } is clearer than { row.0 }.",
+    "crumbs": [
+      "Session 2",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Hands-On: Getting started with Assignment 2</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-02/session-02c.html#step-6-display-the-history-table-in-the-template",
+    "href": "chapters/session-02/session-02c.html#step-6-display-the-history-table-in-the-template",
+    "title": "Hands-On: Getting started with Assignment 2",
+    "section": "Step 6: display the history table in the template",
+    "text": "Step 6: display the history table in the template\nOpen Decision.html and add the history table. Place it above or below the payoff matrix — wherever you think participants will find it most useful. Here is the HTML:\n{{ if game_history }}\n&lt;h4&gt;Game History&lt;/h4&gt;\n&lt;table class=\"table table-bordered text-center\" style=\"width: auto; margin: auto\"&gt;\n    &lt;thead&gt;\n        &lt;tr&gt;\n            &lt;th&gt;Round&lt;/th&gt;\n            &lt;th&gt;Your Choice&lt;/th&gt;\n            &lt;th&gt;Your Payoff&lt;/th&gt;\n            &lt;th&gt;Partner's Choice&lt;/th&gt;\n            &lt;th&gt;Partner's Payoff&lt;/th&gt;\n            &lt;th&gt;Cumulative Payoff&lt;/th&gt;\n        &lt;/tr&gt;\n    &lt;/thead&gt;\n    &lt;tbody&gt;\n        {{ for row in game_history }}\n        &lt;tr&gt;\n            &lt;td&gt;{{ row.round }}&lt;/td&gt;\n            &lt;td&gt;{{ row.my_choice }}&lt;/td&gt;\n            &lt;td&gt;{{ row.my_payoff }}&lt;/td&gt;\n            &lt;td&gt;{{ row.partner_choice }}&lt;/td&gt;\n            &lt;td&gt;{{ row.partner_payoff }}&lt;/td&gt;\n            &lt;td&gt;{{ row.cumulative }}&lt;/td&gt;\n        &lt;/tr&gt;\n        {{ endfor }}\n    &lt;/tbody&gt;\n&lt;/table&gt;\n{{ endif }}\nLet us go through the new template features.\n\n{ if game_history }: checking if the list is non-empty\n{{ if game_history }}\n    ...\n{{ endif }}\nIn round 1, game_history is an empty list. In oTree templates (and Python), an empty list is “falsy” — it evaluates to False in a condition. So the entire table is hidden in round 1 (when there is no history to show) and appears from round 2 onward.\n\n\n{ for row in game_history }: looping through rows\n{{ for row in game_history }}\n&lt;tr&gt;\n    &lt;td&gt;{{ row.round }}&lt;/td&gt;\n    &lt;td&gt;{{ row.my_choice }}&lt;/td&gt;\n    ...\n&lt;/tr&gt;\n{{ endfor }}\nThis is the template equivalent of a Python for loop. It repeats the &lt;tr&gt;...&lt;/tr&gt; block once for each entry in game_history. Each time through the loop, row takes on the next dictionary from the list, and you access its values with dot notation: { row.round }, { row.my_choice }, etc.\nAlways close { for } loops with { endfor }.\n\n\n&lt;thead&gt; and &lt;tbody&gt;\nThese are standard HTML tags that separate the header row(s) from the data rows. &lt;thead&gt; wraps the column headers. &lt;tbody&gt; wraps the data. They have no visual effect by default but help with accessibility and some CSS styling.",
+    "crumbs": [
+      "Session 2",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Hands-On: Getting started with Assignment 2</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-02/session-02c.html#step-7-update-the-results-page",
+    "href": "chapters/session-02/session-02c.html#step-7-update-the-results-page",
+    "title": "Hands-On: Getting started with Assignment 2",
+    "section": "Step 7: update the Results page",
+    "text": "Step 7: update the Results page\nYou should also add the game history to the Results page so that participants can see the full record after each round. Add vars_for_template to the Results page:\nclass Results(Page):\n    @staticmethod\n    def vars_for_template(player: Player):\n        opponent = other_player(player)\n        game_history = []\n        cumulative_payoff = 0\n        for p in player.in_all_rounds():\n            other_p = p.get_others_in_group()[0]\n            cumulative_payoff += p.per_round_payoff\n            game_history.append({\n                'round': p.round_number,\n                'my_choice': p.field_display('cooperate'),\n                'my_payoff': p.per_round_payoff,\n                'partner_choice': other_p.field_display('cooperate'),\n                'partner_payoff': other_p.per_round_payoff,\n                'cumulative': cumulative_payoff,\n            })\n        return dict(\n            opponent=opponent,\n            same_choice=player.cooperate == opponent.cooperate,\n            my_decision=player.field_display('cooperate'),\n            opponent_decision=opponent.field_display('cooperate'),\n            game_history=game_history,\n        )\n\n\n\n\n\n\nImportantin_previous_rounds() vs. in_all_rounds()\n\n\n\nNotice that the Decision page uses player.in_previous_rounds() but the Results page uses player.in_all_rounds(). The difference:\n\nin_previous_rounds() — Returns player objects from rounds before the current round. Use this on the Decision page because the current round has not been played yet.\nin_all_rounds() — Returns player objects from all rounds including the current one. Use this on the Results page because the current round’s outcome is now known.\n\n\n\nThen add the same history table HTML to Results.html, inside the { block content } section.",
+    "crumbs": [
+      "Session 2",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Hands-On: Getting started with Assignment 2</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-02/session-02c.html#step-8-add-roles-to-your-game",
+    "href": "chapters/session-02/session-02c.html#step-8-add-roles-to-your-game",
+    "title": "Hands-On: Getting started with Assignment 2",
+    "section": "Step 8: add roles to your game",
+    "text": "Step 8: add roles to your game\nThe Stag Hunt assignment requires two distinct roles — Hunter 1 and Hunter 2 — that are randomly assigned and fixed for the duration of the experiment. Let us add roles to the Prisoner’s Dilemma as practice.\n\nDefining role constants\nAdd role constants to your C class:\nclass C(BaseConstants):\n    NAME_IN_URL = 'stag_hunt'\n    PLAYERS_PER_GROUP = 2\n    NUM_ROUNDS = 5\n    PAYOFF_A = cu(300)\n    PAYOFF_B = cu(200)\n    PAYOFF_C = cu(100)\n    PAYOFF_D = cu(0)\n    PLAYER1_ROLE = 'Player_1'\n    PLAYER2_ROLE = 'Player_2'\nWhen PLAYERS_PER_GROUP is set to a number, oTree automatically assigns each player a position within the group: id_in_group = 1 for the first player, id_in_group = 2 for the second. If you define constants ending in _ROLE that follow the naming pattern PLAYER1_ROLE, PLAYER2_ROLE, etc., oTree maps them to these positions automatically.\nAfter adding these, you can use player.role anywhere in your code to check which role a player has:\nif player.role == C.PLAYER1_ROLE:\n    # do something specific to Player 1\n\n\nDisplaying roles in templates\nIn any HTML template, you can show the player their role:\n&lt;p&gt;You are {{ player.role }}.&lt;/p&gt;\nYou can also use { if } to display different content based on role:\n{{ if player.role == C.PLAYER1_ROLE }}\n    &lt;p&gt;You are Player 1.&lt;/p&gt;\n{{ else }}\n    &lt;p&gt;You are Player 2.&lt;/p&gt;\n{{ endif }}\n\n\nDisplaying the current round\nWhile we are modifying templates, add the round number so participants know which round they are in. This is useful on both the Decision and Results pages:\n&lt;p&gt;Round {{ player.round_number }} of {{ C.NUM_ROUNDS }}&lt;/p&gt;\nBoth player.round_number and C.NUM_ROUNDS are automatically available in every template.",
+    "crumbs": [
+      "Session 2",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Hands-On: Getting started with Assignment 2</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-02/session-02c.html#step-9-add-a-timer-with-a-default-choice",
+    "href": "chapters/session-02/session-02c.html#step-9-add-a-timer-with-a-default-choice",
+    "title": "Hands-On: Getting started with Assignment 2",
+    "section": "Step 9: add a timer with a default choice",
+    "text": "Step 9: add a timer with a default choice\nThe assignment requires a timer on the decision page. If the timer expires, the computer should automatically make a choice for the participant. You already have timeout_seconds from the Introduction page, but on a page with form fields you also need to handle what happens when the timer runs out.\n\nSetting the timer\nAdd timeout_seconds to the Decision page:\nclass Decision(Page):\n    form_model = 'player'\n    form_fields = ['cooperate']\n    timeout_seconds = 60\nA countdown timer will appear on the page. When it reaches zero, oTree automatically submits the page.\n\n\nHandling the timeout\nThe problem is that if the timer expires and the participant has not made a choice, the cooperate field will be empty — and your payoff calculation will crash. You need before_next_page to set a default:\nclass Decision(Page):\n    form_model = 'player'\n    form_fields = ['cooperate']\n    timeout_seconds = 60\n\n    @staticmethod\n    def before_next_page(player, timeout_happened):\n        if timeout_happened:\n            player.cooperate = True\nbefore_next_page runs after the page is submitted but before the player moves on. The timeout_happened parameter is True when the timer expired and False when the participant submitted normally. Here, if the timer ran out, the code sets cooperate to True — the computer cooperates on their behalf.\n\n\n\n\n\n\nWarningAlways handle timeouts on form pages\n\n\n\nIf a page has both form_fields and timeout_seconds, you must use before_next_page to assign a default value. Without it, a timeout will leave the field as None, and any code that tries to use that field’s value will crash.",
+    "crumbs": [
+      "Session 2",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Hands-On: Getting started with Assignment 2</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-02/session-02c.html#step-10-add-images-and-styled-text",
+    "href": "chapters/session-02/session-02c.html#step-10-add-images-and-styled-text",
+    "title": "Hands-On: Getting started with Assignment 2",
+    "section": "Step 10: add images and styled text",
+    "text": "Step 10: add images and styled text\nThe assignment requires visual elements — happy/sad face images on the results page and role-specific text colours. Let us practice both.\n\nAdding images with { static }\nTo display an image in a template, you need two things: the image file in the right folder, and an &lt;img&gt; tag in the template.\nStep 1: Place your image files (e.g., happy.png and sad.png) in the _static/ folder at the top level of your project — the same level as settings.py.\nStep 2: Reference them in your template using { static }:\n{{ if same_choice }}\n    &lt;img src=\"{{ static 'happy.png' }}\" alt=\"Happy face\" width=\"80\"&gt;\n{{ else }}\n    &lt;img src=\"{{ static 'sad.png' }}\" alt=\"Sad face\" width=\"80\"&gt;\n{{ endif }}\nThe { static 'filename' } tag generates the correct URL for files in the _static/ folder. The alt attribute provides text for screen readers (accessibility), and width controls the display size in pixels.\n\n\n\n\n\n\nTipWhere to find free images\n\n\n\nYou can find simple emoji-style images for free on sites like OpenMoji or Twemoji. Download the image files and place them in your _static/ folder. Make sure the filenames match exactly what you write in the template.\n\n\n\n\nStyling text with CSS\nYou can style any text in a template using inline CSS or CSS classes. For example, to display a role name in bold red:\n&lt;span style=\"color: red; font-weight: bold;\"&gt;Hunter 1&lt;/span&gt;\nOr in italic green:\n&lt;span style=\"color: green; font-style: italic;\"&gt;Hunter 2&lt;/span&gt;\nFor something you will reuse many times, define CSS classes at the top of your template:\n&lt;style&gt;\n    .role1 { color: red; font-weight: bold; }\n    .role2 { color: green; font-style: italic; }\n&lt;/style&gt;\nThen apply them using the class attribute:\n{{ if player.role == C.PLAYER1_ROLE }}\n    &lt;span class=\"role1\"&gt;{{ player.role }}&lt;/span&gt;\n{{ else }}\n    &lt;span class=\"role2\"&gt;{{ player.role }}&lt;/span&gt;\n{{ endif }}\n\n\n\n\n\n\nNoteInline styles vs. CSS classes\n\n\n\nInline styles (style=\"color: red;\") are fine for one-off use. But if you need the same style in many places — like colouring every mention of a role — CSS classes are much more efficient. Define the class once, then use class=\"role1\" wherever you need it.",
+    "crumbs": [
+      "Session 2",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Hands-On: Getting started with Assignment 2</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-02/session-02c.html#step-11-test-your-changes",
+    "href": "chapters/session-02/session-02c.html#step-11-test-your-changes",
+    "title": "Hands-On: Getting started with Assignment 2",
+    "section": "Step 11: test your changes",
+    "text": "Step 11: test your changes\n\nReset the database:\n\notree resetdb\n\nStart the server:\n\notree devserver\n\nOpen two browser tabs and go to http://localhost:8000/demo. Select the session that includes your modified app and click through both tabs simultaneously, simulating two players.\nVerify the following:\n\n\nThe introduction appears only in round 1\nThe decision page appears in every round\nThe game history table is hidden in round 1 and appears from round 2\nThe history shows correct choices, payoffs, and cumulative totals\nThe results page shows the current round’s outcome plus the full history\nThe game runs for 5 rounds total\nEach player sees their role on screen\nThe timer counts down on the decision page\nIf you let the timer expire, a default choice is made automatically\nImages display correctly on the results page",
+    "crumbs": [
+      "Session 2",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Hands-On: Getting started with Assignment 2</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-02/session-02c.html#what-you-have-learned",
+    "href": "chapters/session-02/session-02c.html#what-you-have-learned",
+    "title": "Hands-On: Getting started with Assignment 2",
+    "section": "What you have learned",
+    "text": "What you have learned\nYou have now made the key modifications that transform a one-shot game into a repeated game with history, roles, timers, and visual elements. These same patterns carry directly into your Stag Hunt assignment:\n\n\n\n\n\n\n\nModification\nPrisoner’s Dilemma → Stag Hunt\n\n\n\n\nChange NUM_ROUNDS\n1 → up to 10 with a stopping rule\n\n\nis_displayed for intro pages\nSame pattern — show instructions in round 1 only\n\n\ncreating_session for grouping\nSame — randomize in round 1, fix thereafter\n\n\nper_round_payoff field\nSame — track per-round earnings separately\n\n\nGame history with in_previous_rounds()\nSame loop pattern with different field names\n\n\nHistory table in HTML\nSame { for } loop with different columns\n\n\nRole constants and player.role\nPLAYER1_ROLE → HUNTER1_ROLE, etc.\n\n\ntimeout_seconds + before_next_page\nSame pattern for the decision timer\n\n\n{ static 'file' } for images\nSame — place files in _static/\n\n\nCSS classes for styling\nSame — define once, apply everywhere",
+    "crumbs": [
+      "Session 2",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Hands-On: Getting started with Assignment 2</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-02/session-02c.html#what-comes-next",
+    "href": "chapters/session-02/session-02c.html#what-comes-next",
+    "title": "Hands-On: Getting started with Assignment 2",
+    "section": "What comes next",
+    "text": "What comes next\nYour Stag Hunt assignment builds on everything covered in this session. The additional features you will need to implement on your own include:\n\nAn asymmetric payoff matrix where the two roles face different payoffs for some outcomes\nA payoff change mid-game where a parameter changes after a certain round\nA probabilistic stopping rule that ends the game randomly after a minimum number of rounds\nA random round for payment selected at the end of the game\nA custom wait page that replicates the decision screen layout\nA questionnaire and summary screen as separate apps with data flowing between them\nSession-level statistics calculated across all groups\n\nThe next session’s cheat sheet will give you a quick reference for the oTree tools and methods you will need for these features. Use it alongside the official oTree documentation and AI assistance to build your assignment.",
+    "crumbs": [
+      "Session 2",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Hands-On: Getting started with Assignment 2</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-02/session-02d.html",
+    "href": "chapters/session-02/session-02d.html",
+    "title": "Assignment 2 Cheat Sheet",
+    "section": "",
+    "text": "Constants (class C)\nThis is a quick reference for the oTree features and Python patterns you will need for your Stag Hunt assignment. It is not a tutorial — it tells you what exists and how to use it, so you know what to reach for when building your app. Use this alongside the official oTree documentation and AI assistance.",
+    "crumbs": [
+      "Session 2",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 2 Cheat Sheet</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-02/session-02d.html#constants-class-c",
+    "href": "chapters/session-02/session-02d.html#constants-class-c",
+    "title": "Assignment 2 Cheat Sheet",
+    "section": "",
+    "text": "Required constants\nEvery app must define these three:\nclass C(BaseConstants):\n    NAME_IN_URL = 'my_app'       # Appears in participants' browser URL\n    PLAYERS_PER_GROUP = 2        # None for individual tasks\n    NUM_ROUNDS = 10              # How many times the page sequence repeats\n\n\nCurrency values\nPAYOFF_A = cu(4)     # Creates a formatted currency value\nPAYOFF_B = cu(0)     # oTree handles dollar signs, decimals, etc.\n\n\nRole constants\nHUNTER1_ROLE = 'Hunter_1'    # Assigned to id_in_group = 1\nHUNTER2_ROLE = 'Hunter_2'    # Assigned to id_in_group = 2\nAccess in code: player.role returns the role string (e.g., 'Hunter_1').\nAccess in templates: { player.role }.",
+    "crumbs": [
+      "Session 2",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 2 Cheat Sheet</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-02/session-02d.html#model-fields",
+    "href": "chapters/session-02/session-02d.html#model-fields",
+    "title": "Assignment 2 Cheat Sheet",
+    "section": "Model fields",
+    "text": "Model fields\n\nField types\n\n\n\n\n\n\n\n\nType\nUse for\nExample\n\n\n\n\nmodels.BooleanField()\nTrue/False choices\nPlayer’s decision (A or B)\n\n\nmodels.IntegerField()\nWhole numbers\nAge, number of courses\n\n\nmodels.FloatField()\nDecimal numbers\nProbabilities, percentages\n\n\nmodels.StringField()\nText\nName, major, open-ended response\n\n\nmodels.CurrencyField()\nMoney amounts\nPer-round payoff\n\n\nmodels.LongStringField()\nLong text\nEssay responses, comments\n\n\n\n\n\nCommon field arguments\n\n\n\n\n\n\n\n\nArgument\nWhat it does\nExample\n\n\n\n\nlabel\nQuestion text shown to participant\nlabel='What is your age?'\n\n\nchoices\nList of [recorded, displayed] pairs\nchoices=[[True, 'A'], [False, 'B']]\n\n\nwidget\nHow the field is rendered\nwidget=widgets.RadioSelect\n\n\nmin / max\nValidation for numeric fields\nmin=18, max=99\n\n\nblank\nIf True, field is optional\nblank=True\n\n\ndoc\nDescription in data export\ndoc=\"Player's decision\"\n\n\ndefault\nDefault value\ndefault=0\n\n\n\n\n\nWhere to define fields\n\n\n\n\n\n\n\n\nLevel\nClass\nWhen to use\n\n\n\n\nIndividual data\nclass Player(BasePlayer)\nDecisions, payoffs, survey responses\n\n\nGroup data\nclass Group(BaseGroup)\nData about the pair/group as a whole\n\n\nRound data\nclass Subsession(BaseSubsession)\nData that applies to the entire round",
+    "crumbs": [
+      "Session 2",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 2 Cheat Sheet</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-02/session-02d.html#built-in-player-attributes",
+    "href": "chapters/session-02/session-02d.html#built-in-player-attributes",
+    "title": "Assignment 2 Cheat Sheet",
+    "section": "Built-in player attributes",
+    "text": "Built-in player attributes\nThese exist automatically on every player — you do not define them.\n\n\n\n\n\n\n\nAttribute\nWhat it returns\n\n\n\n\nplayer.id_in_group\nPosition in the group (1, 2, …)\n\n\nplayer.role\nRole name (from constants, e.g., 'Hunter_1')\n\n\nplayer.round_number\nCurrent round (1, 2, …, up to NUM_ROUNDS)\n\n\nplayer.payoff\nBuilt-in earnings field (currency)",
+    "crumbs": [
+      "Session 2",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 2 Cheat Sheet</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-02/session-02d.html#accessing-other-players-and-rounds",
+    "href": "chapters/session-02/session-02d.html#accessing-other-players-and-rounds",
+    "title": "Assignment 2 Cheat Sheet",
+    "section": "Accessing other players and rounds",
+    "text": "Accessing other players and rounds\n\nWithin the same round\n\n\n\n\n\n\n\nMethod\nReturns\n\n\n\n\nplayer.get_others_in_group()\nList of other players in the same group\n\n\nplayer.group\nThe Group object this player belongs to\n\n\ngroup.get_players()\nList of all players in the group\n\n\ngroup.get_player_by_role('Hunter_1')\nThe specific player with that role\n\n\nsubsession.get_players()\nAll players in the round\n\n\nsubsession.get_groups()\nAll groups in the round\n\n\n\n\n\nAcross rounds\n\n\n\n\n\n\n\nMethod\nReturns\n\n\n\n\nplayer.in_previous_rounds()\nList of this player’s objects from earlier rounds\n\n\nplayer.in_all_rounds()\nList from all rounds including current\n\n\nplayer.in_round(3)\nThis player’s object in round 3 specifically\n\n\ngroup.in_all_rounds()\nList of this group’s objects from all rounds\n\n\ngroup.in_round(3)\nThis group’s object in round 3 specifically\n\n\n\n\n\nDisplay values\n\n\n\n\n\n\n\nMethod\nReturns\n\n\n\n\nplayer.field_display('stag')\nThe display label (e.g., 'A') instead of the raw value (True)",
+    "crumbs": [
+      "Session 2",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 2 Cheat Sheet</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-02/session-02d.html#grouping",
+    "href": "chapters/session-02/session-02d.html#grouping",
+    "title": "Assignment 2 Cheat Sheet",
+    "section": "Grouping",
+    "text": "Grouping\n\nIn creating_session\ndef creating_session(subsession: Subsession):\n    if subsession.round_number == 1:\n        subsession.group_randomly()          # Random groups in round 1\n    else:\n        subsession.group_like_round(1)       # Same groups as round 1\n\n\nOther grouping methods\n\n\n\n\n\n\n\nMethod\nWhat it does\n\n\n\n\nsubsession.group_randomly()\nRandomly assigns players to groups\n\n\nsubsession.group_randomly(fixed_id_in_group=True)\nRandom groups but keep same id_in_group\n\n\nsubsession.group_like_round(n)\nCopy group assignments from round n",
+    "crumbs": [
+      "Session 2",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 2 Cheat Sheet</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-02/session-02d.html#page-classes",
+    "href": "chapters/session-02/session-02d.html#page-classes",
+    "title": "Assignment 2 Cheat Sheet",
+    "section": "Page classes",
+    "text": "Page classes\n\nBasic page\nclass MyPage(Page):\n    form_model = 'player'                 # Which model the form saves to\n    form_fields = ['field1', 'field2']     # Which fields appear on the page\n\n\nPage methods\n\n\n\n\n\n\n\n\nMethod\nWhen it runs\nCommon use\n\n\n\n\nis_displayed(player)\nBefore the page is shown\nSkip pages conditionally\n\n\nvars_for_template(player)\nBefore rendering the template\nPass calculated data to HTML\n\n\nbefore_next_page(player, timeout_happened)\nAfter form submission\nSet defaults, do calculations\n\n\napp_after_this_page(player, upcoming_apps)\nAfter the page\nSkip to a different app entirely\n\n\n\nclass Decision(Page):\n    form_model = 'player'\n    form_fields = ['stag']\n    timeout_seconds = 60\n\n    @staticmethod\n    def is_displayed(player):\n        return player.round_number == 1\n\n    @staticmethod\n    def vars_for_template(player):\n        return dict(my_variable=some_value)\n\n    @staticmethod\n    def before_next_page(player, timeout_happened):\n        if timeout_happened:\n            player.stag = True\n\n    @staticmethod\n    def app_after_this_page(player, upcoming_apps):\n        if some_condition:\n            return upcoming_apps[0]    # Skip to the next app\n\n\nWait pages\nclass MyWaitPage(WaitPage):\n    after_all_players_arrive = my_function    # Runs once when all players arrive\nOr with a method defined inline:\nclass MyWaitPage(WaitPage):\n    @staticmethod\n    def after_all_players_arrive(group):\n        # Calculate payoffs, check stopping rule, etc.\n        for p in group.get_players():\n            set_payoff(p)\n\n\nCustom wait page template\nclass MyWaitPage(WaitPage):\n    template_name = __name__ + '/MyWaitPage.html'\n    title_text = \"Waiting for other participants...\"\n\n    @staticmethod\n    def vars_for_template(player):\n        return dict(my_data=some_value)\nWait pages can also have vars_for_template to pass data to the custom template.",
+    "crumbs": [
+      "Session 2",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 2 Cheat Sheet</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-02/session-02d.html#timers",
+    "href": "chapters/session-02/session-02d.html#timers",
+    "title": "Assignment 2 Cheat Sheet",
+    "section": "Timers",
+    "text": "Timers\nclass MyPage(Page):\n    timeout_seconds = 120          # Fixed timer (2 minutes)\n    timeout_seconds = C.MY_TIMER   # Timer from a constant\nThe timer appears automatically on the page and counts down. When it reaches zero, the page submits automatically. On pages with form fields, always pair with before_next_page to handle missing data.",
+    "crumbs": [
+      "Session 2",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 2 Cheat Sheet</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-02/session-02d.html#cross-app-data-participant_fields-and-session_fields",
+    "href": "chapters/session-02/session-02d.html#cross-app-data-participant_fields-and-session_fields",
+    "title": "Assignment 2 Cheat Sheet",
+    "section": "Cross-app data: PARTICIPANT_FIELDS and SESSION_FIELDS",
+    "text": "Cross-app data: PARTICIPANT_FIELDS and SESSION_FIELDS\n\nWhy you need them\nPlayer and group data only exist within their app. To pass data from one app to the next, you store it on the participant (for individual data) or session (for shared data).\n\n\nDeclaring fields in settings.py\nPARTICIPANT_FIELDS = ['finished_rounds', 'round_to_pay', 'opponent_payoff']\nSESSION_FIELDS = ['total_rounds_played', 'yes_stag']\nYou must list every custom participant/session variable here. Without this declaration, oTree will raise an error.\n\n\nSetting values\n# Participant-level (specific to one person, persists across apps)\nplayer.participant.round_to_pay = 5\nplayer.participant.finished_rounds = True\n\n# Session-level (shared across everyone, persists across apps)\nplayer.session.total_rounds_played = 0\nplayer.session.yes_stag = 0\n\n\nReading values in another app\n# In a later app's vars_for_template or page method\npayment_round = player.participant.round_to_pay\ntotal_stag = player.session.yes_stag\nIn templates:\n{{ participant.round_to_pay }}\n{{ session.total_rounds_played }}\n\n\nInitializing in creating_session\nSession-level variables should be initialized once (typically in round 1 of the first app):\ndef creating_session(subsession):\n    if subsession.round_number == 1:\n        subsession.session.my_counter = 0",
+    "crumbs": [
+      "Session 2",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 2 Cheat Sheet</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-02/session-02d.html#skipping-rounds-and-apps",
+    "href": "chapters/session-02/session-02d.html#skipping-rounds-and-apps",
+    "title": "Assignment 2 Cheat Sheet",
+    "section": "Skipping rounds and apps",
+    "text": "Skipping rounds and apps\n\nSkipping to the next app with app_after_this_page\n@staticmethod\ndef app_after_this_page(player, upcoming_apps):\n    if player.participant.finished_rounds:\n        return upcoming_apps[0]    # Jump to the next app in app_sequence\nupcoming_apps is a list of app names remaining in app_sequence. Returning upcoming_apps[0] sends the player to the very next app, skipping all remaining rounds.\nReturn None (or do not return anything) to continue normally.",
+    "crumbs": [
+      "Session 2",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 2 Cheat Sheet</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-02/session-02d.html#template-syntax",
+    "href": "chapters/session-02/session-02d.html#template-syntax",
+    "title": "Assignment 2 Cheat Sheet",
+    "section": "Template syntax",
+    "text": "Template syntax\n\nDisplaying data\n{{ player.payoff }}              &lt;!-- Built-in field --&gt;\n{{ player.role }}                &lt;!-- Built-in attribute --&gt;\n{{ C.NUM_ROUNDS }}               &lt;!-- Constant --&gt;\n{{ my_variable }}                &lt;!-- From vars_for_template --&gt;\n{{ player.round_number }}        &lt;!-- Current round number --&gt;\n\n\nConditionals\n{{ if player.round_number == 1 }}\n    &lt;p&gt;Welcome!&lt;/p&gt;\n{{ endif }}\n\n{{ if same_choice }}\n    &lt;p&gt;You agreed.&lt;/p&gt;\n{{ else }}\n    &lt;p&gt;You disagreed.&lt;/p&gt;\n{{ endif }}\n\n{{ if player.role == 'Hunter_1' }}\n    &lt;b style=\"color: red;\"&gt;Hunter 1&lt;/b&gt;\n{{ else }}\n    &lt;i style=\"color: green;\"&gt;Hunter 2&lt;/i&gt;\n{{ endif }}\n\n\nLoops\n{{ for row in game_history }}\n&lt;tr&gt;\n    &lt;td&gt;{{ row.round }}&lt;/td&gt;\n    &lt;td&gt;{{ row.my_choice }}&lt;/td&gt;\n&lt;/tr&gt;\n{{ endfor }}\n\n\nForms\n{{ formfields }}                           &lt;!-- All fields at once --&gt;\n{{ formfield 'stag' }}                     &lt;!-- One specific field --&gt;\n{{ formfield 'stag' label=\"Your choice\" }} &lt;!-- With custom label --&gt;\n\n\nButtons and navigation\n{{ next_button }}              &lt;!-- Standard \"Next\" button --&gt;\n\n&lt;!-- Custom button that submits a form field --&gt;\n&lt;button name=\"stag\" value=\"True\" class=\"btn btn-primary\"&gt;\n    Choose A\n&lt;/button&gt;\n\n\nIncluding other files\n{{ include_sibling 'instructions.html' }}\n\n\nStatic files (images, CSS, JS)\n&lt;img src=\"{{ static 'happy.png' }}\" alt=\"Happy\" width=\"80\"&gt;\nPlace files in the _static/ folder at the project level.",
+    "crumbs": [
+      "Session 2",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 2 Cheat Sheet</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-02/session-02d.html#the-settings.py-session-config",
+    "href": "chapters/session-02/session-02d.html#the-settings.py-session-config",
+    "title": "Assignment 2 Cheat Sheet",
+    "section": "The settings.py session config",
+    "text": "The settings.py session config\nSESSION_CONFIGS = [\n    dict(\n        name='my_experiment',\n        display_name='My Stag Hunt Experiment',\n        app_sequence=['stag_hunt', 'questionnaire', 'summary'],\n        num_demo_participants=2,\n    ),\n]\n\n\n\n\n\n\n\nKey\nWhat it does\n\n\n\n\nname\nInternal identifier (no spaces)\n\n\ndisplay_name\nShown in the admin interface\n\n\napp_sequence\nOrdered list of app names participants go through\n\n\nnum_demo_participants\nHow many demo players to create (use a multiple of PLAYERS_PER_GROUP)",
+    "crumbs": [
+      "Session 2",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 2 Cheat Sheet</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-02/session-02d.html#python-patterns-quick-reference",
+    "href": "chapters/session-02/session-02d.html#python-patterns-quick-reference",
+    "title": "Assignment 2 Cheat Sheet",
+    "section": "Python patterns quick reference",
+    "text": "Python patterns quick reference\n\nIf / elif / else\nif player.round_number &lt;= 3:\n    X = cu(2)\nelif player.round_number &lt;= 6:\n    X = cu(3)\nelse:\n    X = cu(4)\n\n\nFor loops\nfor p in group.get_players():\n    print(p.role, p.payoff)\n\nfor p in player.in_previous_rounds():\n    total += p.per_round_payoff\n\n\nDictionaries\n# Create\npayoff_matrix = {\n    (True, True): cu(4),\n    (True, False): cu(0),\n    (False, True): cu(1),\n    (False, False): cu(1),\n}\n\n# Look up\nresult = payoff_matrix[(player.stag, other.stag)]\n\n\nLists\nhistory = []                          # Create empty list\nhistory.append({'round': 1})          # Add item\nfirst = history[0]                    # Access by index\nlength = len(history)                 # Get length\n\n\nList comprehensions\n# Create a list from a loop in one line\npayoffs = [p.per_round_payoff for p in player.in_all_rounds()]\ntotal = sum(payoffs)\n\n\nRandom numbers\nimport random\nrandom.random()                       # Float between 0 and 1\nrandom.choice([1, 2, 3, 4, 5])       # Pick one random item\nrandom.choice(range(1, 11))          # Pick random int from 1 to 10\n\n\nString formatting\nmessage = f\"Round {player.round_number} of {C.NUM_ROUNDS}\"\n\n\nThe += operator\ntotal = 0\ntotal += 5     # total is now 5\ntotal += 3     # total is now 8",
+    "crumbs": [
+      "Session 2",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 2 Cheat Sheet</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-02/session-02d.html#debugging",
+    "href": "chapters/session-02/session-02d.html#debugging",
+    "title": "Assignment 2 Cheat Sheet",
+    "section": "Debugging",
+    "text": "Debugging\n\nprint() in the terminal\nInsert print() anywhere in your Python code. Output appears in the terminal where otree devserver is running.\nprint('Player role:', player.role)\nprint('Stag choice:', player.stag)\nprint('Payoff:', player.per_round_payoff)\nRemove or comment out print() statements before deploying.\n\n\nCommon errors and fixes\n\n\n\n\n\n\n\n\nError\nLikely cause\nFix\n\n\n\n\n“Table has no column named X”\nAdded a field but did not reset database\nRun otree resetdb\n\n\n“NoneType has no attribute”\nA field is None (not set)\nCheck timeout handling, check field defaults\n\n\nPage is blank / crashes\nTemplate name does not match page class\nFile must be PageClassName.html exactly\n\n\nStuck on wait page\nOnly one browser tab open\nOpen a second tab to simulate the other player\n\n\n“X is not defined” in template\nVariable not in vars_for_template\nAdd it to the return dict(...)\n\n\nSession/participant field error\nField not declared in settings.py\nAdd to SESSION_FIELDS or PARTICIPANT_FIELDS",
+    "crumbs": [
+      "Session 2",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 2 Cheat Sheet</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-02/session-02d.html#useful-links",
+    "href": "chapters/session-02/session-02d.html#useful-links",
+    "title": "Assignment 2 Cheat Sheet",
+    "section": "Useful links",
+    "text": "Useful links\n\nOfficial oTree documentation\noTree sample games (source code)\noTree snippets (common recipes)\noTree Hub (featured projects)\nNew oTree forum",
+    "crumbs": [
+      "Session 2",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 2 Cheat Sheet</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-03/session-03.html",
+    "href": "chapters/session-03/session-03.html",
+    "title": "Session 3",
+    "section": "",
+    "text": "Extra Features, HTML Templates, and Cross-App Data\nIn Session 2, you learned how the core game logic works inside __init__.py — constants, groups, payoff calculations, page flow, timers, and the stopping rule. But __init__.py is only half the picture. The other half is the HTML templates — the files that control what participants actually see on their screens.\nThis session covers three areas. First, how to build and style HTML templates for your oTree pages. Second, how to implement the extra features required by the assignment (role-specific styling, custom wait pages, images on results pages, and session-level statistics). Third, how data flows across the three apps in the session — from the Stag Hunt game to the questionnaire to the final summary screen.",
+    "crumbs": [
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Session 3</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-03/session-03.html#html-templates-in-otree",
+    "href": "chapters/session-03/session-03.html#html-templates-in-otree",
+    "title": "Session 3",
+    "section": "HTML templates in oTree",
+    "text": "HTML templates in oTree\nEvery page class in your __init__.py needs a corresponding HTML file. oTree looks for a file with the exact same name as the page class, inside the app’s folder. For example:\n\n\n\nPage class in __init__.py\nTemplate file\n\n\n\n\nIntroduction\nassignment/Introduction.html\n\n\nDecision\nassignment/Decision.html\n\n\nResultSummary\nassignment/ResultSummary.html\n\n\n\n\n\n\n\n\n\nWarningFile names must match exactly\n\n\n\nThe template file name must match the page class name exactly — including capitalisation. Decision.html works. decision.html does not. If oTree cannot find the template, the page will crash.\n\n\n\nBasic template structure\nEvery oTree HTML template follows this basic structure:\n{{ block title }}\n  Your Page Title\n{{ endblock }}\n\n{{ block content }}\n  &lt;p&gt;Everything the participant sees goes here.&lt;/p&gt;\n\n  {{ next_button }}\n{{ endblock }}\nThe { block title } section sets the page title (shown at the top of the page and in the browser tab). The { block content } section contains the actual page content. { next_button } renders the standard “Next” button that advances the participant to the next page.\n\n\nDisplaying variables\nAny variable passed through vars_for_template or automatically available (like player, group, C) can be displayed using double curly braces:\n&lt;p&gt;Your role is: {{ player.role }}&lt;/p&gt;\n&lt;p&gt;The current round is: {{ player.round_number }} of {{ C.NUM_ROUNDS }}&lt;/p&gt;\n&lt;p&gt;The value of X is: {{ X }}&lt;/p&gt;\n\n\nDisplaying form fields\nOn pages with form_fields, you display each field using the { formfield } tag or { formfields } to display all fields at once:\n{{ formfields }}\nOr individually:\n{{ formfield 'stag' }}\n\n\nUsing if statements in templates\noTree templates support conditional logic using { if }:\n{{ if player.round_number == 1 }}\n  &lt;p&gt;Welcome to the first round!&lt;/p&gt;\n{{ endif }}\n\n{{ if same_choice }}\n  &lt;p&gt;You and your partner made the same choice.&lt;/p&gt;\n{{ else }}\n  &lt;p&gt;You and your partner made different choices.&lt;/p&gt;\n{{ endif }}\n\n\nUsing for loops in templates\nTo display the game history table, you loop through the game_history list:\n&lt;table class=\"table\"&gt;\n  &lt;thead&gt;\n    &lt;tr&gt;\n      &lt;th&gt;Round&lt;/th&gt;\n      &lt;th&gt;Your Choice&lt;/th&gt;\n      &lt;th&gt;Your Payoff&lt;/th&gt;\n      &lt;th&gt;Partner's Choice&lt;/th&gt;\n      &lt;th&gt;Partner's Payoff&lt;/th&gt;\n      &lt;th&gt;Cumulative Payoff&lt;/th&gt;\n    &lt;/tr&gt;\n  &lt;/thead&gt;\n  &lt;tbody&gt;\n    {{ for row in game_history }}\n    &lt;tr&gt;\n      &lt;td&gt;{{ row.0 }}&lt;/td&gt;\n      &lt;td&gt;{{ row.1 }}&lt;/td&gt;\n      &lt;td&gt;{{ row.2 }}&lt;/td&gt;\n      &lt;td&gt;{{ row.3 }}&lt;/td&gt;\n      &lt;td&gt;{{ row.4 }}&lt;/td&gt;\n      &lt;td&gt;{{ row.5 }}&lt;/td&gt;\n    &lt;/tr&gt;\n    {{ endfor }}\n  &lt;/tbody&gt;\n&lt;/table&gt;\nEach row is one of the lists appended to game_history in vars_for_template. The .0, .1, .2, etc. notation accesses the first, second, third elements of that list (Python uses zero-based indexing).\n\n\n\n\n\n\nTipBootstrap is included by default\n\n\n\noTree includes Bootstrap, a CSS framework that provides pre-styled components. The class=\"table\" attribute above uses Bootstrap’s table styling to make the table look clean without any custom CSS. You can use any Bootstrap classes in your templates.",
+    "crumbs": [
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Session 3</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-03/session-03.html#extra-feature-role-specific-styling",
+    "href": "chapters/session-03/session-03.html#extra-feature-role-specific-styling",
+    "title": "Session 3",
+    "section": "Extra feature: role-specific styling",
+    "text": "Extra feature: role-specific styling\nThe assignment requires “all references to Hunter 1 made with bolded red font, and all references to Hunter 2 made with italicized green font.” You can achieve this with HTML inline styles or CSS classes.\n\nApproach 1: inline styles\n{{ if player.role == 'Hunter_1' }}\n  &lt;p&gt;You are &lt;b style=\"color: red;\"&gt;Hunter 1&lt;/b&gt;.&lt;/p&gt;\n{{ else }}\n  &lt;p&gt;You are &lt;i style=\"color: green;\"&gt;Hunter 2&lt;/i&gt;.&lt;/p&gt;\n{{ endif }}\n\n\nApproach 2: CSS classes (cleaner)\nAt the top of your template, define CSS classes:\n&lt;style&gt;\n  .hunter1 { color: red; font-weight: bold; }\n  .hunter2 { color: green; font-style: italic; }\n&lt;/style&gt;\nThen use them throughout:\n&lt;p&gt;You are &lt;span class=\"{{ if player.role == 'Hunter_1' }}hunter1{{ else }}hunter2{{ endif }}\"&gt;\n  {{ player.role }}\n&lt;/span&gt;.&lt;/p&gt;\nThe CSS approach is better because you define the styling once and reuse it everywhere. If you need to change the colour, you change it in one place.",
+    "crumbs": [
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Session 3</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-03/session-03.html#extra-feature-custom-wait-page",
+    "href": "chapters/session-03/session-03.html#extra-feature-custom-wait-page",
+    "title": "Session 3",
+    "section": "Extra feature: custom wait page",
+    "text": "Extra feature: custom wait page\nThe assignment asks for a waiting screen that is “an exact replica of the decision screen but with no ability to input a decision.” This is why the ResultsWaitPage has:\n\ntemplate_name = __name__ + '/ResultsWaitPage.html'\nThe custom template file ResultsWaitPage.html displays the payoff matrix and game history table (using the same vars_for_template data) but without any form fields or submit button. The participant can review the game state while waiting.\n\n\n\n\n\n\nTipBuilding the custom wait page template\n\n\n\nCreate a file called ResultsWaitPage.html in your app folder. It should contain the same payoff matrix and game history table as Decision.html, but without { formfields } or { next_button }. You should include the standard oTree wait page JavaScript to handle the auto-advance when the other player arrives. oTree’s documentation on custom wait pages provides the necessary template code.",
+    "crumbs": [
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Session 3</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-03/session-03.html#extra-feature-images-on-results-pages",
+    "href": "chapters/session-03/session-03.html#extra-feature-images-on-results-pages",
+    "title": "Session 3",
+    "section": "Extra feature: images on results pages",
+    "text": "Extra feature: images on results pages\nThe assignment asks for “an image of a happy face if both chose Stag and a sad face otherwise.” This combines a template if statement with an HTML image tag.\nFirst, place your image files (e.g., happy.png and sad.png) in the _static/ folder of your project. Then in the results template:\n{{ if same_choice }}\n  &lt;img src=\"{{ static 'happy.png' }}\" alt=\"Happy face\" width=\"100\"&gt;\n{{ else }}\n  &lt;img src=\"{{ static 'sad.png' }}\" alt=\"Sad face\" width=\"100\"&gt;\n{{ endif }}\nThe { static 'filename' } tag generates the correct URL for files in the _static/ folder. This is the standard way to include images, CSS files, or JavaScript files in oTree templates.\n\n\n\n\n\n\nNoteThe _static folder\n\n\n\nAll shared static files — images, custom CSS, JavaScript — go in the _static/ folder at the project level (not inside any individual app). oTree serves these files automatically.",
+    "crumbs": [
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Session 3</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-03/session-03.html#extra-feature-stag-stag-percentage-on-the-summary-screen",
+    "href": "chapters/session-03/session-03.html#extra-feature-stag-stag-percentage-on-the-summary-screen",
+    "title": "Session 3",
+    "section": "Extra feature: Stag-Stag percentage on the summary screen",
+    "text": "Extra feature: Stag-Stag percentage on the summary screen\nThe session summary app calculates the percentage of rounds where both players chose Stag across all groups:\n\nstag_stag_percentage = (player.session.yes_stag / player.session.total_rounds_played) * 100\nThis uses the session-level variables that were accumulated during the game:\n\nplayer.session.yes_stag — the total number of Stag-Stag outcomes across all groups\nplayer.session.total_rounds_played — the total number of rounds played across all groups\n\nDividing the first by the second gives the proportion, and multiplying by 100 converts it to a percentage.",
+    "crumbs": [
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Session 3</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-03/session-03.html#cross-app-data-flow",
+    "href": "chapters/session-03/session-03.html#cross-app-data-flow",
+    "title": "Session 3",
+    "section": "Cross-app data flow",
+    "text": "Cross-app data flow\nThe three-app session (assignment → questionnaire_assignment → session_summary_assignment) relies on data being passed between apps. Here is how that works.\n\nWhat persists across apps automatically\nThe participant object persists across all apps. Any variable stored on participant (and declared in PARTICIPANT_FIELDS) is available in every app. The session object also persists, and any variable declared in SESSION_FIELDS is available everywhere.\n\n\nData flow in this experiment\n\n\n\n\n\n\n\n\n\nVariable\nSet in\nUsed in\nLevel\n\n\n\n\nparticipant.finished_rounds\nassignment (wait page)\nassignment (app_after_this_page)\nParticipant\n\n\nparticipant.round_to_pay\nassignment (wait page)\nsession_summary_assignment\nParticipant\n\n\nparticipant.opponent_payoff\nassignment (wait page)\nsession_summary_assignment\nParticipant\n\n\nsession.total_rounds_played\nassignment (wait page)\nsession_summary_assignment\nSession\n\n\nsession.yes_stag\nassignment (wait page)\nsession_summary_assignment\nSession\n\n\n\n\n\nThe questionnaire app\nThe questionnaire_assignment app is a simple demographics survey — identical in structure to the one from Session 1. It collects age, gender, race, ethnicity, field of study, and language data. Because it has PLAYERS_PER_GROUP = None, it does not need groups and participants complete it independently.\n\n\nThe session summary app\nThe session_summary_assignment app displays the final results. Its vars_for_template pulls in participant-level and session-level data:\n\nreturn dict(\n    stag_stag_percentage = stag_stag_percentage,\n    payment_round = player.participant.round_to_pay,\n    session_payoff = player.participant.payoff_plus_participation_fee(),\n    today_date = player.today_date,\n)\n\nplayer.participant.round_to_pay — The randomly selected round, set in the Stag Hunt app.\nplayer.participant.payoff_plus_participation_fee() — A built-in oTree method that adds the participation fee (from SESSION_CONFIG_DEFAULTS) to the player’s game earnings. This is the total amount the participant receives.\nplayer.today_date — The current date, formatted using Python’s datetime library.\n\n\n\n\n\n\n\nNoteThe datetime library\n\n\n\nThe session summary app uses Python’s built-in datetime library to display the current date:\n\nfrom datetime import datetime\ncurrent_datetime = datetime.now()\nplayer.today_date = current_datetime.strftime(\"%m-%d-%Y\")\ndatetime.now() gets the current date and time. .strftime(\"%m-%d-%Y\") formats it as month-day-year (e.g., “03-31-2026”). The import statement at the top of the file makes the datetime class available.",
+    "crumbs": [
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Session 3</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-03/session-03.html#building-the-payoff-matrix-in-html",
+    "href": "chapters/session-03/session-03.html#building-the-payoff-matrix-in-html",
+    "title": "Session 3",
+    "section": "Building the payoff matrix in HTML",
+    "text": "Building the payoff matrix in HTML\nOne of the most important elements of the decision screen is the payoff matrix — a table showing all possible outcomes. Here is an example of how to build it in HTML:\n&lt;table class=\"table table-bordered text-center\"&gt;\n  &lt;thead&gt;\n    &lt;tr&gt;\n      &lt;th&gt;&lt;/th&gt;\n      &lt;th&gt;&lt;/th&gt;\n      &lt;th colspan=\"2\"&gt;Partner's Choice&lt;/th&gt;\n    &lt;/tr&gt;\n    &lt;tr&gt;\n      &lt;th&gt;&lt;/th&gt;\n      &lt;th&gt;&lt;/th&gt;\n      &lt;th&gt;A&lt;/th&gt;\n      &lt;th&gt;B&lt;/th&gt;\n    &lt;/tr&gt;\n  &lt;/thead&gt;\n  &lt;tbody&gt;\n    &lt;tr&gt;\n      &lt;th rowspan=\"2\"&gt;Your Choice&lt;/th&gt;\n      &lt;th&gt;A&lt;/th&gt;\n      &lt;td&gt;{{ C.PAYOFF_B }}, {{ C.PAYOFF_B }}&lt;/td&gt;\n      &lt;td&gt;{{ C.PAYOFF_D }}, {{ X }}&lt;/td&gt;\n    &lt;/tr&gt;\n    &lt;tr&gt;\n      &lt;th&gt;B&lt;/th&gt;\n      &lt;td&gt;{{ C.PAYOFF_A }}, {{ X }}&lt;/td&gt;\n      &lt;td&gt;{{ C.PAYOFF_A }}, {{ X }}&lt;/td&gt;\n    &lt;/tr&gt;\n  &lt;/tbody&gt;\n&lt;/table&gt;\n\n\n\n\n\n\nTipUse constants from C in your templates\n\n\n\nNotice how the table uses { C.PAYOFF_B }, { C.PAYOFF_D }, etc. instead of hard-coded numbers. This way, if you ever change the payoff values in your constants, the template updates automatically.",
+    "crumbs": [
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Session 3</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-03/session-03.html#summary",
+    "href": "chapters/session-03/session-03.html#summary",
+    "title": "Session 3",
+    "section": "Summary",
+    "text": "Summary\n\n\n\n\n\n\n\nConcept\nWhat it does\n\n\n\n\nHTML templates\nControl what participants see on each page\n\n\n{ variable }\nDisplays a variable’s value in the template\n\n\n{ formfields }\nRenders form fields on pages with form_fields\n\n\n{ if } ... {{ endif }}\nConditional display in templates\n\n\n{ for } ... {{ endfor }}\nLoops through lists to display repeated content\n\n\n{ static 'file' }\nLinks to files in the _static/ folder\n\n\n{ next_button }\nRenders the standard “Next” button\n\n\nCSS classes\nStyle elements consistently across pages\n\n\n_static/ folder\nStores shared images, CSS, and JavaScript\n\n\nPARTICIPANT_FIELDS\nDeclares participant-level variables for cross-app data\n\n\nSESSION_FIELDS\nDeclares session-level variables for cross-app data\n\n\nparticipant.payoff_plus_participation_fee()\nCalculates total payment including show-up fee\n\n\ndatetime\nPython library for formatting dates",
+    "crumbs": [
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Session 3</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-04/session-04.html",
+    "href": "chapters/session-04/session-04.html",
+    "title": "Session 4",
+    "section": "",
+    "text": "Using Claude for Coding and Deploying Your Experiment\nYou have now learned how to build a complete oTree experiment — from the data model and payoff logic to HTML templates and cross-app data flow. This final session covers two remaining topics. First, how to use AI tools like Claude effectively to help you write, debug, and improve your oTree code. Second, how to package your project and deploy it on a server so you can run a live session with real participants.",
+    "crumbs": [
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Session 4</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-04/session-04.html#using-claude-to-help-with-otree-coding",
+    "href": "chapters/session-04/session-04.html#using-claude-to-help-with-otree-coding",
+    "title": "Session 4",
+    "section": "Using Claude to help with oTree coding",
+    "text": "Using Claude to help with oTree coding\nThe assignment states: “You should also make heavy use of an AI LLM (ChatGPT, Claude, etc). Learning how to leverage AI assistance will be an essential part of creating your best code.” This section teaches you how to do that well.\n\nWhat AI can do for you\nAI assistants are excellent at several tasks that come up constantly in oTree development:\n\nGenerating boilerplate code — “Write an oTree page class with a timer and a form field called contribution.”\nExplaining code — “What does player.in_previous_rounds() return?”\nDebugging errors — Paste your error traceback and ask what went wrong.\nWriting HTML templates — “Build an HTML table that displays a 2×2 payoff matrix.”\nTranslating logic into code — “I want to randomly select one round for payment at the end of the game.”\nRefactoring — “Can you rewrite this chain of if/else statements as a dictionary lookup?”\n\n\n\nHow to write effective prompts\nThe quality of the code you get back depends on the quality of your prompt. Here are principles that work well for oTree coding.\nBe specific about the oTree version. oTree has changed significantly over the years. The newer “no-self” format (used in this course) is different from older versions. Always mention that you are using the current oTree syntax. For example: “I am using the latest version of oTree with the no-self format. Write a function that…”\nProvide context. Do not just ask “how do I calculate payoffs?” Instead, describe your game: “I have a two-player Stag Hunt with PLAYERS_PER_GROUP = 2. Each player chooses A or B. I need a function that looks up the payoff from a 2×2 matrix based on both players’ choices.”\nShare your existing code. If you have a partial implementation or a function that is not working, paste the relevant section and explain what you expected versus what happened. The more context the AI has, the better its suggestions will be.\nAsk for explanations, not just code. Instead of “write this for me,” try “write this for me and explain what each line does.” This helps you learn and makes it easier to modify the code later.\nIterate. If the first response is not quite right, explain what needs to change. “This is close, but the payoff matrix should be different for Hunter 1 and Hunter 2. Hunter 2’s B payoff is X, which changes after round 3.”\n\n\n\n\n\n\nTipExample prompt for an oTree task\n\n\n\nHere is a prompt that would produce good results:\n“I am building an oTree experiment using the latest no-self format. I have a two-player game with PLAYERS_PER_GROUP = 2 and NUM_ROUNDS = 10. I want to implement a random stopping rule: after round 5, each round should have a 55% chance of being the last round, but the game should never go past round 10. When the game ends, I want to randomly select one round for payment. Can you write the after_all_players_arrive method for my WaitPage that implements this? Please explain what each part does.”\nThis prompt specifies the oTree version, the game structure, the exact rule to implement, where the code should go, and asks for explanations.\n\n\n\n\nWhat AI is not good at\nAI is a powerful tool but it has real limitations:\n\nIt can produce code that looks correct but has subtle bugs. Always test your code by running otree devserver and clicking through the experiment yourself.\nIt may use outdated oTree syntax. If you see self.player or self.session in generated code, that is the old format. The correct syntax is player and player.session.\nIt cannot test your experiment. It does not know if your payoffs display correctly, if your timer works, or if your wait page releases both players at the right time. Only running the code can tell you that.\nIt does not know your experimental design. You need to check that the generated code implements the game you intend, not just a game that runs without errors.\n\n\n\n\n\n\n\nWarningAlways test AI-generated code\n\n\n\nNever submit code you have not tested yourself. Run otree devserver, open two browser tabs (to simulate two players), and play through the entire experiment. Check that payoffs are correct, the game history table displays properly, the stopping rule works, and the summary screen shows the right information.\n\n\n\n\nDebugging with print()\nWhen your code does not work as expected, print() is your most useful debugging tool. You can insert print() statements anywhere in your Python code to see what values variables hold at that point:\n\ndef set_payoff(player: Player):\n    other = other_player(player)\n    print('Player role:', player.role)\n    print('Player chose:', player.stag)\n    print('Other chose:', other.stag)\n    # ... rest of the function\nThe output appears in the terminal where otree devserver is running. This is enormously helpful for tracking down bugs — if a payoff is wrong, printing the inputs to the payoff calculation will usually reveal the problem.\n\n\n\n\n\n\nTipRemove print() before deploying\n\n\n\nprint() statements are for development only. They clutter the server logs during real sessions. Remove or comment them out before deploying your experiment. You can comment out a line by adding # at the beginning:\n\n# print('Player role:', player.role)  # commented out for deployment",
+    "crumbs": [
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Session 4</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-04/session-04.html#common-python-patterns-for-otree",
+    "href": "chapters/session-04/session-04.html#common-python-patterns-for-otree",
+    "title": "Session 4",
+    "section": "Common Python patterns for oTree",
+    "text": "Common Python patterns for oTree\nHere is a quick reference for the Python patterns you will use most often in oTree.\n\nIf/elif/else\n\nif player.round_number &lt;= 3:\n    X = cu(2)\nelif player.round_number &lt;= 6:\n    X = cu(3)\nelse:\n    X = cu(4)\nelif (short for “else if”) lets you chain multiple conditions. Python checks them in order and runs the first one that is True.\n\n\nFor loops\n\n# Loop through all players in a group\nfor p in group.get_players():\n    print(p.role, p.stag)\n\n# Loop through all previous rounds\nfor p in player.in_previous_rounds():\n    print(p.round_number, p.per_round_payoff)\n\n# Loop with index using enumerate\nfor i, p in enumerate(group.get_players()):\n    print(f\"Player {i}: {p.role}\")\n\n\nLists\n\n# Create an empty list and add items\nhistory = []\nhistory.append('round 1 data')\nhistory.append('round 2 data')\n\n# Access items by index (starts at 0)\nfirst_item = history[0]\n\n# List comprehension — create a list from a loop\npayoffs = [p.per_round_payoff for p in player.in_all_rounds()]\ntotal = sum(payoffs)\n\n\nDictionaries\n\n# Create a dictionary\npayoff_matrix = {\n    (True, True): cu(4),\n    (True, False): cu(0),\n    (False, True): cu(1),\n    (False, False): cu(1),\n}\n\n# Look up a value\nresult = payoff_matrix[(True, False)]  # returns cu(0)\n\n\nString formatting\n\n# f-strings (the modern way)\nname = \"Hunter 1\"\npayoff = cu(4)\nmessage = f\"{name} earned {payoff} this round.\"",
+    "crumbs": [
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Session 4</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-04/session-04.html#deploying-your-experiment",
+    "href": "chapters/session-04/session-04.html#deploying-your-experiment",
+    "title": "Session 4",
+    "section": "Deploying your experiment",
+    "text": "Deploying your experiment\nOnce your code is tested and working locally, you need to deploy it to a server so that real participants can access it over the internet.\n\nStep 1: Zip your project\nIn the terminal, navigate to your project folder and run:\notree zip\nThis creates a .otreezip file containing your entire project. This is the file you will upload to oTree Hub.\n\n\n\n\n\n\nWarningCheck your settings.py before zipping\n\n\n\nBefore zipping, make sure:\n\nDEBUG = 0 — Do not deploy with debug mode on.\nYour SESSION_CONFIGS list contains the session you want to run.\nSESSION_FIELDS and PARTICIPANT_FIELDS are correctly declared.\nparticipation_fee and real_world_currency_per_point are set to the correct values.\n\n\n\n\n\nStep 2: Upload to oTree Hub\n\nGo to oTree Hub and log in (or create an account).\nCreate a new project on oTree Hub.\nUpload your .otreezip file.\noTree Hub will build and deploy your project.\n\n\n\nStep 3: Connect to Heroku\noTree Hub can deploy your project to Heroku, a cloud platform that hosts your experiment and makes it accessible via a URL. Follow the oTree Hub instructions to link your Heroku account and deploy.\nOnce deployed, you will receive a URL like https://your-project-name.herokuapp.com. This is the address participants will use to access the experiment.\n\n\nStep 4: Set up rooms for a live session\nFor running sessions in a lab, oTree uses rooms. A room assigns a fixed URL to each participant station, which prevents the problems that can occur with open session-wide links (like the same participant joining twice).\nTo create a room:\n\nCreate a text file in your project’s _rooms/ folder — for example, _rooms/econ227b.txt.\nList one participant label per line (e.g., P1, P2, P3, …, P20).\nIn settings.py, add a ROOMS setting that references this file.\n\nWhen you start a session using a room, each participant label gets its own unique link. In the lab, each computer opens its assigned link.\n\n\n\n\n\n\nTipTest your deployment\n\n\n\nAfter deploying to Heroku, always run a complete test session through the deployed URL — not just locally. Network latency, server configuration, and browser differences can all cause issues that do not appear on localhost.\n\n\n\n\nStep 5: Run the session\nOn the admin interface of your deployed oTree server:\n\nClick Sessions → Create new session.\nSelect the session config you want to run (e.g., assignment).\nSet the number of participants.\nChoose a room if you set one up.\nClick Create.\n\nThe admin interface will show you the participant links and allow you to monitor the session in real time — you can see which page each participant is on, who is waiting, and when everyone has finished.",
+    "crumbs": [
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Session 4</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-04/session-04.html#final-checklist-before-submission",
+    "href": "chapters/session-04/session-04.html#final-checklist-before-submission",
+    "title": "Session 4",
+    "section": "Final checklist before submission",
+    "text": "Final checklist before submission\nBefore submitting your assignment, go through this checklist:\n\nAll three apps run without errors (otree devserver)\nPayoffs are calculated correctly for both Hunter 1 and Hunter 2\nPayoffs change correctly after round 3 (X goes from 2 to 3)\nGroups of 2 are formed and remain fixed across rounds\nThe stopping rule works (game continues after round 5 with probability 0.45, never past round 10)\nGame history table displays correctly on the decision screen\nInstructions are clear, use cold language, and display at 24pt font\nHunter 1 references are in bold red, Hunter 2 references are in italic green\nWait page replicates the decision screen without input ability\nHappy/sad face images appear on the results page\nStag-Stag percentage appears on the final summary screen\nTimer works on the decision page, defaulting to Stag on timeout\nRandom round for payment is selected and displayed\nQuestionnaire collects at least 5 demographic questions\nDEBUG = 0 before deployment\nProject zips successfully with otree zip\nAll files uploaded to the Google Drive folder",
+    "crumbs": [
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Session 4</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/session-04/session-04.html#summary",
+    "href": "chapters/session-04/session-04.html#summary",
+    "title": "Session 4",
+    "section": "Summary",
+    "text": "Summary\n\n\n\n\n\n\n\nTopic\nKey takeaway\n\n\n\n\nAI for coding\nBe specific, provide context, share code, ask for explanations, always test\n\n\nprint() debugging\nInsert print statements to inspect variable values in the terminal\n\n\nIf/elif/else\nChain conditions; Python checks them in order\n\n\nFor loops\nIterate through players, rounds, or any list\n\n\nLists and list comprehensions\nBuild data structures for game history and aggregation\n\n\nDictionaries\nUse as payoff matrices with tuple keys\n\n\notree zip\nPackages your project for upload\n\n\noTree Hub + Heroku\nDeploys your project to a public URL\n\n\nRooms\nAssign fixed participant links for lab sessions\n\n\nPre-deployment checks\nDEBUG = 0, correct settings, full test run",
+    "crumbs": [
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Session 4</span>"
+    ]
+  },
+  {
     "objectID": "chapters/resources/resources.html",
     "href": "chapters/resources/resources.html",
     "title": "Useful Resources",
     "section": "",
     "text": "oTree\nThis is a curated list of resources to support your learning throughout this course. You do not need to master all of these — bookmark what is useful and return to it as needed.\nThe official oTree documentation is the most reliable resource for all questions about oTree. It is well-written, actively maintained, and covers fundamental concepts of what you will need.\nAlways check oTree’s demo apps and common task recipes before you start writing code from scratch — sample code has likely already been written for what you are trying to do. The Featured Projects section on oTree Hub is a great place to start:\nBoth the old and the new oTree forums are useful sources of solutions to common problems. Note that the old forum contains solutions written in oTree’s older self format, so some details may need to be adapted to the newer no-self format used in this course. See here for more details on how the new format differs from the old one.\nFinally, the Public projects section on oTree Hub hosts code from other oTree users that is shared publicly.\nHere is the complete list of oTree resources:",
     "crumbs": [
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Useful Resources</span>"
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Useful Resources</span>"
     ]
   },
   {
@@ -418,7 +1105,7 @@
     "section": "",
     "text": "Game Theory Sample Games — Classic games from economics and game theory (Prisoner’s Dilemma, etc.). Useful for understanding how standard experiments are structured in oTree. Includes a live demo and source code.\nMore Demos — A wide range of demo apps from different disciplines. A good starting point for finding code that is close to what you want to build. Includes a live demo and source code.\nSnippets — A collection of small recipes for common tasks in oTree. If you need to do something specific, check here first. Includes a live demo and source code(https://github.com/oTree-org/otree-snippets).\n\n\n\n\n\nOfficial oTree documentation\nFeatured Projects on oTree Hub\noTree’s “Where do I put this code?” breakdown\nNew oTree forum\nOld oTree forum\nPublic projects\n\n\n\n\n\n\n\nTipSearching for oTree help\n\n\n\nWhen you run into a problem and are not sure where to start, try Googling your task or error message together with the word “otree” — for example, “otree timer page” or “otree wait for all players”. This will surface relevant results from the documentation, forums, and other oTree users.\nIf you find a result on Stack Overflow, read the full discussion before implementing any solution — do not just copy the first answer you see. The comments often reveal important nuance, and your use-case may require a slightly different approach.",
     "crumbs": [
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Useful Resources</span>"
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Useful Resources</span>"
     ]
   },
   {
@@ -428,7 +1115,7 @@
     "section": "Python",
     "text": "Python\nPython is the backbone of your oTree app — it handles the logic, stores data, and communicates between the server and the participant’s browser. A quick tip: use print() to see variable values and outputs in the terminal while you are debugging your code.\nWeb-based editors (for testing small bits of code)\nThe following editors are useful when you want to quickly test a small piece of Python code without running it through oTree. This list is adapted from resources originally compiled by Faith Bague-Sampson.\n\nPython Fiddle\nmyCompiler: Python\nPYnative Online Python Editor",
     "crumbs": [
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Useful Resources</span>"
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Useful Resources</span>"
     ]
   }
 ]

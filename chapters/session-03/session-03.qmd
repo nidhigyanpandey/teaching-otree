@@ -1,1 +1,334 @@
-# Session 3 {#sec-session-03}
+---
+title: "Session 3"
+---
+
+# Extra Features, HTML Templates, and Cross-App Data
+
+In Session 2, you learned how the core game logic works inside `__init__.py` — constants, groups, payoff calculations, page flow, timers, and the stopping rule. But `__init__.py` is only half the picture. The other half is the **HTML templates** — the files that control what participants actually see on their screens.
+
+This session covers three areas. First, how to build and style HTML templates for your oTree pages. Second, how to implement the extra features required by the assignment (role-specific styling, custom wait pages, images on results pages, and session-level statistics). Third, how data flows across the three apps in the session — from the Stag Hunt game to the questionnaire to the final summary screen.
+
+
+## HTML templates in oTree
+
+Every page class in your `__init__.py` needs a corresponding HTML file. oTree looks for a file with the exact same name as the page class, inside the app's folder. For example:
+
+| Page class in `__init__.py` | Template file |
+|---|---|
+| `Introduction` | `assignment/Introduction.html` |
+| `Decision` | `assignment/Decision.html` |
+| `ResultSummary` | `assignment/ResultSummary.html` |
+
+::: {.callout-warning}
+## File names must match exactly
+
+The template file name must match the page class name exactly — including capitalisation. `Decision.html` works. `decision.html` does not. If oTree cannot find the template, the page will crash.
+:::
+
+### Basic template structure
+
+Every oTree HTML template follows this basic structure:
+
+```html
+{{ block title }}
+  Your Page Title
+{{ endblock }}
+
+{{ block content }}
+  <p>Everything the participant sees goes here.</p>
+
+  {{ next_button }}
+{{ endblock }}
+```
+
+The `{{ block title }}` section sets the page title (shown at the top of the page and in the browser tab). The `{{ block content }}` section contains the actual page content. `{{ next_button }}` renders the standard "Next" button that advances the participant to the next page.
+
+### Displaying variables
+
+Any variable passed through `vars_for_template` or automatically available (like `player`, `group`, `C`) can be displayed using double curly braces:
+
+```html
+<p>Your role is: {{ player.role }}</p>
+<p>The current round is: {{ player.round_number }} of {{ C.NUM_ROUNDS }}</p>
+<p>The value of X is: {{ X }}</p>
+```
+
+### Displaying form fields
+
+On pages with `form_fields`, you display each field using the `{{ formfield }}` tag or `{{ formfields }}` to display all fields at once:
+
+```html
+{{ formfields }}
+```
+
+Or individually:
+
+```html
+{{ formfield 'stag' }}
+```
+
+### Using `if` statements in templates
+
+oTree templates support conditional logic using `{{ if }}`:
+
+```html
+{{ if player.round_number == 1 }}
+  <p>Welcome to the first round!</p>
+{{ endif }}
+
+{{ if same_choice }}
+  <p>You and your partner made the same choice.</p>
+{{ else }}
+  <p>You and your partner made different choices.</p>
+{{ endif }}
+```
+
+### Using `for` loops in templates
+
+To display the game history table, you loop through the `game_history` list:
+
+```html
+<table class="table">
+  <thead>
+    <tr>
+      <th>Round</th>
+      <th>Your Choice</th>
+      <th>Your Payoff</th>
+      <th>Partner's Choice</th>
+      <th>Partner's Payoff</th>
+      <th>Cumulative Payoff</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{ for row in game_history }}
+    <tr>
+      <td>{{ row.0 }}</td>
+      <td>{{ row.1 }}</td>
+      <td>{{ row.2 }}</td>
+      <td>{{ row.3 }}</td>
+      <td>{{ row.4 }}</td>
+      <td>{{ row.5 }}</td>
+    </tr>
+    {{ endfor }}
+  </tbody>
+</table>
+```
+
+Each `row` is one of the lists appended to `game_history` in `vars_for_template`. The `.0`, `.1`, `.2`, etc. notation accesses the first, second, third elements of that list (Python uses zero-based indexing).
+
+::: {.callout-tip}
+## Bootstrap is included by default
+
+oTree includes Bootstrap, a CSS framework that provides pre-styled components. The `class="table"` attribute above uses Bootstrap's table styling to make the table look clean without any custom CSS. You can use any Bootstrap classes in your templates.
+:::
+
+
+## Extra feature: role-specific styling
+
+The assignment requires "all references to Hunter 1 made with bolded red font, and all references to Hunter 2 made with italicized green font." You can achieve this with HTML inline styles or CSS classes.
+
+### Approach 1: inline styles
+
+```html
+{{ if player.role == 'Hunter_1' }}
+  <p>You are <b style="color: red;">Hunter 1</b>.</p>
+{{ else }}
+  <p>You are <i style="color: green;">Hunter 2</i>.</p>
+{{ endif }}
+```
+
+### Approach 2: CSS classes (cleaner)
+
+At the top of your template, define CSS classes:
+
+```html
+<style>
+  .hunter1 { color: red; font-weight: bold; }
+  .hunter2 { color: green; font-style: italic; }
+</style>
+```
+
+Then use them throughout:
+
+```html
+<p>You are <span class="{{ if player.role == 'Hunter_1' }}hunter1{{ else }}hunter2{{ endif }}">
+  {{ player.role }}
+</span>.</p>
+```
+
+The CSS approach is better because you define the styling once and reuse it everywhere. If you need to change the colour, you change it in one place.
+
+
+## Extra feature: custom wait page
+
+The assignment asks for a waiting screen that is "an exact replica of the decision screen but with no ability to input a decision." This is why the `ResultsWaitPage` has:
+
+```python
+
+template_name = __name__ + '/ResultsWaitPage.html'
+```
+
+The custom template file `ResultsWaitPage.html` displays the payoff matrix and game history table (using the same `vars_for_template` data) but without any form fields or submit button. The participant can review the game state while waiting.
+
+::: {.callout-tip}
+## Building the custom wait page template
+
+Create a file called `ResultsWaitPage.html` in your app folder. It should contain the same payoff matrix and game history table as `Decision.html`, but without `{{ formfields }}` or `{{ next_button }}`. You should include the standard oTree wait page JavaScript to handle the auto-advance when the other player arrives. oTree's documentation on custom wait pages provides the necessary template code.
+:::
+
+
+## Extra feature: images on results pages
+
+The assignment asks for "an image of a happy face if both chose Stag and a sad face otherwise." This combines a template `if` statement with an HTML image tag.
+
+First, place your image files (e.g., `happy.png` and `sad.png`) in the `_static/` folder of your project. Then in the results template:
+
+```html
+{{ if same_choice }}
+  <img src="{{ static 'happy.png' }}" alt="Happy face" width="100">
+{{ else }}
+  <img src="{{ static 'sad.png' }}" alt="Sad face" width="100">
+{{ endif }}
+```
+
+The `{{ static 'filename' }}` tag generates the correct URL for files in the `_static/` folder. This is the standard way to include images, CSS files, or JavaScript files in oTree templates.
+
+::: {.callout-note}
+## The `_static` folder
+
+All shared static files — images, custom CSS, JavaScript — go in the `_static/` folder at the project level (not inside any individual app). oTree serves these files automatically.
+:::
+
+
+## Extra feature: Stag-Stag percentage on the summary screen
+
+The session summary app calculates the percentage of rounds where both players chose Stag across all groups:
+
+```python
+
+stag_stag_percentage = (player.session.yes_stag / player.session.total_rounds_played) * 100
+```
+
+This uses the session-level variables that were accumulated during the game:
+
+- `player.session.yes_stag` — the total number of Stag-Stag outcomes across all groups
+- `player.session.total_rounds_played` — the total number of rounds played across all groups
+
+Dividing the first by the second gives the proportion, and multiplying by 100 converts it to a percentage.
+
+
+## Cross-app data flow
+
+The three-app session (`assignment` → `questionnaire_assignment` → `session_summary_assignment`) relies on data being passed between apps. Here is how that works.
+
+### What persists across apps automatically
+
+The `participant` object persists across all apps. Any variable stored on `participant` (and declared in `PARTICIPANT_FIELDS`) is available in every app. The `session` object also persists, and any variable declared in `SESSION_FIELDS` is available everywhere.
+
+### Data flow in this experiment
+
+| Variable | Set in | Used in | Level |
+|---|---|---|---|
+| `participant.finished_rounds` | `assignment` (wait page) | `assignment` (`app_after_this_page`) | Participant |
+| `participant.round_to_pay` | `assignment` (wait page) | `session_summary_assignment` | Participant |
+| `participant.opponent_payoff` | `assignment` (wait page) | `session_summary_assignment` | Participant |
+| `session.total_rounds_played` | `assignment` (wait page) | `session_summary_assignment` | Session |
+| `session.yes_stag` | `assignment` (wait page) | `session_summary_assignment` | Session |
+
+### The questionnaire app
+
+The `questionnaire_assignment` app is a simple demographics survey — identical in structure to the one from Session 1. It collects age, gender, race, ethnicity, field of study, and language data. Because it has `PLAYERS_PER_GROUP = None`, it does not need groups and participants complete it independently.
+
+### The session summary app
+
+The `session_summary_assignment` app displays the final results. Its `vars_for_template` pulls in participant-level and session-level data:
+
+```python
+
+return dict(
+    stag_stag_percentage = stag_stag_percentage,
+    payment_round = player.participant.round_to_pay,
+    session_payoff = player.participant.payoff_plus_participation_fee(),
+    today_date = player.today_date,
+)
+```
+
+- **`player.participant.round_to_pay`** — The randomly selected round, set in the Stag Hunt app.
+- **`player.participant.payoff_plus_participation_fee()`** — A built-in oTree method that adds the participation fee (from `SESSION_CONFIG_DEFAULTS`) to the player's game earnings. This is the total amount the participant receives.
+- **`player.today_date`** — The current date, formatted using Python's `datetime` library.
+
+::: {.callout-note}
+## The `datetime` library
+
+The session summary app uses Python's built-in `datetime` library to display the current date:
+
+```python
+
+from datetime import datetime
+current_datetime = datetime.now()
+player.today_date = current_datetime.strftime("%m-%d-%Y")
+```
+
+`datetime.now()` gets the current date and time. `.strftime("%m-%d-%Y")` formats it as month-day-year (e.g., "03-31-2026"). The `import` statement at the top of the file makes the `datetime` class available.
+:::
+
+
+## Building the payoff matrix in HTML
+
+One of the most important elements of the decision screen is the payoff matrix — a table showing all possible outcomes. Here is an example of how to build it in HTML:
+
+```html
+<table class="table table-bordered text-center">
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th colspan="2">Partner's Choice</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th></th>
+      <th>A</th>
+      <th>B</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="2">Your Choice</th>
+      <th>A</th>
+      <td>{{ C.PAYOFF_B }}, {{ C.PAYOFF_B }}</td>
+      <td>{{ C.PAYOFF_D }}, {{ X }}</td>
+    </tr>
+    <tr>
+      <th>B</th>
+      <td>{{ C.PAYOFF_A }}, {{ X }}</td>
+      <td>{{ C.PAYOFF_A }}, {{ X }}</td>
+    </tr>
+  </tbody>
+</table>
+```
+
+::: {.callout-tip}
+## Use constants from `C` in your templates
+
+Notice how the table uses `{{ C.PAYOFF_B }}`, `{{ C.PAYOFF_D }}`, etc. instead of hard-coded numbers. This way, if you ever change the payoff values in your constants, the template updates automatically.
+:::
+
+
+## Summary
+
+| Concept | What it does |
+|---|---|
+| HTML templates | Control what participants see on each page |
+| `{{ variable }}` | Displays a variable's value in the template |
+| `{{ formfields }}` | Renders form fields on pages with `form_fields` |
+| `{{ if }} ... {{ endif }}` | Conditional display in templates |
+| `{{ for }} ... {{ endfor }}` | Loops through lists to display repeated content |
+| `{{ static 'file' }}` | Links to files in the `_static/` folder |
+| `{{ next_button }}` | Renders the standard "Next" button |
+| CSS classes | Style elements consistently across pages |
+| `_static/` folder | Stores shared images, CSS, and JavaScript |
+| `PARTICIPANT_FIELDS` | Declares participant-level variables for cross-app data |
+| `SESSION_FIELDS` | Declares session-level variables for cross-app data |
+| `participant.payoff_plus_participation_fee()` | Calculates total payment including show-up fee |
+| `datetime` | Python library for formatting dates |

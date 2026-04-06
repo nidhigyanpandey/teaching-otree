@@ -1,0 +1,616 @@
+# Hands-On: Getting started with Assignment 2
+
+Now that you understand how the Prisoner's Dilemma app works — both the Python logic and the HTML templates — it is time to start modifying it. In this part you will make several changes that move the app closer to the Stag Hunt assignment:
+
+1. **Turn the one-shot game into a repeated game** by increasing the number of rounds and keeping groups fixed.
+2. **Add a game history table** so that participants can see what happened in every previous round.
+3. **Add roles** so that each player has a distinct identity within the group.
+4. **Add a timer with a default choice** so that the game does not stall if a participant is slow.
+5. **Add visual elements** like images and styled text to improve the participant experience.
+
+By the end of this part, you will have a working multi-round Prisoner's Dilemma with several features from the assignment — and you will understand the patterns needed to build the rest on your own.
+
+::: {.callout-important}
+## Before you start
+
+Make a copy of your `prisoner` app folder before making any changes. This way you can always go back to the original if something breaks. In VS Code, right-click the `prisoner` folder in the Explorer panel and choose **Copy**, then **Paste**. Rename the copy something like `stag_hunt`.
+
+After renaming, open `stag_hunt/__init__.py` and change `NAME_IN_URL` to something different from `'prisoner'` — for example, `'stag_hunt'`. Each app must have a unique `NAME_IN_URL`.
+:::
+
+
+## Step 0: register the new app in `settings.py`
+
+Before you can demo your new `stag_hunt` app, you need to tell oTree it exists. Open `settings.py` and add a new session dictionary to your `SESSION_CONFIGS` list:
+
+```python
+SESSION_CONFIGS = [
+    # ... your existing session dictionaries ...
+
+    dict(
+        name='stag_hunt',
+        display_name="Stag Hunt (in progress)",
+        app_sequence=['stag_hunt'],
+        num_demo_participants=2,
+    ),
+]
+```
+
+Notice that `num_demo_participants=2` matches `PLAYERS_PER_GROUP = 2` in the app. If you set this to 1, the demo will get stuck on the wait page because the second player never arrives.
+
+::: {.callout-important}
+## Every app must be registered in `settings.py`
+
+Adding the `stag_hunt` folder to your project is not enough on its own. oTree only runs apps that appear in `SESSION_CONFIGS`. If you skip this step and try to demo the app, it will not show up on the demo page.
+:::
+
+## Step 1: change `NUM_ROUNDS` to make this a repeated game
+
+Now open `stag_hunt/__init__.py` and find the constants:
+
+```python
+class C(BaseConstants):
+    NAME_IN_URL = 'stag_hunt'
+    PLAYERS_PER_GROUP = 2
+    NUM_ROUNDS = 1
+    PAYOFF_A = cu(300)
+    PAYOFF_B = cu(200)
+    PAYOFF_C = cu(100)
+    PAYOFF_D = cu(0)
+```
+
+Change `NUM_ROUNDS` from `1` to `5`:
+
+```python
+NUM_ROUNDS = 5
+```
+
+Save both files. The change to `settings.py` registers the app so it appears on the demo page. The change to `NUM_ROUNDS` tells oTree to repeat the entire page sequence 5 times — every page in `page_sequence` will now appear in every round.
+
+::: {.callout-warning}
+## Reset the database after editing `settings.py` or changing model fields
+
+Whenever you edit `settings.py` or change constants like `NUM_ROUNDS`, you must reset the database before running the server:
+
+```
+otree resetdb
+```
+
+Confirm with `y` when prompted. If you skip this step, you will get database errors when you try to run the app.
+:::
+
+To verify everything is working, start the server with `otree devserver`, open your browser to `http://localhost:8000/demo`, and confirm that "Stag Hunt (in progress)" appears on the demo page. Click on it and open **two browser tabs** to simulate both players. You should see the original Prisoner's Dilemma flow — but now repeating for 5 rounds. Press **Ctrl + C** in the terminal to stop the server when you are done.
+
+
+## Step 2: show the introduction only in round 1
+
+With `NUM_ROUNDS = 5`, the Introduction page currently appears in every round — participants would re-read the instructions five times. You need to restrict it to round 1 only.
+
+Add an `is_displayed` method to the `Introduction` page class:
+
+```python
+class Introduction(Page):
+    timeout_seconds = 100
+
+    @staticmethod
+    def is_displayed(player):
+        return player.round_number == 1
+```
+
+`is_displayed` returns `True` or `False`. If it returns `True`, the page appears. If `False`, the page is skipped for that round. Here, `player.round_number == 1` is `True` only in the first round, so the instructions appear once and are skipped in rounds 2 through 5.
+
+::: {.callout-note}
+## `player.round_number`
+
+Every player object has a built-in attribute called `round_number` that tells you the current round. It starts at `1` (not `0`) and goes up to `NUM_ROUNDS`.
+:::
+
+You can use `is_displayed` to show any page conditionally. For example, if you wanted a page to appear only in round 4 to announce a rule change, you would write:
+
+```python
+@staticmethod
+def is_displayed(player):
+    return player.round_number == 4
+```
+
+
+## Step 3: keep groups fixed across rounds
+
+By default, when `NUM_ROUNDS` is greater than 1, oTree keeps the same group assignments across rounds — so you do not need to do anything extra for this step. Your pairs will remain the same from round 1 through round 5.
+
+However, if you wanted to **randomize** groups in round 1 and then keep them fixed, you would add a `creating_session` function:
+
+```python
+def creating_session(subsession: Subsession):
+    if subsession.round_number == 1:
+        subsession.group_randomly()
+    else:
+        subsession.group_like_round(1)
+```
+
+This function runs automatically at the start of each round (oTree recognises the name `creating_session` and calls it). In round 1, `group_randomly()` shuffles participants into random pairs. In all later rounds, `group_like_round(1)` copies the group assignments from round 1 so that pairs stay together.
+
+For the Stag Hunt assignment, you will need this — the assignment states that "each subject should retain their role for the duration of the experiment" with roles assigned randomly.
+
+::: {.callout-tip}
+## Add this function now
+
+Even though the default behaviour already keeps groups fixed, adding the `creating_session` function explicitly is good practice. It makes your code self-documenting — anyone reading it can immediately see that groups are randomized in round 1 and fixed thereafter. Place this function after the `Player` class and before the `set_payoffs` function.
+:::
+
+
+## Step 4: add a `per_round_payoff` field
+
+Currently the Prisoner's Dilemma stores payoffs in the built-in `player.payoff` field. This works for a one-shot game, but for a repeated game you want to track each round's earnings separately. Add a new field to the `Player` class:
+
+```python
+class Player(BasePlayer):
+    cooperate = models.BooleanField(
+        choices=[[True, 'Cooperate'], [False, 'Defect']],
+        doc="""This player's decision""",
+        widget=widgets.RadioSelect,
+    )
+    per_round_payoff = models.CurrencyField()
+```
+
+Then update the `set_payoff` function to use this new field:
+
+```python
+def set_payoff(player: Player):
+    payoff_matrix = {
+        (False, True): C.PAYOFF_A,
+        (True, True): C.PAYOFF_B,
+        (False, False): C.PAYOFF_C,
+        (True, False): C.PAYOFF_D,
+    }
+    other = other_player(player)
+    player.per_round_payoff = payoff_matrix[(player.cooperate, other.cooperate)]
+    player.payoff = player.per_round_payoff
+```
+
+Now each round's earnings are saved in `per_round_payoff`, and the built-in `player.payoff` is also updated (oTree uses this for the final payment calculation).
+
+
+## Step 5: build the game history in `vars_for_template`
+
+This is the most important new feature. You want to display a table on the Decision page that shows what happened in every previous round — the round number, what you chose, what your partner chose, what you each earned, and your running total.
+
+Add a `vars_for_template` method to the `Decision` page:
+
+```python
+class Decision(Page):
+    form_model = 'player'
+    form_fields = ['cooperate']
+
+    @staticmethod
+    def vars_for_template(player: Player):
+        game_history = []
+        cumulative_payoff = 0
+        for p in player.in_previous_rounds():
+            other_p = p.get_others_in_group()[0]
+            cumulative_payoff += p.per_round_payoff
+            game_history.append({
+                'round': p.round_number,
+                'my_choice': p.field_display('cooperate'),
+                'my_payoff': p.per_round_payoff,
+                'partner_choice': other_p.field_display('cooperate'),
+                'partner_payoff': other_p.per_round_payoff,
+                'cumulative': cumulative_payoff,
+            })
+        return dict(
+            game_history=game_history,
+        )
+```
+
+Let us go through this step by step.
+
+### Creating an empty list
+
+```python
+game_history = []
+cumulative_payoff = 0
+```
+
+`game_history` starts as an empty list. Each previous round will add one entry (a dictionary) to this list. `cumulative_payoff` is a running total that starts at zero.
+
+### Looping through previous rounds
+
+```python
+for p in player.in_previous_rounds():
+```
+
+`player.in_previous_rounds()` is a built-in oTree method that returns a list of the **same player's** objects from all earlier rounds. If you are in round 4, it returns the player objects from rounds 1, 2, and 3. In round 1, it returns an empty list (there are no previous rounds), so the loop does not run and the history table is empty.
+
+Each `p` in the loop is a full Player object for that earlier round — you can access `p.cooperate`, `p.per_round_payoff`, `p.round_number`, and any other field.
+
+### Getting the partner for each round
+
+```python
+other_p = p.get_others_in_group()[0]
+```
+
+This gets the partner from that specific round. Since groups are fixed, it will always be the same person — but you still need to use `p.get_others_in_group()` (not `player.get_others_in_group()`) because `p` is the player object from the correct round.
+
+### Building each row
+
+```python
+cumulative_payoff += p.per_round_payoff
+game_history.append({
+    'round': p.round_number,
+    'my_choice': p.field_display('cooperate'),
+    'my_payoff': p.per_round_payoff,
+    'partner_choice': other_p.field_display('cooperate'),
+    'partner_payoff': other_p.per_round_payoff,
+    'cumulative': cumulative_payoff,
+})
+```
+
+The `+=` operator adds `p.per_round_payoff` to the running total. Then `game_history.append(...)` adds a dictionary to the list. Each dictionary represents one row of the history table, with named keys that make the template code easy to read.
+
+`p.field_display('cooperate')` returns the display label (`'Cooperate'` or `'Defect'`) instead of the raw value (`True` or `False`). This is what participants should see.
+
+::: {.callout-note}
+## Lists vs. dictionaries for table rows
+
+In the example above, each row is a **dictionary** with named keys like `'round'`, `'my_choice'`, etc. You could also use a **list** where each element is accessed by position:
+
+```python
+# Dictionary approach (more readable)
+game_history.append({
+    'round': p.round_number,
+    'my_choice': p.field_display('cooperate'),
+})
+# In template: {{ row.round }}, {{ row.my_choice }}
+
+# List approach (more compact)
+game_history.append([
+    p.round_number,
+    p.field_display('cooperate'),
+])
+# In template: {{ row.0 }}, {{ row.1 }}
+```
+
+The dictionary approach is recommended because the template code is self-documenting — `{{ row.round }}` is clearer than `{{ row.0 }}`.
+:::
+
+
+## Step 6: display the history table in the template
+
+Open `Decision.html` and add the history table. Place it above or below the payoff matrix — wherever you think participants will find it most useful. Here is the HTML:
+
+```html
+{{ if game_history }}
+<h4>Game History</h4>
+<table class="table table-bordered text-center" style="width: auto; margin: auto">
+    <thead>
+        <tr>
+            <th>Round</th>
+            <th>Your Choice</th>
+            <th>Your Payoff</th>
+            <th>Partner's Choice</th>
+            <th>Partner's Payoff</th>
+            <th>Cumulative Payoff</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{ for row in game_history }}
+        <tr>
+            <td>{{ row.round }}</td>
+            <td>{{ row.my_choice }}</td>
+            <td>{{ row.my_payoff }}</td>
+            <td>{{ row.partner_choice }}</td>
+            <td>{{ row.partner_payoff }}</td>
+            <td>{{ row.cumulative }}</td>
+        </tr>
+        {{ endfor }}
+    </tbody>
+</table>
+{{ endif }}
+```
+
+Let us go through the new template features.
+
+### `{{ if game_history }}`: checking if the list is non-empty
+
+```html
+{{ if game_history }}
+    ...
+{{ endif }}
+```
+
+In round 1, `game_history` is an empty list. In oTree templates (and Python), an empty list is "falsy" — it evaluates to `False` in a condition. So the entire table is hidden in round 1 (when there is no history to show) and appears from round 2 onward.
+
+### `{{ for row in game_history }}`: looping through rows
+
+```html
+{{ for row in game_history }}
+<tr>
+    <td>{{ row.round }}</td>
+    <td>{{ row.my_choice }}</td>
+    ...
+</tr>
+{{ endfor }}
+```
+
+This is the template equivalent of a Python `for` loop. It repeats the `<tr>...</tr>` block once for each entry in `game_history`. Each time through the loop, `row` takes on the next dictionary from the list, and you access its values with dot notation: `{{ row.round }}`, `{{ row.my_choice }}`, etc.
+
+Always close `{{ for }}` loops with `{{ endfor }}`.
+
+### `<thead>` and `<tbody>`
+
+These are standard HTML tags that separate the header row(s) from the data rows. `<thead>` wraps the column headers. `<tbody>` wraps the data. They have no visual effect by default but help with accessibility and some CSS styling.
+
+
+## Step 7: update the Results page
+
+You should also add the game history to the Results page so that participants can see the full record after each round. Add `vars_for_template` to the `Results` page:
+
+```python
+class Results(Page):
+    @staticmethod
+    def vars_for_template(player: Player):
+        opponent = other_player(player)
+        game_history = []
+        cumulative_payoff = 0
+        for p in player.in_all_rounds():
+            other_p = p.get_others_in_group()[0]
+            cumulative_payoff += p.per_round_payoff
+            game_history.append({
+                'round': p.round_number,
+                'my_choice': p.field_display('cooperate'),
+                'my_payoff': p.per_round_payoff,
+                'partner_choice': other_p.field_display('cooperate'),
+                'partner_payoff': other_p.per_round_payoff,
+                'cumulative': cumulative_payoff,
+            })
+        return dict(
+            opponent=opponent,
+            same_choice=player.cooperate == opponent.cooperate,
+            my_decision=player.field_display('cooperate'),
+            opponent_decision=opponent.field_display('cooperate'),
+            game_history=game_history,
+        )
+```
+
+::: {.callout-important}
+## `in_previous_rounds()` vs. `in_all_rounds()`
+
+Notice that the Decision page uses `player.in_previous_rounds()` but the Results page uses `player.in_all_rounds()`. The difference:
+
+- **`in_previous_rounds()`** — Returns player objects from rounds **before** the current round. Use this on the Decision page because the current round has not been played yet.
+- **`in_all_rounds()`** — Returns player objects from **all** rounds including the current one. Use this on the Results page because the current round's outcome is now known.
+:::
+
+Then add the same history table HTML to `Results.html`, inside the `{{ block content }}` section.
+
+
+## Step 8: add roles to your game
+
+The Stag Hunt assignment requires two distinct roles — Hunter 1 and Hunter 2 — that are randomly assigned and fixed for the duration of the experiment. Let us add roles to the Prisoner's Dilemma as practice.
+
+### Defining role constants
+
+Add role constants to your `C` class:
+
+```python
+class C(BaseConstants):
+    NAME_IN_URL = 'stag_hunt'
+    PLAYERS_PER_GROUP = 2
+    NUM_ROUNDS = 5
+    PAYOFF_A = cu(300)
+    PAYOFF_B = cu(200)
+    PAYOFF_C = cu(100)
+    PAYOFF_D = cu(0)
+    PLAYER1_ROLE = 'Player_1'
+    PLAYER2_ROLE = 'Player_2'
+```
+
+When `PLAYERS_PER_GROUP` is set to a number, oTree automatically assigns each player a position within the group: `id_in_group = 1` for the first player, `id_in_group = 2` for the second. If you define constants ending in `_ROLE` that follow the naming pattern `PLAYER1_ROLE`, `PLAYER2_ROLE`, etc., oTree maps them to these positions automatically.
+
+After adding these, you can use `player.role` anywhere in your code to check which role a player has:
+
+```python
+if player.role == C.PLAYER1_ROLE:
+    # do something specific to Player 1
+```
+
+### Displaying roles in templates
+
+In any HTML template, you can show the player their role:
+
+```html
+<p>You are {{ player.role }}.</p>
+```
+
+You can also use `{{ if }}` to display different content based on role:
+
+```html
+{{ if player.role == C.PLAYER1_ROLE }}
+    <p>You are Player 1.</p>
+{{ else }}
+    <p>You are Player 2.</p>
+{{ endif }}
+```
+
+### Displaying the current round
+
+While we are modifying templates, add the round number so participants know which round they are in. This is useful on both the Decision and Results pages:
+
+```html
+<p>Round {{ player.round_number }} of {{ C.NUM_ROUNDS }}</p>
+```
+
+Both `player.round_number` and `C.NUM_ROUNDS` are automatically available in every template.
+
+
+## Step 9: add a timer with a default choice
+
+The assignment requires a timer on the decision page. If the timer expires, the computer should automatically make a choice for the participant. You already have `timeout_seconds` from the Introduction page, but on a page with form fields you also need to handle what happens when the timer runs out.
+
+### Setting the timer
+
+Add `timeout_seconds` to the Decision page:
+
+```python
+class Decision(Page):
+    form_model = 'player'
+    form_fields = ['cooperate']
+    timeout_seconds = 60
+```
+
+A countdown timer will appear on the page. When it reaches zero, oTree automatically submits the page.
+
+### Handling the timeout
+
+The problem is that if the timer expires and the participant has not made a choice, the `cooperate` field will be empty — and your payoff calculation will crash. You need `before_next_page` to set a default:
+
+```python
+class Decision(Page):
+    form_model = 'player'
+    form_fields = ['cooperate']
+    timeout_seconds = 60
+
+    @staticmethod
+    def before_next_page(player, timeout_happened):
+        if timeout_happened:
+            player.cooperate = True
+```
+
+`before_next_page` runs after the page is submitted but before the player moves on. The `timeout_happened` parameter is `True` when the timer expired and `False` when the participant submitted normally. Here, if the timer ran out, the code sets `cooperate` to `True` — the computer cooperates on their behalf.
+
+::: {.callout-warning}
+## Always handle timeouts on form pages
+
+If a page has both `form_fields` and `timeout_seconds`, you **must** use `before_next_page` to assign a default value. Without it, a timeout will leave the field as `None`, and any code that tries to use that field's value will crash.
+:::
+
+
+## Step 10: add images and styled text
+
+The assignment requires visual elements — happy/sad face images on the results page and role-specific text colours. Let us practice both.
+
+### Adding images with `{{ static }}`
+
+To display an image in a template, you need two things: the image file in the right folder, and an `<img>` tag in the template.
+
+**Step 1:** Place your image files (e.g., `happy.png` and `sad.png`) in the `_static/` folder at the top level of your project — the same level as `settings.py`.
+
+**Step 2:** Reference them in your template using `{{ static }}`:
+
+```html
+{{ if same_choice }}
+    <img src="{{ static 'happy.png' }}" alt="Happy face" width="80">
+{{ else }}
+    <img src="{{ static 'sad.png' }}" alt="Sad face" width="80">
+{{ endif }}
+```
+
+The `{{ static 'filename' }}` tag generates the correct URL for files in the `_static/` folder. The `alt` attribute provides text for screen readers (accessibility), and `width` controls the display size in pixels.
+
+::: {.callout-tip}
+## Where to find free images
+
+You can find simple emoji-style images for free on sites like [OpenMoji](https://openmoji.org/) or [Twemoji](https://twemoji.twitter.com/). Download the image files and place them in your `_static/` folder. Make sure the filenames match exactly what you write in the template.
+:::
+
+### Styling text with CSS
+
+You can style any text in a template using inline CSS or CSS classes. For example, to display a role name in bold red:
+
+```html
+<span style="color: red; font-weight: bold;">Hunter 1</span>
+```
+
+Or in italic green:
+
+```html
+<span style="color: green; font-style: italic;">Hunter 2</span>
+```
+
+For something you will reuse many times, define CSS classes at the top of your template:
+
+```html
+<style>
+    .role1 { color: red; font-weight: bold; }
+    .role2 { color: green; font-style: italic; }
+</style>
+```
+
+Then apply them using the `class` attribute:
+
+```html
+{{ if player.role == C.PLAYER1_ROLE }}
+    <span class="role1">{{ player.role }}</span>
+{{ else }}
+    <span class="role2">{{ player.role }}</span>
+{{ endif }}
+```
+
+::: {.callout-note}
+## Inline styles vs. CSS classes
+
+Inline styles (`style="color: red;"`) are fine for one-off use. But if you need the same style in many places — like colouring every mention of a role — CSS classes are much more efficient. Define the class once, then use `class="role1"` wherever you need it.
+:::
+
+
+## Step 11: test your changes
+
+1. Reset the database:
+
+```
+otree resetdb
+```
+
+2. Start the server:
+
+```
+otree devserver
+```
+
+3. Open **two browser tabs** and go to `http://localhost:8000/demo`. Select the session that includes your modified app and click through both tabs simultaneously, simulating two players.
+
+4. Verify the following:
+
+- [ ] The introduction appears only in round 1
+- [ ] The decision page appears in every round
+- [ ] The game history table is hidden in round 1 and appears from round 2
+- [ ] The history shows correct choices, payoffs, and cumulative totals
+- [ ] The results page shows the current round's outcome plus the full history
+- [ ] The game runs for 5 rounds total
+- [ ] Each player sees their role on screen
+- [ ] The timer counts down on the decision page
+- [ ] If you let the timer expire, a default choice is made automatically
+- [ ] Images display correctly on the results page
+
+
+## What you have learned
+
+You have now made the key modifications that transform a one-shot game into a repeated game with history, roles, timers, and visual elements. These same patterns carry directly into your Stag Hunt assignment:
+
+| Modification | Prisoner's Dilemma → Stag Hunt |
+|---|---|
+| Change `NUM_ROUNDS` | `1` → up to `10` with a stopping rule |
+| `is_displayed` for intro pages | Same pattern — show instructions in round 1 only |
+| `creating_session` for grouping | Same — randomize in round 1, fix thereafter |
+| `per_round_payoff` field | Same — track per-round earnings separately |
+| Game history with `in_previous_rounds()` | Same loop pattern with different field names |
+| History table in HTML | Same `{{ for }}` loop with different columns |
+| Role constants and `player.role` | `PLAYER1_ROLE` → `HUNTER1_ROLE`, etc. |
+| `timeout_seconds` + `before_next_page` | Same pattern for the decision timer |
+| `{{ static 'file' }}` for images | Same — place files in `_static/` |
+| CSS classes for styling | Same — define once, apply everywhere |
+
+
+## What comes next
+
+Your Stag Hunt assignment builds on everything covered in this session. The additional features you will need to implement on your own include:
+
+- An **asymmetric payoff matrix** where the two roles face different payoffs for some outcomes
+- A **payoff change mid-game** where a parameter changes after a certain round
+- A **probabilistic stopping rule** that ends the game randomly after a minimum number of rounds
+- A **random round for payment** selected at the end of the game
+- A **custom wait page** that replicates the decision screen layout
+- A **questionnaire** and **summary screen** as separate apps with data flowing between them
+- **Session-level statistics** calculated across all groups
+
+The next session's cheat sheet will give you a quick reference for the oTree tools and methods you will need for these features. Use it alongside the [official oTree documentation](https://otree.readthedocs.io/en/latest/) and AI assistance to build your assignment.

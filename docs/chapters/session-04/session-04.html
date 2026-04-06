@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -333,11 +368,37 @@ ul.task-list li input[type="checkbox"] {
 </li>
       </ul>
   </li>
-        <li class="sidebar-item">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../chapters/session-02/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Session 2</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/session-02/session-02.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Session 2</span></a>
+  <a href="../../chapters/session-02/session-02a.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Inside the Prisoner’s Dilemma: <code>__init__.py</code></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/session-02/session-02b.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Inside the Prisoner’s Dilemma: HTML Templates</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/session-02/session-02c.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Hands-On: Getting started with Assignment 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/session-02/session-02d.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Assignment 2 Cheat Sheet</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/session-03/session-03.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Session 3</span></a>
@@ -364,8 +425,41 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#using-claude-for-coding-and-deploying-your-experiment" id="toc-using-claude-for-coding-and-deploying-your-experiment" class="nav-link active" data-scroll-target="#using-claude-for-coding-and-deploying-your-experiment">Using Claude for Coding and Deploying Your Experiment</a>
+  <ul class="collapse">
+  <li><a href="#using-claude-to-help-with-otree-coding" id="toc-using-claude-to-help-with-otree-coding" class="nav-link" data-scroll-target="#using-claude-to-help-with-otree-coding">Using Claude to help with oTree coding</a>
+  <ul class="collapse">
+  <li><a href="#what-ai-can-do-for-you" id="toc-what-ai-can-do-for-you" class="nav-link" data-scroll-target="#what-ai-can-do-for-you">What AI can do for you</a></li>
+  <li><a href="#how-to-write-effective-prompts" id="toc-how-to-write-effective-prompts" class="nav-link" data-scroll-target="#how-to-write-effective-prompts">How to write effective prompts</a></li>
+  <li><a href="#what-ai-is-not-good-at" id="toc-what-ai-is-not-good-at" class="nav-link" data-scroll-target="#what-ai-is-not-good-at">What AI is not good at</a></li>
+  <li><a href="#debugging-with-print" id="toc-debugging-with-print" class="nav-link" data-scroll-target="#debugging-with-print">Debugging with <code>print()</code></a></li>
+  </ul></li>
+  <li><a href="#common-python-patterns-for-otree" id="toc-common-python-patterns-for-otree" class="nav-link" data-scroll-target="#common-python-patterns-for-otree">Common Python patterns for oTree</a>
+  <ul class="collapse">
+  <li><a href="#ifelifelse" id="toc-ifelifelse" class="nav-link" data-scroll-target="#ifelifelse">If/elif/else</a></li>
+  <li><a href="#for-loops" id="toc-for-loops" class="nav-link" data-scroll-target="#for-loops">For loops</a></li>
+  <li><a href="#lists" id="toc-lists" class="nav-link" data-scroll-target="#lists">Lists</a></li>
+  <li><a href="#dictionaries" id="toc-dictionaries" class="nav-link" data-scroll-target="#dictionaries">Dictionaries</a></li>
+  <li><a href="#string-formatting" id="toc-string-formatting" class="nav-link" data-scroll-target="#string-formatting">String formatting</a></li>
+  </ul></li>
+  <li><a href="#deploying-your-experiment" id="toc-deploying-your-experiment" class="nav-link" data-scroll-target="#deploying-your-experiment">Deploying your experiment</a>
+  <ul class="collapse">
+  <li><a href="#step-1-zip-your-project" id="toc-step-1-zip-your-project" class="nav-link" data-scroll-target="#step-1-zip-your-project">Step 1: Zip your project</a></li>
+  <li><a href="#step-2-upload-to-otree-hub" id="toc-step-2-upload-to-otree-hub" class="nav-link" data-scroll-target="#step-2-upload-to-otree-hub">Step 2: Upload to oTree Hub</a></li>
+  <li><a href="#step-3-connect-to-heroku" id="toc-step-3-connect-to-heroku" class="nav-link" data-scroll-target="#step-3-connect-to-heroku">Step 3: Connect to Heroku</a></li>
+  <li><a href="#step-4-set-up-rooms-for-a-live-session" id="toc-step-4-set-up-rooms-for-a-live-session" class="nav-link" data-scroll-target="#step-4-set-up-rooms-for-a-live-session">Step 4: Set up rooms for a live session</a></li>
+  <li><a href="#step-5-run-the-session" id="toc-step-5-run-the-session" class="nav-link" data-scroll-target="#step-5-run-the-session">Step 5: Run the session</a></li>
+  </ul></li>
+  <li><a href="#final-checklist-before-submission" id="toc-final-checklist-before-submission" class="nav-link" data-scroll-target="#final-checklist-before-submission">Final checklist before submission</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/nidhigyanpandey/teaching-otree/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -373,7 +467,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="sec-session-04" class="quarto-section-identifier"><span class="chapter-title">Session 4</span></span></h1>
+<h1 class="title"><span class="chapter-title">Session 4</span></h1>
 </div>
 
 
@@ -390,8 +484,328 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="using-claude-for-coding-and-deploying-your-experiment" class="level1">
+<h1>Using Claude for Coding and Deploying Your Experiment</h1>
+<p>You have now learned how to build a complete oTree experiment — from the data model and payoff logic to HTML templates and cross-app data flow. This final session covers two remaining topics. First, how to use AI tools like Claude effectively to help you write, debug, and improve your oTree code. Second, how to package your project and deploy it on a server so you can run a live session with real participants.</p>
+<section id="using-claude-to-help-with-otree-coding" class="level2">
+<h2 class="anchored" data-anchor-id="using-claude-to-help-with-otree-coding">Using Claude to help with oTree coding</h2>
+<p>The assignment states: “You should also make heavy use of an AI LLM (ChatGPT, Claude, etc). Learning how to leverage AI assistance will be an essential part of creating your best code.” This section teaches you how to do that well.</p>
+<section id="what-ai-can-do-for-you" class="level3">
+<h3 class="anchored" data-anchor-id="what-ai-can-do-for-you">What AI can do for you</h3>
+<p>AI assistants are excellent at several tasks that come up constantly in oTree development:</p>
+<ul>
+<li><strong>Generating boilerplate code</strong> — “Write an oTree page class with a timer and a form field called <code>contribution</code>.”</li>
+<li><strong>Explaining code</strong> — “What does <code>player.in_previous_rounds()</code> return?”</li>
+<li><strong>Debugging errors</strong> — Paste your error traceback and ask what went wrong.</li>
+<li><strong>Writing HTML templates</strong> — “Build an HTML table that displays a 2×2 payoff matrix.”</li>
+<li><strong>Translating logic into code</strong> — “I want to randomly select one round for payment at the end of the game.”</li>
+<li><strong>Refactoring</strong> — “Can you rewrite this chain of if/else statements as a dictionary lookup?”</li>
+</ul>
+</section>
+<section id="how-to-write-effective-prompts" class="level3">
+<h3 class="anchored" data-anchor-id="how-to-write-effective-prompts">How to write effective prompts</h3>
+<p>The quality of the code you get back depends on the quality of your prompt. Here are principles that work well for oTree coding.</p>
+<p><strong>Be specific about the oTree version.</strong> oTree has changed significantly over the years. The newer “no-self” format (used in this course) is different from older versions. Always mention that you are using the current oTree syntax. For example: “I am using the latest version of oTree with the no-self format. Write a function that…”</p>
+<p><strong>Provide context.</strong> Do not just ask “how do I calculate payoffs?” Instead, describe your game: “I have a two-player Stag Hunt with <code>PLAYERS_PER_GROUP = 2</code>. Each player chooses A or B. I need a function that looks up the payoff from a 2×2 matrix based on both players’ choices.”</p>
+<p><strong>Share your existing code.</strong> If you have a partial implementation or a function that is not working, paste the relevant section and explain what you expected versus what happened. The more context the AI has, the better its suggestions will be.</p>
+<p><strong>Ask for explanations, not just code.</strong> Instead of “write this for me,” try “write this for me and explain what each line does.” This helps you learn and makes it easier to modify the code later.</p>
+<p><strong>Iterate.</strong> If the first response is not quite right, explain what needs to change. “This is close, but the payoff matrix should be different for Hunter 1 and Hunter 2. Hunter 2’s B payoff is X, which changes after round 3.”</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Example prompt for an oTree task
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Here is a prompt that would produce good results:</p>
+<p><em>“I am building an oTree experiment using the latest no-self format. I have a two-player game with <code>PLAYERS_PER_GROUP = 2</code> and <code>NUM_ROUNDS = 10</code>. I want to implement a random stopping rule: after round 5, each round should have a 55% chance of being the last round, but the game should never go past round 10. When the game ends, I want to randomly select one round for payment. Can you write the <code>after_all_players_arrive</code> method for my WaitPage that implements this? Please explain what each part does.”</em></p>
+<p>This prompt specifies the oTree version, the game structure, the exact rule to implement, where the code should go, and asks for explanations.</p>
+</div>
+</div>
+</section>
+<section id="what-ai-is-not-good-at" class="level3">
+<h3 class="anchored" data-anchor-id="what-ai-is-not-good-at">What AI is not good at</h3>
+<p>AI is a powerful tool but it has real limitations:</p>
+<ul>
+<li><strong>It can produce code that looks correct but has subtle bugs.</strong> Always test your code by running <code>otree devserver</code> and clicking through the experiment yourself.</li>
+<li><strong>It may use outdated oTree syntax.</strong> If you see <code>self.player</code> or <code>self.session</code> in generated code, that is the old format. The correct syntax is <code>player</code> and <code>player.session</code>.</li>
+<li><strong>It cannot test your experiment.</strong> It does not know if your payoffs display correctly, if your timer works, or if your wait page releases both players at the right time. Only running the code can tell you that.</li>
+<li><strong>It does not know your experimental design.</strong> You need to check that the generated code implements the game you intend, not just a game that runs without errors.</li>
+</ul>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Always test AI-generated code
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Never submit code you have not tested yourself. Run <code>otree devserver</code>, open two browser tabs (to simulate two players), and play through the entire experiment. Check that payoffs are correct, the game history table displays properly, the stopping rule works, and the summary screen shows the right information.</p>
+</div>
+</div>
+</section>
+<section id="debugging-with-print" class="level3">
+<h3 class="anchored" data-anchor-id="debugging-with-print">Debugging with <code>print()</code></h3>
+<p>When your code does not work as expected, <code>print()</code> is your most useful debugging tool. You can insert <code>print()</code> statements anywhere in your Python code to see what values variables hold at that point:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> set_payoff(player: Player):</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    other <span class="op">=</span> other_player(player)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'Player role:'</span>, player.role)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'Player chose:'</span>, player.stag)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'Other chose:'</span>, other.stag)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ... rest of the function</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The output appears in the terminal where <code>otree devserver</code> is running. This is enormously helpful for tracking down bugs — if a payoff is wrong, printing the inputs to the payoff calculation will usually reveal the problem.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Remove <code>print()</code> before deploying
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>print()</code> statements are for development only. They clutter the server logs during real sessions. Remove or comment them out before deploying your experiment. You can comment out a line by adding <code>#</code> at the beginning:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># print('Player role:', player.role)  # commented out for deployment</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</section>
+</section>
+<section id="common-python-patterns-for-otree" class="level2">
+<h2 class="anchored" data-anchor-id="common-python-patterns-for-otree">Common Python patterns for oTree</h2>
+<p>Here is a quick reference for the Python patterns you will use most often in oTree.</p>
+<section id="ifelifelse" class="level3">
+<h3 class="anchored" data-anchor-id="ifelifelse">If/elif/else</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> player.round_number <span class="op">&lt;=</span> <span class="dv">3</span>:</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> cu(<span class="dv">2</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="cf">elif</span> player.round_number <span class="op">&lt;=</span> <span class="dv">6</span>:</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> cu(<span class="dv">3</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> cu(<span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>elif</code> (short for “else if”) lets you chain multiple conditions. Python checks them in order and runs the first one that is <code>True</code>.</p>
+</section>
+<section id="for-loops" class="level3">
+<h3 class="anchored" data-anchor-id="for-loops">For loops</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Loop through all players in a group</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> p <span class="kw">in</span> group.get_players():</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(p.role, p.stag)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Loop through all previous rounds</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> p <span class="kw">in</span> player.in_previous_rounds():</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(p.round_number, p.per_round_payoff)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Loop with index using enumerate</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, p <span class="kw">in</span> <span class="bu">enumerate</span>(group.get_players()):</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Player </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>p<span class="sc">.</span>role<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="lists" class="level3">
+<h3 class="anchored" data-anchor-id="lists">Lists</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Create an empty list and add items</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>history <span class="op">=</span> []</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>history.append(<span class="st">'round 1 data'</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>history.append(<span class="st">'round 2 data'</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Access items by index (starts at 0)</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>first_item <span class="op">=</span> history[<span class="dv">0</span>]</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># List comprehension — create a list from a loop</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>payoffs <span class="op">=</span> [p.per_round_payoff <span class="cf">for</span> p <span class="kw">in</span> player.in_all_rounds()]</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>total <span class="op">=</span> <span class="bu">sum</span>(payoffs)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="dictionaries" class="level3">
+<h3 class="anchored" data-anchor-id="dictionaries">Dictionaries</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a dictionary</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>payoff_matrix <span class="op">=</span> {</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    (<span class="va">True</span>, <span class="va">True</span>): cu(<span class="dv">4</span>),</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    (<span class="va">True</span>, <span class="va">False</span>): cu(<span class="dv">0</span>),</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    (<span class="va">False</span>, <span class="va">True</span>): cu(<span class="dv">1</span>),</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    (<span class="va">False</span>, <span class="va">False</span>): cu(<span class="dv">1</span>),</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Look up a value</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> payoff_matrix[(<span class="va">True</span>, <span class="va">False</span>)]  <span class="co"># returns cu(0)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="string-formatting" class="level3">
+<h3 class="anchored" data-anchor-id="string-formatting">String formatting</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># f-strings (the modern way)</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>name <span class="op">=</span> <span class="st">"Hunter 1"</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>payoff <span class="op">=</span> cu(<span class="dv">4</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>message <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>name<span class="sc">}</span><span class="ss"> earned </span><span class="sc">{</span>payoff<span class="sc">}</span><span class="ss"> this round."</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</section>
+<section id="deploying-your-experiment" class="level2">
+<h2 class="anchored" data-anchor-id="deploying-your-experiment">Deploying your experiment</h2>
+<p>Once your code is tested and working locally, you need to deploy it to a server so that real participants can access it over the internet.</p>
+<section id="step-1-zip-your-project" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-zip-your-project">Step 1: Zip your project</h3>
+<p>In the terminal, navigate to your project folder and run:</p>
+<pre><code>otree zip</code></pre>
+<p>This creates a <code>.otreezip</code> file containing your entire project. This is the file you will upload to oTree Hub.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Check your <code>settings.py</code> before zipping
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Before zipping, make sure:</p>
+<ul>
+<li><code>DEBUG = 0</code> — Do not deploy with debug mode on.</li>
+<li>Your <code>SESSION_CONFIGS</code> list contains the session you want to run.</li>
+<li><code>SESSION_FIELDS</code> and <code>PARTICIPANT_FIELDS</code> are correctly declared.</li>
+<li><code>participation_fee</code> and <code>real_world_currency_per_point</code> are set to the correct values.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="step-2-upload-to-otree-hub" class="level3">
+<h3 class="anchored" data-anchor-id="step-2-upload-to-otree-hub">Step 2: Upload to oTree Hub</h3>
+<ol type="1">
+<li>Go to <a href="https://www.otreehub.com/">oTree Hub</a> and log in (or create an account).</li>
+<li>Create a new project on oTree Hub.</li>
+<li>Upload your <code>.otreezip</code> file.</li>
+<li>oTree Hub will build and deploy your project.</li>
+</ol>
+</section>
+<section id="step-3-connect-to-heroku" class="level3">
+<h3 class="anchored" data-anchor-id="step-3-connect-to-heroku">Step 3: Connect to Heroku</h3>
+<p>oTree Hub can deploy your project to <a href="https://www.heroku.com/">Heroku</a>, a cloud platform that hosts your experiment and makes it accessible via a URL. Follow the oTree Hub instructions to link your Heroku account and deploy.</p>
+<p>Once deployed, you will receive a URL like <code>https://your-project-name.herokuapp.com</code>. This is the address participants will use to access the experiment.</p>
+</section>
+<section id="step-4-set-up-rooms-for-a-live-session" class="level3">
+<h3 class="anchored" data-anchor-id="step-4-set-up-rooms-for-a-live-session">Step 4: Set up rooms for a live session</h3>
+<p>For running sessions in a lab, oTree uses <strong>rooms</strong>. A room assigns a fixed URL to each participant station, which prevents the problems that can occur with open session-wide links (like the same participant joining twice).</p>
+<p>To create a room:</p>
+<ol type="1">
+<li>Create a text file in your project’s <code>_rooms/</code> folder — for example, <code>_rooms/econ227b.txt</code>.</li>
+<li>List one participant label per line (e.g., <code>P1</code>, <code>P2</code>, <code>P3</code>, …, <code>P20</code>).</li>
+<li>In <code>settings.py</code>, add a <code>ROOMS</code> setting that references this file.</li>
+</ol>
+<p>When you start a session using a room, each participant label gets its own unique link. In the lab, each computer opens its assigned link.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Test your deployment
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>After deploying to Heroku, always run a complete test session through the deployed URL — not just locally. Network latency, server configuration, and browser differences can all cause issues that do not appear on <code>localhost</code>.</p>
+</div>
+</div>
+</section>
+<section id="step-5-run-the-session" class="level3">
+<h3 class="anchored" data-anchor-id="step-5-run-the-session">Step 5: Run the session</h3>
+<p>On the admin interface of your deployed oTree server:</p>
+<ol type="1">
+<li>Click <strong>Sessions</strong> → <strong>Create new session</strong>.</li>
+<li>Select the session config you want to run (e.g., <code>assignment</code>).</li>
+<li>Set the number of participants.</li>
+<li>Choose a room if you set one up.</li>
+<li>Click <strong>Create</strong>.</li>
+</ol>
+<p>The admin interface will show you the participant links and allow you to monitor the session in real time — you can see which page each participant is on, who is waiting, and when everyone has finished.</p>
+</section>
+</section>
+<section id="final-checklist-before-submission" class="level2">
+<h2 class="anchored" data-anchor-id="final-checklist-before-submission">Final checklist before submission</h2>
+<p>Before submitting your assignment, go through this checklist:</p>
+<ul class="task-list">
+<li><label><input type="checkbox">All three apps run without errors (<code>otree devserver</code>)</label></li>
+<li><label><input type="checkbox">Payoffs are calculated correctly for both Hunter 1 and Hunter 2</label></li>
+<li><label><input type="checkbox">Payoffs change correctly after round 3 (X goes from 2 to 3)</label></li>
+<li><label><input type="checkbox">Groups of 2 are formed and remain fixed across rounds</label></li>
+<li><label><input type="checkbox">The stopping rule works (game continues after round 5 with probability 0.45, never past round 10)</label></li>
+<li><label><input type="checkbox">Game history table displays correctly on the decision screen</label></li>
+<li><label><input type="checkbox">Instructions are clear, use cold language, and display at 24pt font</label></li>
+<li><label><input type="checkbox">Hunter 1 references are in <strong>bold red</strong>, Hunter 2 references are in <em>italic green</em></label></li>
+<li><label><input type="checkbox">Wait page replicates the decision screen without input ability</label></li>
+<li><label><input type="checkbox">Happy/sad face images appear on the results page</label></li>
+<li><label><input type="checkbox">Stag-Stag percentage appears on the final summary screen</label></li>
+<li><label><input type="checkbox">Timer works on the decision page, defaulting to Stag on timeout</label></li>
+<li><label><input type="checkbox">Random round for payment is selected and displayed</label></li>
+<li><label><input type="checkbox">Questionnaire collects at least 5 demographic questions</label></li>
+<li><label><input type="checkbox"><code>DEBUG = 0</code> before deployment</label></li>
+<li><label><input type="checkbox">Project zips successfully with <code>otree zip</code></label></li>
+<li><label><input type="checkbox">All files uploaded to the Google Drive folder</label></li>
+</ul>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Topic</th>
+<th>Key takeaway</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>AI for coding</td>
+<td>Be specific, provide context, share code, ask for explanations, always test</td>
+</tr>
+<tr class="even">
+<td><code>print()</code> debugging</td>
+<td>Insert print statements to inspect variable values in the terminal</td>
+</tr>
+<tr class="odd">
+<td>If/elif/else</td>
+<td>Chain conditions; Python checks them in order</td>
+</tr>
+<tr class="even">
+<td>For loops</td>
+<td>Iterate through players, rounds, or any list</td>
+</tr>
+<tr class="odd">
+<td>Lists and list comprehensions</td>
+<td>Build data structures for game history and aggregation</td>
+</tr>
+<tr class="even">
+<td>Dictionaries</td>
+<td>Use as payoff matrices with tuple keys</td>
+</tr>
+<tr class="odd">
+<td><code>otree zip</code></td>
+<td>Packages your project for upload</td>
+</tr>
+<tr class="even">
+<td>oTree Hub + Heroku</td>
+<td>Deploys your project to a public URL</td>
+</tr>
+<tr class="odd">
+<td>Rooms</td>
+<td>Assign fixed participant links for lab sessions</td>
+</tr>
+<tr class="even">
+<td>Pre-deployment checks</td>
+<td><code>DEBUG = 0</code>, correct settings, full test run</td>
+</tr>
+</tbody>
+</table>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -824,4 +1238,4 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/nidhigyanpandey/teaching-otree/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/nidhigyanpandey/teaching-otree/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>

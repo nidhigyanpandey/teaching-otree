@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -31,7 +66,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
 <link href="../../chapters/session-04/session-04.html" rel="next">
-<link href="../../chapters/session-02/session-02.html" rel="prev">
+<link href="../../chapters/session-02/session-02d.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -333,11 +368,37 @@ ul.task-list li input[type="checkbox"] {
 </li>
       </ul>
   </li>
-        <li class="sidebar-item">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../chapters/session-02/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Session 2</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../chapters/session-02/session-02.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Session 2</span></a>
+  <a href="../../chapters/session-02/session-02a.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Inside the Prisoner’s Dilemma: <code>__init__.py</code></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/session-02/session-02b.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Inside the Prisoner’s Dilemma: HTML Templates</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/session-02/session-02c.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Hands-On: Getting started with Assignment 2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../chapters/session-02/session-02d.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Assignment 2 Cheat Sheet</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../chapters/session-03/session-03.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Session 3</span></a>
@@ -364,8 +425,41 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#extra-features-html-templates-and-cross-app-data" id="toc-extra-features-html-templates-and-cross-app-data" class="nav-link active" data-scroll-target="#extra-features-html-templates-and-cross-app-data">Extra Features, HTML Templates, and Cross-App Data</a>
+  <ul class="collapse">
+  <li><a href="#html-templates-in-otree" id="toc-html-templates-in-otree" class="nav-link" data-scroll-target="#html-templates-in-otree">HTML templates in oTree</a>
+  <ul class="collapse">
+  <li><a href="#basic-template-structure" id="toc-basic-template-structure" class="nav-link" data-scroll-target="#basic-template-structure">Basic template structure</a></li>
+  <li><a href="#displaying-variables" id="toc-displaying-variables" class="nav-link" data-scroll-target="#displaying-variables">Displaying variables</a></li>
+  <li><a href="#displaying-form-fields" id="toc-displaying-form-fields" class="nav-link" data-scroll-target="#displaying-form-fields">Displaying form fields</a></li>
+  <li><a href="#using-if-statements-in-templates" id="toc-using-if-statements-in-templates" class="nav-link" data-scroll-target="#using-if-statements-in-templates">Using <code>if</code> statements in templates</a></li>
+  <li><a href="#using-for-loops-in-templates" id="toc-using-for-loops-in-templates" class="nav-link" data-scroll-target="#using-for-loops-in-templates">Using <code>for</code> loops in templates</a></li>
+  </ul></li>
+  <li><a href="#extra-feature-role-specific-styling" id="toc-extra-feature-role-specific-styling" class="nav-link" data-scroll-target="#extra-feature-role-specific-styling">Extra feature: role-specific styling</a>
+  <ul class="collapse">
+  <li><a href="#approach-1-inline-styles" id="toc-approach-1-inline-styles" class="nav-link" data-scroll-target="#approach-1-inline-styles">Approach 1: inline styles</a></li>
+  <li><a href="#approach-2-css-classes-cleaner" id="toc-approach-2-css-classes-cleaner" class="nav-link" data-scroll-target="#approach-2-css-classes-cleaner">Approach 2: CSS classes (cleaner)</a></li>
+  </ul></li>
+  <li><a href="#extra-feature-custom-wait-page" id="toc-extra-feature-custom-wait-page" class="nav-link" data-scroll-target="#extra-feature-custom-wait-page">Extra feature: custom wait page</a></li>
+  <li><a href="#extra-feature-images-on-results-pages" id="toc-extra-feature-images-on-results-pages" class="nav-link" data-scroll-target="#extra-feature-images-on-results-pages">Extra feature: images on results pages</a></li>
+  <li><a href="#extra-feature-stag-stag-percentage-on-the-summary-screen" id="toc-extra-feature-stag-stag-percentage-on-the-summary-screen" class="nav-link" data-scroll-target="#extra-feature-stag-stag-percentage-on-the-summary-screen">Extra feature: Stag-Stag percentage on the summary screen</a></li>
+  <li><a href="#cross-app-data-flow" id="toc-cross-app-data-flow" class="nav-link" data-scroll-target="#cross-app-data-flow">Cross-app data flow</a>
+  <ul class="collapse">
+  <li><a href="#what-persists-across-apps-automatically" id="toc-what-persists-across-apps-automatically" class="nav-link" data-scroll-target="#what-persists-across-apps-automatically">What persists across apps automatically</a></li>
+  <li><a href="#data-flow-in-this-experiment" id="toc-data-flow-in-this-experiment" class="nav-link" data-scroll-target="#data-flow-in-this-experiment">Data flow in this experiment</a></li>
+  <li><a href="#the-questionnaire-app" id="toc-the-questionnaire-app" class="nav-link" data-scroll-target="#the-questionnaire-app">The questionnaire app</a></li>
+  <li><a href="#the-session-summary-app" id="toc-the-session-summary-app" class="nav-link" data-scroll-target="#the-session-summary-app">The session summary app</a></li>
+  </ul></li>
+  <li><a href="#building-the-payoff-matrix-in-html" id="toc-building-the-payoff-matrix-in-html" class="nav-link" data-scroll-target="#building-the-payoff-matrix-in-html">Building the payoff matrix in HTML</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/nidhigyanpandey/teaching-otree/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -373,7 +467,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="sec-session-03" class="quarto-section-identifier"><span class="chapter-title">Session 3</span></span></h1>
+<h1 class="title"><span class="chapter-title">Session 3</span></h1>
 </div>
 
 
@@ -390,8 +484,427 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="extra-features-html-templates-and-cross-app-data" class="level1">
+<h1>Extra Features, HTML Templates, and Cross-App Data</h1>
+<p>In Session 2, you learned how the core game logic works inside <code>__init__.py</code> — constants, groups, payoff calculations, page flow, timers, and the stopping rule. But <code>__init__.py</code> is only half the picture. The other half is the <strong>HTML templates</strong> — the files that control what participants actually see on their screens.</p>
+<p>This session covers three areas. First, how to build and style HTML templates for your oTree pages. Second, how to implement the extra features required by the assignment (role-specific styling, custom wait pages, images on results pages, and session-level statistics). Third, how data flows across the three apps in the session — from the Stag Hunt game to the questionnaire to the final summary screen.</p>
+<section id="html-templates-in-otree" class="level2">
+<h2 class="anchored" data-anchor-id="html-templates-in-otree">HTML templates in oTree</h2>
+<p>Every page class in your <code>__init__.py</code> needs a corresponding HTML file. oTree looks for a file with the exact same name as the page class, inside the app’s folder. For example:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Page class in <code>__init__.py</code></th>
+<th>Template file</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>Introduction</code></td>
+<td><code>assignment/Introduction.html</code></td>
+</tr>
+<tr class="even">
+<td><code>Decision</code></td>
+<td><code>assignment/Decision.html</code></td>
+</tr>
+<tr class="odd">
+<td><code>ResultSummary</code></td>
+<td><code>assignment/ResultSummary.html</code></td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>File names must match exactly
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The template file name must match the page class name exactly — including capitalisation. <code>Decision.html</code> works. <code>decision.html</code> does not. If oTree cannot find the template, the page will crash.</p>
+</div>
+</div>
+<section id="basic-template-structure" class="level3">
+<h3 class="anchored" data-anchor-id="basic-template-structure">Basic template structure</h3>
+<p>Every oTree HTML template follows this basic structure:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>{{ block title }}</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  Your Page Title</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>{{ endblock }}</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>{{ block content }}</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">p</span><span class="dt">&gt;</span>Everything the participant sees goes here.<span class="dt">&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  {{ next_button }}</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>{{ endblock }}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The <code>{ block title }</code> section sets the page title (shown at the top of the page and in the browser tab). The <code>{ block content }</code> section contains the actual page content. <code>{ next_button }</code> renders the standard “Next” button that advances the participant to the next page.</p>
+</section>
+<section id="displaying-variables" class="level3">
+<h3 class="anchored" data-anchor-id="displaying-variables">Displaying variables</h3>
+<p>Any variable passed through <code>vars_for_template</code> or automatically available (like <code>player</code>, <code>group</code>, <code>C</code>) can be displayed using double curly braces:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">p</span><span class="dt">&gt;</span>Your role is: {{ player.role }}<span class="dt">&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">p</span><span class="dt">&gt;</span>The current round is: {{ player.round_number }} of {{ C.NUM_ROUNDS }}<span class="dt">&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">p</span><span class="dt">&gt;</span>The value of X is: {{ X }}<span class="dt">&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="displaying-form-fields" class="level3">
+<h3 class="anchored" data-anchor-id="displaying-form-fields">Displaying form fields</h3>
+<p>On pages with <code>form_fields</code>, you display each field using the <code>{ formfield }</code> tag or <code>{ formfields }</code> to display all fields at once:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>{{ formfields }}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Or individually:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>{{ formfield 'stag' }}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="using-if-statements-in-templates" class="level3">
+<h3 class="anchored" data-anchor-id="using-if-statements-in-templates">Using <code>if</code> statements in templates</h3>
+<p>oTree templates support conditional logic using <code>{ if }</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>{{ if player.round_number == 1 }}</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">p</span><span class="dt">&gt;</span>Welcome to the first round!<span class="dt">&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>{{ endif }}</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>{{ if same_choice }}</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">p</span><span class="dt">&gt;</span>You and your partner made the same choice.<span class="dt">&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>{{ else }}</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">p</span><span class="dt">&gt;</span>You and your partner made different choices.<span class="dt">&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>{{ endif }}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="using-for-loops-in-templates" class="level3">
+<h3 class="anchored" data-anchor-id="using-for-loops-in-templates">Using <code>for</code> loops in templates</h3>
+<p>To display the game history table, you loop through the <code>game_history</code> list:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">table</span><span class="ot"> class</span><span class="op">=</span><span class="st">"table"</span><span class="dt">&gt;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">thead</span><span class="dt">&gt;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">tr</span><span class="dt">&gt;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">th</span><span class="dt">&gt;</span>Round<span class="dt">&lt;/</span><span class="kw">th</span><span class="dt">&gt;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">th</span><span class="dt">&gt;</span>Your Choice<span class="dt">&lt;/</span><span class="kw">th</span><span class="dt">&gt;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">th</span><span class="dt">&gt;</span>Your Payoff<span class="dt">&lt;/</span><span class="kw">th</span><span class="dt">&gt;</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">th</span><span class="dt">&gt;</span>Partner's Choice<span class="dt">&lt;/</span><span class="kw">th</span><span class="dt">&gt;</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">th</span><span class="dt">&gt;</span>Partner's Payoff<span class="dt">&lt;/</span><span class="kw">th</span><span class="dt">&gt;</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">th</span><span class="dt">&gt;</span>Cumulative Payoff<span class="dt">&lt;/</span><span class="kw">th</span><span class="dt">&gt;</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;/</span><span class="kw">tr</span><span class="dt">&gt;</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;/</span><span class="kw">thead</span><span class="dt">&gt;</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">tbody</span><span class="dt">&gt;</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    {{ for row in game_history }}</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">tr</span><span class="dt">&gt;</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">td</span><span class="dt">&gt;</span>{{ row.0 }}<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">td</span><span class="dt">&gt;</span>{{ row.1 }}<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">td</span><span class="dt">&gt;</span>{{ row.2 }}<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">td</span><span class="dt">&gt;</span>{{ row.3 }}<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">td</span><span class="dt">&gt;</span>{{ row.4 }}<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">td</span><span class="dt">&gt;</span>{{ row.5 }}<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;/</span><span class="kw">tr</span><span class="dt">&gt;</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    {{ endfor }}</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;/</span><span class="kw">tbody</span><span class="dt">&gt;</span></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">table</span><span class="dt">&gt;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Each <code>row</code> is one of the lists appended to <code>game_history</code> in <code>vars_for_template</code>. The <code>.0</code>, <code>.1</code>, <code>.2</code>, etc. notation accesses the first, second, third elements of that list (Python uses zero-based indexing).</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Bootstrap is included by default
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>oTree includes Bootstrap, a CSS framework that provides pre-styled components. The <code>class="table"</code> attribute above uses Bootstrap’s table styling to make the table look clean without any custom CSS. You can use any Bootstrap classes in your templates.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="extra-feature-role-specific-styling" class="level2">
+<h2 class="anchored" data-anchor-id="extra-feature-role-specific-styling">Extra feature: role-specific styling</h2>
+<p>The assignment requires “all references to Hunter 1 made with bolded red font, and all references to Hunter 2 made with italicized green font.” You can achieve this with HTML inline styles or CSS classes.</p>
+<section id="approach-1-inline-styles" class="level3">
+<h3 class="anchored" data-anchor-id="approach-1-inline-styles">Approach 1: inline styles</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>{{ if player.role == 'Hunter_1' }}</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">p</span><span class="dt">&gt;</span>You are <span class="dt">&lt;</span><span class="kw">b</span><span class="ot"> style</span><span class="op">=</span><span class="st">"color: red;"</span><span class="dt">&gt;</span>Hunter 1<span class="dt">&lt;/</span><span class="kw">b</span><span class="dt">&gt;</span>.<span class="dt">&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>{{ else }}</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">p</span><span class="dt">&gt;</span>You are <span class="dt">&lt;</span><span class="kw">i</span><span class="ot"> style</span><span class="op">=</span><span class="st">"color: green;"</span><span class="dt">&gt;</span>Hunter 2<span class="dt">&lt;/</span><span class="kw">i</span><span class="dt">&gt;</span>.<span class="dt">&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>{{ endif }}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="approach-2-css-classes-cleaner" class="level3">
+<h3 class="anchored" data-anchor-id="approach-2-css-classes-cleaner">Approach 2: CSS classes (cleaner)</h3>
+<p>At the top of your template, define CSS classes:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">style</span><span class="dt">&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">.hunter1</span> { <span class="kw">color</span><span class="ch">:</span> <span class="cn">red</span><span class="op">;</span> <span class="kw">font-weight</span><span class="ch">:</span> <span class="dv">bold</span><span class="op">;</span> }</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">.hunter2</span> { <span class="kw">color</span><span class="ch">:</span> <span class="cn">green</span><span class="op">;</span> <span class="kw">font-style</span><span class="ch">:</span> <span class="dv">italic</span><span class="op">;</span> }</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">style</span><span class="dt">&gt;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Then use them throughout:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">p</span><span class="dt">&gt;</span>You are <span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> class</span><span class="op">=</span><span class="st">"{{ if player.role == 'Hunter_1' }}hunter1{{ else }}hunter2{{ endif }}"</span><span class="dt">&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  {{ player.role }}</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span>.<span class="dt">&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The CSS approach is better because you define the styling once and reuse it everywhere. If you need to change the colour, you change it in one place.</p>
+</section>
+</section>
+<section id="extra-feature-custom-wait-page" class="level2">
+<h2 class="anchored" data-anchor-id="extra-feature-custom-wait-page">Extra feature: custom wait page</h2>
+<p>The assignment asks for a waiting screen that is “an exact replica of the decision screen but with no ability to input a decision.” This is why the <code>ResultsWaitPage</code> has:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>template_name <span class="op">=</span> <span class="va">__name__</span> <span class="op">+</span> <span class="st">'/ResultsWaitPage.html'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The custom template file <code>ResultsWaitPage.html</code> displays the payoff matrix and game history table (using the same <code>vars_for_template</code> data) but without any form fields or submit button. The participant can review the game state while waiting.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Building the custom wait page template
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Create a file called <code>ResultsWaitPage.html</code> in your app folder. It should contain the same payoff matrix and game history table as <code>Decision.html</code>, but without <code>{ formfields }</code> or <code>{ next_button }</code>. You should include the standard oTree wait page JavaScript to handle the auto-advance when the other player arrives. oTree’s documentation on custom wait pages provides the necessary template code.</p>
+</div>
+</div>
+</section>
+<section id="extra-feature-images-on-results-pages" class="level2">
+<h2 class="anchored" data-anchor-id="extra-feature-images-on-results-pages">Extra feature: images on results pages</h2>
+<p>The assignment asks for “an image of a happy face if both chose Stag and a sad face otherwise.” This combines a template <code>if</code> statement with an HTML image tag.</p>
+<p>First, place your image files (e.g., <code>happy.png</code> and <code>sad.png</code>) in the <code>_static/</code> folder of your project. Then in the results template:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>{{ if same_choice }}</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">img</span><span class="ot"> src</span><span class="op">=</span><span class="st">"{{ static 'happy.png' }}"</span><span class="ot"> alt</span><span class="op">=</span><span class="st">"Happy face"</span><span class="ot"> width</span><span class="op">=</span><span class="st">"100"</span><span class="dt">&gt;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>{{ else }}</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">img</span><span class="ot"> src</span><span class="op">=</span><span class="st">"{{ static 'sad.png' }}"</span><span class="ot"> alt</span><span class="op">=</span><span class="st">"Sad face"</span><span class="ot"> width</span><span class="op">=</span><span class="st">"100"</span><span class="dt">&gt;</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>{{ endif }}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The <code>{ static 'filename' }</code> tag generates the correct URL for files in the <code>_static/</code> folder. This is the standard way to include images, CSS files, or JavaScript files in oTree templates.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>The <code>_static</code> folder
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>All shared static files — images, custom CSS, JavaScript — go in the <code>_static/</code> folder at the project level (not inside any individual app). oTree serves these files automatically.</p>
+</div>
+</div>
+</section>
+<section id="extra-feature-stag-stag-percentage-on-the-summary-screen" class="level2">
+<h2 class="anchored" data-anchor-id="extra-feature-stag-stag-percentage-on-the-summary-screen">Extra feature: Stag-Stag percentage on the summary screen</h2>
+<p>The session summary app calculates the percentage of rounds where both players chose Stag across all groups:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>stag_stag_percentage <span class="op">=</span> (player.session.yes_stag <span class="op">/</span> player.session.total_rounds_played) <span class="op">*</span> <span class="dv">100</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This uses the session-level variables that were accumulated during the game:</p>
+<ul>
+<li><code>player.session.yes_stag</code> — the total number of Stag-Stag outcomes across all groups</li>
+<li><code>player.session.total_rounds_played</code> — the total number of rounds played across all groups</li>
+</ul>
+<p>Dividing the first by the second gives the proportion, and multiplying by 100 converts it to a percentage.</p>
+</section>
+<section id="cross-app-data-flow" class="level2">
+<h2 class="anchored" data-anchor-id="cross-app-data-flow">Cross-app data flow</h2>
+<p>The three-app session (<code>assignment</code> → <code>questionnaire_assignment</code> → <code>session_summary_assignment</code>) relies on data being passed between apps. Here is how that works.</p>
+<section id="what-persists-across-apps-automatically" class="level3">
+<h3 class="anchored" data-anchor-id="what-persists-across-apps-automatically">What persists across apps automatically</h3>
+<p>The <code>participant</code> object persists across all apps. Any variable stored on <code>participant</code> (and declared in <code>PARTICIPANT_FIELDS</code>) is available in every app. The <code>session</code> object also persists, and any variable declared in <code>SESSION_FIELDS</code> is available everywhere.</p>
+</section>
+<section id="data-flow-in-this-experiment" class="level3">
+<h3 class="anchored" data-anchor-id="data-flow-in-this-experiment">Data flow in this experiment</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Set in</th>
+<th>Used in</th>
+<th>Level</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>participant.finished_rounds</code></td>
+<td><code>assignment</code> (wait page)</td>
+<td><code>assignment</code> (<code>app_after_this_page</code>)</td>
+<td>Participant</td>
+</tr>
+<tr class="even">
+<td><code>participant.round_to_pay</code></td>
+<td><code>assignment</code> (wait page)</td>
+<td><code>session_summary_assignment</code></td>
+<td>Participant</td>
+</tr>
+<tr class="odd">
+<td><code>participant.opponent_payoff</code></td>
+<td><code>assignment</code> (wait page)</td>
+<td><code>session_summary_assignment</code></td>
+<td>Participant</td>
+</tr>
+<tr class="even">
+<td><code>session.total_rounds_played</code></td>
+<td><code>assignment</code> (wait page)</td>
+<td><code>session_summary_assignment</code></td>
+<td>Session</td>
+</tr>
+<tr class="odd">
+<td><code>session.yes_stag</code></td>
+<td><code>assignment</code> (wait page)</td>
+<td><code>session_summary_assignment</code></td>
+<td>Session</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="the-questionnaire-app" class="level3">
+<h3 class="anchored" data-anchor-id="the-questionnaire-app">The questionnaire app</h3>
+<p>The <code>questionnaire_assignment</code> app is a simple demographics survey — identical in structure to the one from Session 1. It collects age, gender, race, ethnicity, field of study, and language data. Because it has <code>PLAYERS_PER_GROUP = None</code>, it does not need groups and participants complete it independently.</p>
+</section>
+<section id="the-session-summary-app" class="level3">
+<h3 class="anchored" data-anchor-id="the-session-summary-app">The session summary app</h3>
+<p>The <code>session_summary_assignment</code> app displays the final results. Its <code>vars_for_template</code> pulls in participant-level and session-level data:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="cf">return</span> <span class="bu">dict</span>(</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    stag_stag_percentage <span class="op">=</span> stag_stag_percentage,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    payment_round <span class="op">=</span> player.participant.round_to_pay,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    session_payoff <span class="op">=</span> player.participant.payoff_plus_participation_fee(),</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    today_date <span class="op">=</span> player.today_date,</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><strong><code>player.participant.round_to_pay</code></strong> — The randomly selected round, set in the Stag Hunt app.</li>
+<li><strong><code>player.participant.payoff_plus_participation_fee()</code></strong> — A built-in oTree method that adds the participation fee (from <code>SESSION_CONFIG_DEFAULTS</code>) to the player’s game earnings. This is the total amount the participant receives.</li>
+<li><strong><code>player.today_date</code></strong> — The current date, formatted using Python’s <code>datetime</code> library.</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>The <code>datetime</code> library
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The session summary app uses Python’s built-in <code>datetime</code> library to display the current date:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> datetime</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>current_datetime <span class="op">=</span> datetime.now()</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>player.today_date <span class="op">=</span> current_datetime.strftime(<span class="st">"%m-</span><span class="sc">%d</span><span class="st">-%Y"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>datetime.now()</code> gets the current date and time. <code>.strftime("%m-%d-%Y")</code> formats it as month-day-year (e.g., “03-31-2026”). The <code>import</code> statement at the top of the file makes the <code>datetime</code> class available.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="building-the-payoff-matrix-in-html" class="level2">
+<h2 class="anchored" data-anchor-id="building-the-payoff-matrix-in-html">Building the payoff matrix in HTML</h2>
+<p>One of the most important elements of the decision screen is the payoff matrix — a table showing all possible outcomes. Here is an example of how to build it in HTML:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">table</span><span class="ot"> class</span><span class="op">=</span><span class="st">"table table-bordered text-center"</span><span class="dt">&gt;</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">thead</span><span class="dt">&gt;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">tr</span><span class="dt">&gt;</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">th</span><span class="dt">&gt;&lt;/</span><span class="kw">th</span><span class="dt">&gt;</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">th</span><span class="dt">&gt;&lt;/</span><span class="kw">th</span><span class="dt">&gt;</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">th</span><span class="ot"> colspan</span><span class="op">=</span><span class="st">"2"</span><span class="dt">&gt;</span>Partner's Choice<span class="dt">&lt;/</span><span class="kw">th</span><span class="dt">&gt;</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;/</span><span class="kw">tr</span><span class="dt">&gt;</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">tr</span><span class="dt">&gt;</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">th</span><span class="dt">&gt;&lt;/</span><span class="kw">th</span><span class="dt">&gt;</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">th</span><span class="dt">&gt;&lt;/</span><span class="kw">th</span><span class="dt">&gt;</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">th</span><span class="dt">&gt;</span>A<span class="dt">&lt;/</span><span class="kw">th</span><span class="dt">&gt;</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">th</span><span class="dt">&gt;</span>B<span class="dt">&lt;/</span><span class="kw">th</span><span class="dt">&gt;</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;/</span><span class="kw">tr</span><span class="dt">&gt;</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;/</span><span class="kw">thead</span><span class="dt">&gt;</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">tbody</span><span class="dt">&gt;</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">tr</span><span class="dt">&gt;</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">th</span><span class="ot"> rowspan</span><span class="op">=</span><span class="st">"2"</span><span class="dt">&gt;</span>Your Choice<span class="dt">&lt;/</span><span class="kw">th</span><span class="dt">&gt;</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">th</span><span class="dt">&gt;</span>A<span class="dt">&lt;/</span><span class="kw">th</span><span class="dt">&gt;</span></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">td</span><span class="dt">&gt;</span>{{ C.PAYOFF_B }}, {{ C.PAYOFF_B }}<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">td</span><span class="dt">&gt;</span>{{ C.PAYOFF_D }}, {{ X }}<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;/</span><span class="kw">tr</span><span class="dt">&gt;</span></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">tr</span><span class="dt">&gt;</span></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">th</span><span class="dt">&gt;</span>B<span class="dt">&lt;/</span><span class="kw">th</span><span class="dt">&gt;</span></span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">td</span><span class="dt">&gt;</span>{{ C.PAYOFF_A }}, {{ X }}<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">td</span><span class="dt">&gt;</span>{{ C.PAYOFF_A }}, {{ X }}<span class="dt">&lt;/</span><span class="kw">td</span><span class="dt">&gt;</span></span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;/</span><span class="kw">tr</span><span class="dt">&gt;</span></span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;/</span><span class="kw">tbody</span><span class="dt">&gt;</span></span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">table</span><span class="dt">&gt;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Use constants from <code>C</code> in your templates
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Notice how the table uses <code>{ C.PAYOFF_B }</code>, <code>{ C.PAYOFF_D }</code>, etc. instead of hard-coded numbers. This way, if you ever change the payoff values in your constants, the template updates automatically.</p>
+</div>
+</div>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Concept</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>HTML templates</td>
+<td>Control what participants see on each page</td>
+</tr>
+<tr class="even">
+<td><code>{ variable }</code></td>
+<td>Displays a variable’s value in the template</td>
+</tr>
+<tr class="odd">
+<td><code>{ formfields }</code></td>
+<td>Renders form fields on pages with <code>form_fields</code></td>
+</tr>
+<tr class="even">
+<td><code>{ if } ... {{ endif }}</code></td>
+<td>Conditional display in templates</td>
+</tr>
+<tr class="odd">
+<td><code>{ for } ... {{ endfor }}</code></td>
+<td>Loops through lists to display repeated content</td>
+</tr>
+<tr class="even">
+<td><code>{ static 'file' }</code></td>
+<td>Links to files in the <code>_static/</code> folder</td>
+</tr>
+<tr class="odd">
+<td><code>{ next_button }</code></td>
+<td>Renders the standard “Next” button</td>
+</tr>
+<tr class="even">
+<td>CSS classes</td>
+<td>Style elements consistently across pages</td>
+</tr>
+<tr class="odd">
+<td><code>_static/</code> folder</td>
+<td>Stores shared images, CSS, and JavaScript</td>
+</tr>
+<tr class="even">
+<td><code>PARTICIPANT_FIELDS</code></td>
+<td>Declares participant-level variables for cross-app data</td>
+</tr>
+<tr class="odd">
+<td><code>SESSION_FIELDS</code></td>
+<td>Declares session-level variables for cross-app data</td>
+</tr>
+<tr class="even">
+<td><code>participant.payoff_plus_participation_fee()</code></td>
+<td>Calculates total payment including show-up fee</td>
+</tr>
+<tr class="odd">
+<td><code>datetime</code></td>
+<td>Python library for formatting dates</td>
+</tr>
+</tbody>
+</table>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -809,8 +1322,8 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../chapters/session-02/session-02.html" class="pagination-link" aria-label="Session 2">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Session 2</span></span>
+      <a href="../../chapters/session-02/session-02d.html" class="pagination-link" aria-label="Assignment 2 Cheat Sheet">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Assignment 2 Cheat Sheet</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
@@ -824,4 +1337,4 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/nidhigyanpandey/teaching-otree/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/nidhigyanpandey/teaching-otree/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
